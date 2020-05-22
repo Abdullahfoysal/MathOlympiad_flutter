@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "89054521655",
+    "firebase_url": "https://srmc-a3f30.firebaseio.com",
+    "project_id": "srmc-a3f30",
+    "storage_bucket": "srmc-a3f30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89054521655:android:489737284005ff19fe92b2",
+        "android_client_info": {
+          "package_name": "com.gayenbd.srmcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "89054521655-j0jndr1i3pvdhlh3kfoqfjqrlj41u13o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrGLsCcEYrPiQKIHPkqb1sE2ntq35_P-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "89054521655-j0jndr1i3pvdhlh3kfoqfjqrlj41u13o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
