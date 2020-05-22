@@ -27,15 +27,15 @@ class BottomNavigator extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              _buildNavItem(),
+              _buildNavItem(Icons.home, true),
               SizedBox(
                 width: 1,
               ),
-              _buildNavItem(),
+              _buildNavItem(Icons.list, false),
               SizedBox(
                 width: 1,
               ),
-              _buildNavItem(),
+              _buildNavItem(Icons.favorite, false),
             ],
           ),
         )
@@ -44,10 +44,19 @@ class BottomNavigator extends StatelessWidget {
   }
 }
 
-_buildNavItem() {
+_buildNavItem(IconData icon, bool active) {
   return CircleAvatar(
     radius: 30,
     backgroundColor: Colors.teal.shade900,
+    child: CircleAvatar(
+      radius: 25,
+      backgroundColor:
+          active ? Colors.white.withOpacity(0.9) : Colors.transparent,
+      child: Icon(
+        icon,
+        color: Colors.black,
+      ),
+    ),
   );
 }
 
