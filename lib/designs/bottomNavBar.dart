@@ -1,45 +1,84 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class BottomNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          bottom: 0,
-          child: ClipPath(
-            clipper: NavBarClipper(),
-            child: Container(
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.teal, Colors.tealAccent]),
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              bottom: 0,
+              child: ClipPath(
+                clipper: NavBarClipper(),
+                child: Container(
+                  height: 60,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.teal, Colors.tealAccent]),
+                  ),
+                ),
               ),
             ),
-          ),
+            Positioned(
+              bottom: 45,
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _buildNavItem(Icons.home, true),
+                  SizedBox(
+                    width: 1,
+                  ),
+                  _buildNavItem(Icons.list, false),
+                  SizedBox(
+                    width: 1,
+                  ),
+                  _buildNavItem(Icons.favorite, false),
+                ],
+              ),
+            ),
+            Positioned(
+              bottom: 10,
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(
+                    'Home',
+                    style: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    width: 1,
+                  ),
+                  Text(
+                    'List',
+                    style: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    width: 1,
+                  ),
+                  Text(
+                    'Favourite',
+                    style: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
-        Positioned(
-          bottom: 45,
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              _buildNavItem(Icons.home, true),
-              SizedBox(
-                width: 1,
-              ),
-              _buildNavItem(Icons.list, false),
-              SizedBox(
-                width: 1,
-              ),
-              _buildNavItem(Icons.favorite, false),
-            ],
-          ),
-        )
-      ],
+      ),
     );
   }
 }
