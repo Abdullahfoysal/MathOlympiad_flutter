@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:srmcapp/designs/bottomNavBar.dart';
 import 'package:srmcapp/models/problemAndSolution.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/problem/problemList.dart';
@@ -26,7 +27,6 @@ class _ProblemListViewState extends State<ProblemListView> {
     return StreamProvider<List<ProblemAndSolution>>.value(
       value: DatabaseService().problemAndSolutionStream,
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text('problemListView'),
           actions: <Widget>[
@@ -40,11 +40,21 @@ class _ProblemListViewState extends State<ProblemListView> {
           ],
         ),
         body: Container(
+          alignment: Alignment.topCenter,
           child: Column(
             children: <Widget>[
-              ProblemList(
-                user: user,
+              Expanded(
+                flex: 8,
+                child: ProblemList(
+                  user: user,
+                ),
               ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: BottomNavigator(),
+                ),
+              )
             ],
           ),
         ),

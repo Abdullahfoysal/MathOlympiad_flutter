@@ -26,9 +26,7 @@ class ProblemProfile extends StatelessWidget {
       this.userActivity});
 
   Widget build(BuildContext context) {
-    return BottomNavigator();
-
-    /*Scaffold(
+    return Scaffold(
       body: Container(
         alignment: Alignment.topCenter,
         decoration: BoxDecoration(
@@ -51,7 +49,6 @@ class ProblemProfile extends StatelessWidget {
                 child: FlutterTex(),
               ),
               SubmitSolution(),
-              BottomNavigator(),
 
               //title & problems
 
@@ -61,6 +58,6 @@ class ProblemProfile extends StatelessWidget {
           ),
         ),
       ),
-    );*/
+    );
   }
 }

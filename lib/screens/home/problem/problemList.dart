@@ -30,10 +30,10 @@ class _ProblemListState extends State<ProblemList> {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: problemAndSolutions.length,
+      itemCount: 10,
       itemBuilder: (context, index) {
         return ProblemListSingleView(
-          problemAndSolution: problemAndSolutions[index],
+          problemAndSolution: problemAndSolutions[0],
           userPreference: userPreference,
           user: user,
         );
