@@ -178,8 +178,9 @@ class ProblemListSingleView extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                 child: Stack(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(54, 0, 10, 60),
+                    Positioned(
+                      left: 35,
+                      bottom: 50,
                       child: FlatButton(
                         padding: EdgeInsets.fromLTRB(2, 0, 0, 0),
                         child: Icon(

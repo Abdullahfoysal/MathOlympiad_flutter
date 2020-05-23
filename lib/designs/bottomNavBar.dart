@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:srmcapp/shared/colors.dart';
 
 class BottomNavigator extends StatelessWidget {
   @override
@@ -15,9 +16,12 @@ class BottomNavigator extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.teal, Colors.tealAccent]),
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      bottomNavBottomCenterColor,
+                      bottomNavTopCenterColor
+                    ]),
               ),
             ),
           ),
@@ -28,11 +32,11 @@ class BottomNavigator extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              _buildNavItem(Icons.home, true),
+              _buildNavItem(Icons.home, false),
               SizedBox(
                 width: 1,
               ),
-              _buildNavItem(Icons.list, false),
+              _buildNavItem(Icons.list, true),
               SizedBox(
                 width: 1,
               ),
@@ -81,14 +85,14 @@ class BottomNavigator extends StatelessWidget {
 _buildNavItem(IconData icon, bool active) {
   return CircleAvatar(
     radius: 30,
-    backgroundColor: Colors.teal.shade900,
+    backgroundColor: bottomNavButtonColor,
     child: CircleAvatar(
       radius: 25,
       backgroundColor:
           active ? Colors.white.withOpacity(0.9) : Colors.transparent,
       child: Icon(
         icon,
-        color: Colors.black,
+        color: Colors.white,
       ),
     ),
   );

@@ -9,6 +9,7 @@ import 'package:srmcapp/models/problemAndSolution.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/problem/flutterTex.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
+import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
 
 class ProblemProfile extends StatelessWidget {
@@ -31,9 +32,9 @@ class ProblemProfile extends StatelessWidget {
         alignment: Alignment.topCenter,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.red, Colors.blueAccent.withOpacity(0.9)],
-            begin: Alignment.bottomCenter,
-          ),
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [bottomNavBottomCenterColor, bottomNavTopCenterColor]),
         ),
         child: SingleChildScrollView(
           child: Column(
