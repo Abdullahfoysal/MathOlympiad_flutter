@@ -1,3 +1,5 @@
+import 'package:srmcapp/shared/constant.dart';
+
 class UserPreference {
   String userType;
   String name;
@@ -9,6 +11,7 @@ class UserPreference {
   String solvingString;
   String totalSolved;
   String favourite;
+  String imageUrl = imageUrlOfRegister;
 
   UserPreference(
       {this.userType,
@@ -16,6 +19,7 @@ class UserPreference {
       this.gender,
       this.dob,
       this.email,
+      this.imageUrl,
       this.phone,
       this.institution,
       this.solvingString,

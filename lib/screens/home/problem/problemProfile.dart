@@ -12,19 +12,33 @@ import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
 
-class ProblemProfile extends StatelessWidget {
+/*class ProblemProfile extends StatefulWidget {
   final ProblemAndSolution problemAndSolution;
-  final UserPreference userPreference;
-  final User user;
   final UserActivity userActivity;
   final problemNumber;
 
-  ProblemProfile(
-      {this.problemAndSolution,
-      this.userPreference,
-      this.user,
-      this.problemNumber,
-      this.userActivity});
+  ProblemProfile({
+    this.problemAndSolution,
+    this.problemNumber,
+    this.userActivity,
+  });
+  @override
+  _ProblemProfileState createState() => _ProblemProfileState(
+      problemAndSolution: problemAndSolution,
+      userActivity: userActivity,
+      problemNumber: problemNumber);
+}
+
+class _ProblemProfileState extends State<ProblemProfile> {
+  final ProblemAndSolution problemAndSolution;
+  final UserActivity userActivity;
+  final problemNumber;
+
+  _ProblemProfileState({
+    this.problemAndSolution,
+    this.problemNumber,
+    this.userActivity,
+  });
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +63,55 @@ class ProblemProfile extends StatelessWidget {
                 padding: EdgeInsets.all(8.0),
                 child: FlutterTex(),
               ),
-              SubmitSolution(),
+              SubmitSolution(problemAndSolution, userActivity, problemNumber),
+
+              //title & problems
+
+              //TODO-5: submit problem and loading bar
+              //TODO-4: comment & clarification section
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}*/
+
+class ProblemProfile extends StatelessWidget {
+  final ProblemAndSolution problemAndSolution;
+  final UserActivity userActivity;
+  final problemNumber;
+
+  ProblemProfile({
+    this.problemAndSolution,
+    this.problemNumber,
+    this.userActivity,
+  });
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        alignment: Alignment.topCenter,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [bottomNavBottomCenterColor, bottomNavTopCenterColor]),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              //TODO-2: problem header[catagory,rating,setter]
+              Container(
+                height: 90.0,
+                child: Text('customAppbar'),
+              ),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                child: FlutterTex(problemAndSolution),
+              ),
+              SubmitSolution(problemAndSolution, userActivity, problemNumber),
 
               //title & problems
 

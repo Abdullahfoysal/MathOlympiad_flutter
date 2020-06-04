@@ -35,8 +35,12 @@ class AuthService {
           email: email, password: password);
       FirebaseUser user = result.user;
       //create userPreference
-      DatabaseService(uid: user.uid)
-          .updateUserData(name: email, favourite: problemFavouriteState);
+      DatabaseService(uid: user.uid).updateUserData(
+        name: email,
+        favourite: problemFavouriteState,
+        solvingString: solvingStringDefault,
+        imageUrl: imageUrlOfRegister,
+      );
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());

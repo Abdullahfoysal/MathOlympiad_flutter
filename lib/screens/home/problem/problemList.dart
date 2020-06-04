@@ -10,32 +10,31 @@ import 'package:srmcapp/services/user/userPreference.dart';
 import 'package:srmcapp/shared/constant.dart';
 
 class ProblemList extends StatefulWidget {
-  final User user;
-  ProblemList({this.user});
+  final UserActivity userActivity;
+  ProblemList({this.userActivity});
 
   @override
-  _ProblemListState createState() => _ProblemListState(user: user);
+  _ProblemListState createState() =>
+      _ProblemListState(userActivity: userActivity);
 }
 
 class _ProblemListState extends State<ProblemList> {
-  final User user;
-  _ProblemListState({this.user});
+  final UserActivity userActivity;
+  _ProblemListState({this.userActivity});
 
   @override
   Widget build(BuildContext context) {
     final problemAndSolutions =
         Provider.of<List<ProblemAndSolution>>(context) ?? [];
-    final userPreference = Provider.of<UserPreference>(context);
 
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: 10,
+      itemCount: problemAndSolutions.length,
       itemBuilder: (context, index) {
         return ProblemListSingleView(
-          problemAndSolution: problemAndSolutions[0],
-          userPreference: userPreference,
-          user: user,
+          problemAndSolution: problemAndSolutions[index],
+          userActivity: userActivity,
         );
       },
     );
@@ -44,19 +43,14 @@ class _ProblemListState extends State<ProblemList> {
 
 class ProblemListSingleView extends StatelessWidget {
   final ProblemAndSolution problemAndSolution;
-  final UserPreference userPreference;
-  final User user;
+  final UserActivity userActivity;
 
   final Map<String, double> statisticMap = new Map();
 
-  ProblemListSingleView(
-      {this.problemAndSolution, this.userPreference, this.user});
+  ProblemListSingleView({this.problemAndSolution, this.userActivity});
 
   Widget build(BuildContext context) {
-    final UserActivity userActivity =
-        UserActivity(user: user, userPreference: userPreference);
     loadPieChart();
-
     return Container(
       margin: EdgeInsets.all(5.0),
       padding: EdgeInsets.all(2.0),
@@ -65,7 +59,7 @@ class ProblemListSingleView extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Card(
-        elevation: 5.2,
+        elevation: 2.0,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -79,8 +73,6 @@ class ProblemListSingleView extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => ProblemProfile(
                               problemAndSolution: problemAndSolution,
-                              userPreference: userPreference,
-                              user: user,
                               problemNumber: problemAndSolution.problemId,
                               userActivity: userActivity,
                             )),
@@ -149,8 +141,7 @@ class ProblemListSingleView extends StatelessWidget {
                               child: Container(
                                 child: SingleChildScrollView(
                                   child: Text(
-                                    problemAndSolution.title +
-                                        'fg ada jadga gdadka fg ada jadga gdadka adga gdadka adga gdadka  fg ada jadga gdadka dgadah  jadga gdadka dgadah  jadga gdadka dgadah dgadkd ksajfk adshflk',
+                                    problemAndSolution.title,
                                     style: TextStyle(
                                         fontSize: 12.0,
                                         fontWeight: FontWeight.bold),
@@ -174,41 +165,36 @@ class ProblemListSingleView extends StatelessWidget {
             ),
             Expanded(
               flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                      left: 35,
-                      bottom: 50,
-                      child: FlatButton(
-                        padding: EdgeInsets.fromLTRB(2, 0, 0, 0),
-                        child: Icon(
-                          userActivity.getFavouriteState(
-                              problemNumber: problemAndSolution.problemId),
-                          color: Colors.red,
-                        ),
-                        onPressed: () {
-                          userActivity.changeFavouriteState(
-                              problemNumber: problemAndSolution.problemId);
-                        },
-                      ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: PieChart(
+                      dataMap: statisticMap,
+                      colorList: colorList,
+                      chartRadius: 45.0,
+                      showChartValueLabel: false,
+                      showChartValuesOutside: false,
+                      showLegends: false,
+                      chartType: ChartType.ring,
+                      animationDuration: Duration(milliseconds: 3000),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: PieChart(
-                        dataMap: statisticMap,
-                        colorList: colorList,
-                        chartRadius: 45.0,
-                        showChartValueLabel: false,
-                        showChartValuesOutside: false,
-                        showLegends: false,
-                        chartType: ChartType.ring,
-                        animationDuration: Duration(milliseconds: 3000),
-                      ),
+                  ),
+                  Expanded(
+                    child: FlatButton(
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      child: Icon(
+                            userActivity.getFavouriteState(
+                                problemNumber: problemAndSolution.problemId),
+                            color: Colors.red,
+                          ) ??
+                          Icon(Icons.update),
+                      onPressed: () {
+                        userActivity.changeFavouriteState(
+                            problemNumber: problemAndSolution.problemId);
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],

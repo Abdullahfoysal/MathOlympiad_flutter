@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:srmcapp/designs/loading.dart';
 
 const textInputDecoration = InputDecoration(
     hintText: 'Email',
@@ -16,7 +18,8 @@ const textInputDecoration = InputDecoration(
     )));
 List<Color> colorList = [
   Colors.green.withOpacity(0.8),
-  Colors.red.withOpacity(0.8)
+  Colors.red.withOpacity(0.8),
+  Colors.purple.withOpacity(0.8),
 ];
 var submitInputDecoration = InputDecoration(
   labelStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -35,11 +38,15 @@ var submitInputDecoration = InputDecoration(
     width: 2.0,
   )),
 );
-/**********************User Default value*******************/
+////**********************User Default value*******************/
+
 String loadingSolvingString = '1-0-:';
 
-/*********************Default value**************************/
+////*********************Default value**************************/
+String imageUrlOfRegister =
+    'https://firebasestorage.googleapis.com/v0/b/srmc-a3f30.appspot.com/o/users%2FprofileNUll.png?alt=media&token=e81a8a59-2269-4a82-b692-ed43d2b4108e';
 String problemFavouriteState = '1-0-:';
+String solvingStringDefault = '1-0-:';
 String loadingName = 'loading Name';
 String loadingTitle = 'loading Title';
 String loadingProblemText = 'loading Problem Statement';
@@ -56,3 +63,31 @@ int notAllowtoSolve = 5;
 int notTouch = 0;
 // 0<Touch
 //int 0 < notSolved <4
+
+////**********************SOLUTION STATUS LOADING*****************************/
+List<Widget> loadingStatus = [
+  //accepted
+  SpinKitCubeGrid(
+    color: Colors.green,
+  ),
+  //wrong
+  SpinKitCubeGrid(
+    color: Colors.red,
+  ),
+  //last chance
+  SpinKitPouringHourglass(
+    color: Colors.yellow,
+  ),
+  //not touch
+  SpinKitRipple(
+    color: Colors.white.withOpacity(0.5),
+  ),
+  //real loading
+  SpinKitWave(
+    color: Colors.redAccent[100],
+  ),
+];
+List<String> loadingText = [
+  'Loading',
+  'Accepted',
+];

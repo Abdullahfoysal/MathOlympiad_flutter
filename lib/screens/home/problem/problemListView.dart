@@ -10,10 +10,12 @@ import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/problem/problemList.dart';
 import 'package:srmcapp/services/auth.dart';
 import 'package:srmcapp/services/database.dart';
+import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
 
 class ProblemListView extends StatefulWidget {
+  ///created userActivity here
   final User user;
   ProblemListView({this.user});
 
@@ -24,37 +26,37 @@ class ProblemListView extends StatefulWidget {
 class _ProblemListViewState extends State<ProblemListView> {
   final User user;
   _ProblemListViewState({this.user});
-  final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<ProblemAndSolution>>.value(
-      value: DatabaseService().problemAndSolutionStream,
-      child: Scaffold(
-        body: Container(
-          child: Stack(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 55),
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        child: AppBar2(),
-                      ),
+    final userPreference = Provider.of<UserPreference>(context);
+    final UserActivity userActivity =
+        UserActivity(user: user, userPreference: userPreference);
+
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      body: Container(
+        child: Stack(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 55),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      child: AppBar2(userActivity),
                     ),
-                    Expanded(
-                      flex: 10,
-                      child: ProblemList(
-                        user: user,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  Expanded(
+                    flex: 8,
+                    child: ProblemList(userActivity: userActivity),
+                  ),
+                ],
               ),
-              BottomNavigator(),
-            ],
-          ),
+            ),
+            BottomNavigator(),
+          ],
         ),
       ),
     );
