@@ -16,11 +16,7 @@ const textInputDecoration = InputDecoration(
       color: Colors.pink,
       width: 2.0,
     )));
-List<Color> colorList = [
-  Colors.green.withOpacity(0.8),
-  Colors.red.withOpacity(0.8),
-  Colors.purple.withOpacity(0.8),
-];
+
 var submitInputDecoration = InputDecoration(
   labelStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
   labelText: 'Enter your solution',

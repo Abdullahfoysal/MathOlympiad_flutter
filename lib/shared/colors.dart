@@ -7,6 +7,16 @@ List<Color> userSolvingStatusColor = [
   Colors.purple.withOpacity(0.5), //notallowed to solve
   Colors.blue.withOpacity(0.5), //not touch
 ];
+List<Color> colorList = [
+  Colors.green.withOpacity(0.8),
+  Colors.red.withOpacity(0.8),
+  Colors.purple.withOpacity(0.8),
+  Colors.yellow.withOpacity(0.5),
+];
+List<Color> connectionStatusColor = [
+  Colors.green,
+  Colors.yellow,
+];
 Color backgroundColor = HexColor("EFF2F5");
 Color appBarColor = HexColor("d61e59");
 Color bottomNavButtonColor = HexColor("fd3c4f");

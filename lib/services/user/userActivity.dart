@@ -23,6 +23,37 @@ class UserActivity {
     );
   }
 
+  int getSolvingCount(int solvingStatus) {
+    int tempLastAttempt = 0;
+    int tempSolved = 0;
+    int tempWrong = 0;
+    int tempOutOfAttempt = 0;
+    for (var k in solvingStatusMap.keys) {
+      print("Key : $k, value : ${solvingStatusMap[k]}");
+
+      if (solvingStatusMap[k] == solved) {
+        tempSolved++;
+      } else if (solvingStatusMap[k] == notAllowtoSolve) {
+        tempOutOfAttempt++;
+      } else if (solvingStatusMap[k] == (solved - 1)) {
+        tempLastAttempt++;
+      } else if (notTouch < solvingStatusMap[k] &&
+          solvingStatusMap[k] < solved) {
+        tempWrong++;
+      }
+    }
+    if (solvingStatus == solved)
+      return tempSolved;
+    else if (solvingStatus == notAllowtoSolve)
+      return tempOutOfAttempt;
+    else if (solvingStatus == (solved - 1))
+      return tempLastAttempt;
+    else if (notTouch < solvingStatus && solvingStatus < solved)
+      return tempWrong;
+
+    return 0;
+  }
+
   ///problem solving status on list view
   Icon getProblemStatusIcon({int problemNumber}) {
     if (solvingStatusMap[problemNumber] == solved)
@@ -212,7 +243,12 @@ class UserActivity {
   }
 
   void userDataMap({String favourite, Map<int, int> favouriteProblemMap}) {
-    List list = stringTokenizer(':', favourite);
+    List list = [];
+    try {
+      list = stringTokenizer(':', favourite);
+    } catch (e) {
+      print(e.toString());
+    }
 
     for (int i = 0; i < list.length; i++) {
       List pair = stringTokenizer('-', list[i]);
