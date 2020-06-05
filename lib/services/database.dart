@@ -55,6 +55,12 @@ class DatabaseService {
     var temp = await _storage.ref().child(filePath).getDownloadURL();
   }
 
+  getAllUserData() {
+    return userReference
+        .orderBy('totalSolved', descending: true)
+        .getDocuments();
+  }
+
   /*-------------problem section-----------------*/
   Stream<List<ProblemAndSolution>> get problemAndSolutionStream {
     return problemCollection.snapshots().map(_problemAndSolutionFromSnapshot);

@@ -8,31 +8,37 @@ import 'package:provider/provider.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/userProfile/imageCapture.dart';
 import 'package:srmcapp/services/auth.dart';
+import 'package:srmcapp/services/networkService.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
 
-class AppBar2 extends StatefulWidget {
-  final UserActivity userActivity;
-  AppBar2(this.userActivity);
+/*class AppBar2 extends StatefulWidget {
+  final User user;
+  AppBar2(this.user);
 
   @override
-  _AppBar2State createState() => _AppBar2State(userActivity);
+  _AppBar2State createState() => _AppBar2State(user);
 }
 
 class _AppBar2State extends State<AppBar2> {
+  final User user;
+  _AppBar2State(this.user);
+
   String _connectionStatus = 'unknown';
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
   final Map<String, double> statisticMap = new Map();
-  final UserActivity userActivity;
   AuthService _auth = AuthService();
 
-  _AppBar2State(this.userActivity);
   @override
   Widget build(BuildContext context) {
-    // print(connectionStatus + '********************');
-    loadPieChart();
+    final userPreference = Provider.of<UserPreference>(context);
+    final UserActivity userActivity =
+        UserActivity(user: user, userPreference: userPreference);
+
+    loadPieChart(userActivity);
+
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
@@ -47,47 +53,78 @@ class _AppBar2State extends State<AppBar2> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  if (_connectionStatus == ConnectivityResult.wifi.toString() ||
-                      _connectionStatus == ConnectivityResult.mobile.toString())
-                    Text(
-                      'Connected',
-                      style: TextStyle(color: connectionStatusColor[0]),
-                    ),
-                  if (!(_connectionStatus ==
-                          ConnectivityResult.wifi.toString() ||
-                      _connectionStatus ==
-                          ConnectivityResult.mobile.toString()))
-                    Text(
-                      ' No Internet',
-                      style: TextStyle(color: connectionStatusColor[1]),
-                    ),
-                  if (_connectionStatus == ConnectivityResult.wifi.toString())
-                    Icon(
-                      Icons.wifi,
-                      color: Colors.white,
-                    ),
-                  if (_connectionStatus == ConnectivityResult.mobile.toString())
-                    Icon(
-                      Icons.signal_cellular_4_bar,
-                      color: Colors.white,
-                    ),
-                  if (_connectionStatus == ConnectivityResult.none.toString())
-                    Icon(
-                      Icons.signal_cellular_connected_no_internet_4_bar,
-                      color: Colors.white,
-                    ),
-                  Expanded(
-                    child: FlatButton.icon(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    if (_connectionStatus ==
+                            ConnectivityResult.wifi.toString() ||
+                        _connectionStatus ==
+                            ConnectivityResult.mobile.toString())
+                      Text(
+                        'Connected',
+                        style: TextStyle(color: connectionStatusColor[0]),
+                      ),
+                    if (!(_connectionStatus ==
+                            ConnectivityResult.wifi.toString() ||
+                        _connectionStatus ==
+                            ConnectivityResult.mobile.toString()))
+                      Text(
+                        ' No Internet',
+                        style: TextStyle(color: connectionStatusColor[1]),
+                      ),
+                    if (_connectionStatus == ConnectivityResult.wifi.toString())
+                      Icon(
+                        Icons.wifi,
+                        color: Colors.white,
+                      ),
+                    if (_connectionStatus ==
+                        ConnectivityResult.mobile.toString())
+                      Icon(
+                        Icons.signal_cellular_4_bar,
+                        color: Colors.white,
+                      ),
+                    if (_connectionStatus == ConnectivityResult.none.toString())
+                      Icon(
+                        Icons.signal_cellular_connected_no_internet_4_bar,
+                        color: Colors.white,
+                      ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            //color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.wb_incandescent,
+                                  color: Colors.yellow.withOpacity(0.9),
+                                ),
+                                Text(
+                                  'Rank',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Text(
+                              '10',
+                              style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            )
+                          ],
                         ),
-                        label: Text('')),
-                  ),
-                ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -98,7 +135,6 @@ class _AppBar2State extends State<AppBar2> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Expanded(
-                      flex: 2,
                       child: PieChart(
                         showChartValuesInPercentage: false,
                         dataMap: statisticMap,
@@ -110,43 +146,6 @@ class _AppBar2State extends State<AppBar2> {
                         chartLegendSpacing: 20.0,
                         chartType: ChartType.disc,
                         animationDuration: Duration(milliseconds: 3000),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.pink.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(20.0)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.wb_incandescent,
-                                    color: Colors.yellow.withOpacity(0.9),
-                                  ),
-                                  Text(
-                                    'Rank',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                              Text(
-                                '10',
-                                style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              )
-                            ],
-                          ),
-                        ),
                       ),
                     ),
                   ],
@@ -198,7 +197,7 @@ class _AppBar2State extends State<AppBar2> {
     );
   }
 
-  void loadPieChart() {
+  void loadPieChart(UserActivity userActivity) {
     statisticMap.putIfAbsent(
         "Accepted", () => userActivity.getSolvingCount(solved).toDouble());
     statisticMap.putIfAbsent(
@@ -233,7 +232,7 @@ class _AppBar2State extends State<AppBar2> {
       case ConnectivityResult.wifi:
         String wifiName, wifiBSSID, wifiIP;
 
-        /*try {
+        */ /*try {
           if (Platform.isIOS) {
             LocationAuthorizationStatus status =
                 await _connectivity.getLocationServiceAuthorization();
@@ -282,7 +281,7 @@ class _AppBar2State extends State<AppBar2> {
         } catch (e) {
           print(e.toString());
           wifiIP = "Failed to get Wifi IP";
-        }*/
+        }*/ /*
 
         setState(() {
           _connectionStatus = ConnectivityResult.wifi.toString();
@@ -315,22 +314,25 @@ class _AppBar2State extends State<AppBar2> {
       super.dispose();
     }
   }
-}
+}*/
 
-/*class AppBar2 extends StatelessWidget {
+class AppBar2 extends StatelessWidget {
+  final User user;
+  AppBar2(this.user);
+
   String _connectionStatus = 'unknown';
-  final Connectivity _connectivity = Connectivity();
-  StreamSubscription<ConnectivityResult> _connectivitySubscription;
-  final Map<String, double> statisticMap = new Map();
-  final UserActivity userActivity;
-  AuthService _auth = AuthService();
 
-  AppBar2(this.userActivity);
+  final Map<String, double> statisticMap = new Map();
+  AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
-    print(connectionStatus + '********************');
-    loadPieChart();
+    final userPreference = Provider.of<UserPreference>(context);
+    final UserActivity userActivity =
+        UserActivity(user: user, userPreference: userPreference);
+
+    loadPieChart(userActivity);
+
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
@@ -345,18 +347,47 @@ class _AppBar2State extends State<AppBar2> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  if (connectionStatus == ConnectivityResult.mobile.toString())
-                    Icon(Icons.directions_run),
-                  FlatButton.icon(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    NetworkService(),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            //color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.wb_incandescent,
+                                  color: Colors.yellow.withOpacity(0.9),
+                                ),
+                                Text(
+                                  'Rank',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Text(
+                              '10',
+                              style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            )
+                          ],
+                        ),
                       ),
-                      label: Text('')),
-                ],
+                    ),
+                  ],
+                ),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -371,50 +402,13 @@ class _AppBar2State extends State<AppBar2> {
                         showChartValuesInPercentage: false,
                         dataMap: statisticMap,
                         colorList: colorList,
-                        chartRadius: 70.0,
+                        chartRadius: 60.0,
                         showChartValueLabel: false,
                         showChartValuesOutside: false,
                         showLegends: true,
                         chartLegendSpacing: 20.0,
                         chartType: ChartType.disc,
                         animationDuration: Duration(milliseconds: 3000),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.pink.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(20.0)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.wb_incandescent,
-                                    color: Colors.yellow.withOpacity(0.9),
-                                  ),
-                                  Text(
-                                    'Rank',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                              Text(
-                                '10',
-                                style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              )
-                            ],
-                          ),
-                        ),
                       ),
                     ),
                   ],
@@ -466,9 +460,14 @@ class _AppBar2State extends State<AppBar2> {
     );
   }
 
-  void loadPieChart() {
-    statisticMap.putIfAbsent("Accepted", () => 10.0);
-    statisticMap.putIfAbsent("Wrong", () => 200.0);
-    statisticMap.putIfAbsent("Last Attempt", () => 20.0);
+  void loadPieChart(UserActivity userActivity) {
+    statisticMap.putIfAbsent(
+        "Accepted", () => userActivity.getSolvingCount(solved).toDouble());
+    statisticMap.putIfAbsent(
+        "Wrong", () => userActivity.getSolvingCount(2).toDouble());
+    statisticMap.putIfAbsent("Disabled",
+        () => userActivity.getSolvingCount(notAllowtoSolve).toDouble());
+    statisticMap.putIfAbsent(
+        "Final try", () => userActivity.getSolvingCount(solved - 1).toDouble());
   }
-}*/
+}

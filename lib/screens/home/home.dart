@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:srmcapp/designs/loading.dart';
+import 'package:srmcapp/designs/myProfile.dart';
+import 'package:srmcapp/designs/ranking.dart';
 import 'package:srmcapp/models/problemAndSolution.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/problem/problemListView.dart';
@@ -37,7 +39,8 @@ class _HomeState extends State<Home> {
       ],
       child: Scaffold(
         body: Container(
-          child: ProblemListView(user: user),
+          //child: ProblemListView(user: user),
+          child: Ranking(),
         ),
       ),
     );

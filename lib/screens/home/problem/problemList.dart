@@ -11,22 +11,24 @@ import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
 
 class ProblemList extends StatefulWidget {
-  final UserActivity userActivity;
-  ProblemList({this.userActivity});
+  final User user;
+  ProblemList(this.user);
 
   @override
-  _ProblemListState createState() =>
-      _ProblemListState(userActivity: userActivity);
+  _ProblemListState createState() => _ProblemListState(user);
 }
 
 class _ProblemListState extends State<ProblemList> {
-  final UserActivity userActivity;
-  _ProblemListState({this.userActivity});
+  final User user;
+  _ProblemListState(this.user);
 
   @override
   Widget build(BuildContext context) {
     final problemAndSolutions =
         Provider.of<List<ProblemAndSolution>>(context) ?? [];
+    final userPreference = Provider.of<UserPreference>(context);
+    final UserActivity userActivity =
+        UserActivity(user: user, userPreference: userPreference);
 
     return ListView.builder(
       scrollDirection: Axis.vertical,

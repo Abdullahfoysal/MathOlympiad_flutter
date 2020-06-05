@@ -13,18 +13,19 @@ class UserPreference {
   String favourite;
   String imageUrl = imageUrlOfRegister;
 
-  UserPreference(
-      {this.userType,
-      this.name,
-      this.gender,
-      this.dob,
-      this.email,
-      this.imageUrl,
-      this.phone,
-      this.institution,
-      this.solvingString,
-      this.totalSolved,
-      this.favourite});
+  UserPreference({
+    this.userType,
+    this.name,
+    this.gender,
+    this.dob,
+    this.email,
+    this.imageUrl,
+    this.phone,
+    this.institution,
+    this.solvingString,
+    this.totalSolved,
+    this.favourite,
+  });
 }
 
 class User {

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:srmcapp/models/userPreference.dart';
@@ -92,6 +93,16 @@ class UserActivity {
 
   ///mark as favourite problem
   void changeFavouriteState({int problemNumber}) {
+    var data2;
+    DatabaseService().getAllUserData().then((QuerySnapshot docs) {
+      docs.documents.forEach((doc) => {print(doc.data['name'])});
+      if (docs.documents.isNotEmpty) {
+        data2 = docs.documents[0].data;
+        print(data2['name']);
+      }
+    });
+    // print(data.toString() + '************');
+
     favouriteProblemMap[problemNumber] == 1
         ? favouriteProblemMap[problemNumber] = 0
         : favouriteProblemMap[problemNumber] = 1;
@@ -236,7 +247,6 @@ class UserActivity {
   }
 
   IconData getFavouriteState({int problemNumber}) {
-    //if (favouriteProblemMap[problemNumber] == null) return null;
     return favouriteProblemMap[problemNumber] == 1
         ? Icons.favorite
         : Icons.favorite_border ?? problemFavouriteState;

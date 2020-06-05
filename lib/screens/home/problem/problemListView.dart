@@ -24,15 +24,10 @@ class ProblemListView extends StatefulWidget {
 }
 
 class _ProblemListViewState extends State<ProblemListView> {
-  String connectionStatus = '';
   final User user;
-  _ProblemListViewState({this.user, this.connectionStatus});
+  _ProblemListViewState({this.user});
   @override
   Widget build(BuildContext context) {
-    final userPreference = Provider.of<UserPreference>(context);
-    final UserActivity userActivity =
-        UserActivity(user: user, userPreference: userPreference);
-
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Container(
@@ -46,12 +41,12 @@ class _ProblemListViewState extends State<ProblemListView> {
                   Expanded(
                     flex: 3,
                     child: Container(
-                      child: AppBar2(userActivity),
+                      child: AppBar2(user),
                     ),
                   ),
                   Expanded(
                     flex: 7,
-                    child: ProblemList(userActivity: userActivity),
+                    child: ProblemList(user),
                   ),
                 ],
               ),
