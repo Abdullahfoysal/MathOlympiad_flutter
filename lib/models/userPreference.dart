@@ -9,7 +9,8 @@ class UserPreference {
   String phone;
   String institution;
   String solvingString;
-  String totalSolved;
+  int totalSolved;
+  int totalWrong;
   String favourite;
   String imageUrl = imageUrlOfRegister;
 
@@ -24,6 +25,7 @@ class UserPreference {
     this.institution,
     this.solvingString,
     this.totalSolved,
+    this.totalWrong,
     this.favourite,
   });
 }

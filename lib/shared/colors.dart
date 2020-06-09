@@ -10,8 +10,8 @@ List<Color> userSolvingStatusColor = [
 List<Color> colorList = [
   Colors.green.withOpacity(0.8),
   Colors.red.withOpacity(0.8),
-  Colors.purple.withOpacity(0.8),
   Colors.yellow.withOpacity(0.5),
+  Colors.purple.withOpacity(0.8),
 ];
 List<Color> connectionStatusColor = [
   Colors.green,

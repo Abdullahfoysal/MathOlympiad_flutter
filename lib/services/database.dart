@@ -25,11 +25,15 @@ class DatabaseService {
     String favourite,
     String solvingString,
     String imageUrl,
+    int totalSolved,
+    String institution,
   }) async {
     return await userReference.document(uid).setData({
       'name': name ?? userPreference.name,
       'favourite': favourite ?? userPreference.favourite,
       'solvingString': solvingString ?? userPreference.solvingString,
+      'totalSolved': totalSolved ?? userPreference.totalSolved,
+      'institution': institution ?? userPreference.institution,
       'imageUrl': imageUrl ?? userPreference.imageUrl,
     });
   }
@@ -55,10 +59,19 @@ class DatabaseService {
     var temp = await _storage.ref().child(filePath).getDownloadURL();
   }
 
-  getAllUserData() {
-    return userReference
-        .orderBy('totalSolved', descending: true)
-        .getDocuments();
+  List<UserPreference> _userRankingData(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return UserPreference(
+        name: doc.data['name'] ?? 'loadingName',
+        institution: doc.data['institution'] ?? 'loadingName',
+        totalSolved: doc.data['totalSolved'] ?? 0,
+        totalWrong: doc.data['totalWrong'] ?? 0,
+      );
+    }).toList();
+  }
+
+  Stream<List<UserPreference>> get userRankingStream {
+    return userReference.snapshots().map(_userRankingData);
   }
 
   /*-------------problem section-----------------*/

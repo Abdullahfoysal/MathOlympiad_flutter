@@ -12,6 +12,7 @@ class UserActivity {
   UserPreference userPreference;
   Map<int, int> favouriteProblemMap = new Map();
   Map<int, int> solvingStatusMap = new Map();
+  List<UserPreference> userRankingData;
 
   UserActivity({this.user, this.userPreference}) {
     userDataMap(
@@ -93,14 +94,20 @@ class UserActivity {
 
   ///mark as favourite problem
   void changeFavouriteState({int problemNumber}) {
-    var data2;
-    DatabaseService().getAllUserData().then((QuerySnapshot docs) {
-      docs.documents.forEach((doc) => {print(doc.data['name'])});
+    /*List<UserPreference> temp = getAllRankingUserData();
+
+    print(temp[0].name);*/
+
+    /* DatabaseService().getAllUserData().then((QuerySnapshot docs) {
+      docs.documents.map((doc) {
+        print(doc.data['name']);
+      });
+      //docs.documents.forEach((doc) => {print(doc.data['name'])});
       if (docs.documents.isNotEmpty) {
         data2 = docs.documents[0].data;
-        print(data2['name']);
+        // print(data2['name']);
       }
-    });
+    });*/
     // print(data.toString() + '************');
 
     favouriteProblemMap[problemNumber] == 1

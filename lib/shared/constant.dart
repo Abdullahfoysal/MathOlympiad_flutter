@@ -58,7 +58,7 @@ int solved = 4;
 int notAllowtoSolve = 5;
 int notTouch = 0;
 // 0<Touch
-//int 0 < notSolved <4
+//int 0 < notSolved <4 //wrong
 
 ////**********************SOLUTION STATUS LOADING*****************************/
 List<Widget> loadingStatus = [
@@ -87,3 +87,8 @@ List<String> loadingText = [
   'Loading',
   'Accepted',
 ];
+
+var textStyle = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 15.0,
+);

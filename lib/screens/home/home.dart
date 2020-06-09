@@ -16,6 +16,7 @@ import 'package:srmcapp/screens/home/problem/problemProfile.dart';
 import 'package:srmcapp/services/auth.dart';
 import 'package:srmcapp/services/database.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
+import 'package:srmcapp/shared/colors.dart';
 
 class Home extends StatefulWidget {
   final User user;
@@ -39,8 +40,14 @@ class _HomeState extends State<Home> {
       ],
       child: Scaffold(
         body: Container(
-          //child: ProblemListView(user: user),
-          child: Ranking(),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [bottomNavBottomCenterColor, bottomNavTopCenterColor]),
+          ),
+          child: ProblemListView(user: user),
+          // child: MyProfile(),
         ),
       ),
     );
