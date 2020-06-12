@@ -28,7 +28,7 @@ class AppBar2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userPreference = Provider.of<UserPreference>(context);
+    final UserPreference userPreference = Provider.of<UserPreference>(context);
     final UserActivity userActivity =
         UserActivity(user: user, userPreference: userPreference);
 
@@ -62,12 +62,12 @@ class AppBar2 extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => RankingStream(),
+                                builder: (context) =>
+                                    RankingStream(userActivity),
                               ),
                             );
                           },
                           child: Column(
-                            mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Row(
@@ -84,12 +84,16 @@ class AppBar2 extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              Text(
-                                '10',
-                                style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                child: Text(
+                                  userActivity.userPreference.ranking
+                                      .toString(),
+                                  style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
                               )
                             ],
                           ),
@@ -99,74 +103,74 @@ class AppBar2 extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(20.0),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Expanded(
+                        child: PieChart(
+                          showChartValuesInPercentage: false,
+                          dataMap: statisticMap,
+                          colorList: colorList,
+                          chartRadius: 60.0,
+                          showChartValueLabel: false,
+                          showChartValuesOutside: false,
+                          showLegends: true,
+                          chartLegendSpacing: 20.0,
+                          chartType: ChartType.disc,
+                          animationDuration: Duration(milliseconds: 3000),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+              ),
+              Expanded(
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Expanded(
-                      child: PieChart(
-                        showChartValuesInPercentage: false,
-                        dataMap: statisticMap,
-                        colorList: colorList,
-                        chartRadius: 60.0,
-                        showChartValueLabel: false,
-                        showChartValuesOutside: false,
-                        showLegends: true,
-                        chartLegendSpacing: 20.0,
-                        chartType: ChartType.disc,
-                        animationDuration: Duration(milliseconds: 3000),
+                      flex: 1,
+                      child: FlatButton(
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyProfile(userActivity)),
+                          );
+                        },
+                        child: CircleAvatar(
+                          maxRadius: 30,
+                          backgroundImage: NetworkImage(
+                              userActivity.userPreference.imageUrl),
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: FlatButton(
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        child: Text(
+                          'LogOut',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          print('logout pressed');
+                          _auth.signOut();
+                        },
                       ),
                     ),
                   ],
                 ),
-              ),
-              Column(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: FlatButton(
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onPressed: () {
-                        /* Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ImageCapture(userActivity)),
-                        );*/
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MyProfile(userActivity)),
-                        );
-                      },
-                      child: CircleAvatar(
-                        maxRadius: 30,
-                        backgroundImage:
-                            NetworkImage(userActivity.userPreference.imageUrl),
-                        backgroundColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: FlatButton(
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      child: Text(
-                        'LogOut',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onPressed: () {
-                        print('logout pressed');
-                        _auth.signOut();
-                      },
-                    ),
-                  ),
-                ],
               ),
             ],
           ),
@@ -177,12 +181,12 @@ class AppBar2 extends StatelessWidget {
 
   void loadPieChart(UserActivity userActivity) {
     statisticMap.putIfAbsent(
-        "Accepted", () => userActivity.getSolvingCount(solved).toDouble());
+        "Accept", () => userActivity.getSolvingCount(solved).toDouble());
     statisticMap.putIfAbsent(
         "Wrong", () => userActivity.getSolvingCount(2).toDouble());
     statisticMap.putIfAbsent(
         "Final try", () => userActivity.getSolvingCount(solved - 1).toDouble());
-    statisticMap.putIfAbsent("Disabled",
+    statisticMap.putIfAbsent("Disable",
         () => userActivity.getSolvingCount(notAllowtoSolve).toDouble());
   }
 }

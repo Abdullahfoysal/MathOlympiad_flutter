@@ -32,7 +32,7 @@ class BottomNavigator extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              _buildNavItem(Icons.home, false),
+              _buildNavItem(Icons.person_outline, false),
               SizedBox(
                 width: 1,
               ),
@@ -51,7 +51,7 @@ class BottomNavigator extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Text(
-                'Home',
+                'Profile',
                 style: TextStyle(
                     color: Colors.white.withOpacity(0.9),
                     fontWeight: FontWeight.w500),

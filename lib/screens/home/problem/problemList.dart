@@ -26,7 +26,7 @@ class _ProblemListState extends State<ProblemList> {
   Widget build(BuildContext context) {
     final problemAndSolutions =
         Provider.of<List<ProblemAndSolution>>(context) ?? [];
-    final userPreference = Provider.of<UserPreference>(context);
+    final UserPreference userPreference = Provider.of<UserPreference>(context);
     final UserActivity userActivity =
         UserActivity(user: user, userPreference: userPreference);
 
@@ -187,13 +187,16 @@ class ProblemListSingleView extends StatelessWidget {
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       child: Icon(
                             userActivity.getFavouriteState(
-                                problemNumber: problemAndSolution.problemId),
+                                  problemNumber: problemAndSolution.problemId,
+                                ) ??
+                                Icon(Icons.update),
                             color: Colors.red,
                           ) ??
                           Icon(Icons.update),
                       onPressed: () {
                         userActivity.changeFavouriteState(
-                            problemNumber: problemAndSolution.problemId);
+                          problemNumber: problemAndSolution.problemId,
+                        );
                       },
                     ),
                   ),

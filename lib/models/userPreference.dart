@@ -9,8 +9,10 @@ class UserPreference {
   String phone;
   String institution;
   String solvingString;
-  int totalSolved;
-  int totalWrong;
+  int ranking;
+  String bloodGroup;
+  int totalSolved = 0;
+  int totalWrong = 0;
   String favourite;
   String imageUrl = imageUrlOfRegister;
 
@@ -27,6 +29,8 @@ class UserPreference {
     this.totalSolved,
     this.totalWrong,
     this.favourite,
+    this.bloodGroup,
+    this.ranking,
   });
 }
 

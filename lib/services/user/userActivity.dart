@@ -12,7 +12,6 @@ class UserActivity {
   UserPreference userPreference;
   Map<int, int> favouriteProblemMap = new Map();
   Map<int, int> solvingStatusMap = new Map();
-  List<UserPreference> userRankingData;
 
   UserActivity({this.user, this.userPreference}) {
     userDataMap(
@@ -25,14 +24,16 @@ class UserActivity {
     );
   }
 
+  void updateProblemSolvingCount(int problemId, bool isSolved) async {
+    await DatabaseService().updateProblemSolvingCount(problemId, isSolved);
+  }
+
   int getSolvingCount(int solvingStatus) {
     int tempLastAttempt = 0;
     int tempSolved = 0;
     int tempWrong = 0;
     int tempOutOfAttempt = 0;
     for (var k in solvingStatusMap.keys) {
-      print("Key : $k, value : ${solvingStatusMap[k]}");
-
       if (solvingStatusMap[k] == solved) {
         tempSolved++;
       } else if (solvingStatusMap[k] == notAllowtoSolve) {
@@ -93,23 +94,7 @@ class UserActivity {
   }
 
   ///mark as favourite problem
-  void changeFavouriteState({int problemNumber}) {
-    /*List<UserPreference> temp = getAllRankingUserData();
-
-    print(temp[0].name);*/
-
-    /* DatabaseService().getAllUserData().then((QuerySnapshot docs) {
-      docs.documents.map((doc) {
-        print(doc.data['name']);
-      });
-      //docs.documents.forEach((doc) => {print(doc.data['name'])});
-      if (docs.documents.isNotEmpty) {
-        data2 = docs.documents[0].data;
-        // print(data2['name']);
-      }
-    });*/
-    // print(data.toString() + '************');
-
+  void changeFavouriteState({int problemNumber}) async {
     favouriteProblemMap[problemNumber] == 1
         ? favouriteProblemMap[problemNumber] = 0
         : favouriteProblemMap[problemNumber] = 1;
@@ -122,29 +107,40 @@ class UserActivity {
 
   void changeSolvingString(int problemNumber, int solvingStatus) {
     solvingStatusMap.update(problemNumber, (value) => solvingStatus);
-    print(solvingStatusMap);
+    int totalSolved = getSolvingCount(solved);
+    int totalWrong = getSolvingCount(notTouch + 1);
     String solvingString = mapDataToString(solvingStatusMap);
     DatabaseService(uid: user.uid, userPreference: userPreference)
-        .updateUserData(solvingString: solvingString);
+        .updateUserData(
+      solvingString: solvingString,
+      totalSolved: totalSolved,
+      totalWrong: totalWrong,
+    );
   }
 
   void checkSolution(BuildContext context, int problemNumber, String solution,
       String userSolution) {
     int tempStatus = solvingStatusMap[problemNumber];
-    if (tempStatus == notAllowtoSolve) {
+    if (tempStatus == notAllowtoSolve || tempStatus == solved) {
       if (solution == userSolution) {
         showToast(problemNumber, 'CORRECT');
       } else {
         showToast(problemNumber, 'WRONG');
       }
-      solutionAlertDialogue(context, tempStatus);
+      if (tempStatus == notAllowtoSolve)
+        solutionAlertDialogue(context, tempStatus);
+      else if (tempStatus == solved)
+        solutionAlertDialogue(context, solved + notAllowtoSolve,
+            'Already Solved', 'Try Another one');
       return;
     }
 
     if (solution == userSolution) {
       changeSolvingString(problemNumber, solved);
+      updateProblemSolvingCount(problemNumber, true);
       solutionAlertDialogue(context, solved);
     } else {
+      updateProblemSolvingCount(problemNumber, false);
       tempStatus++;
       if (tempStatus >= solved) {
         changeSolvingString(problemNumber, notAllowtoSolve);
@@ -156,9 +152,10 @@ class UserActivity {
     }
   }
 
-  void solutionAlertDialogue(BuildContext context, int solutionStatus) {
-    String result = '';
-    String warning = '';
+  void solutionAlertDialogue(BuildContext context, int solutionStatus,
+      [String tempResult, String tempWarning]) {
+    String result = tempResult;
+    String warning = tempWarning;
 
     var alertStyle;
     var alertType;
@@ -208,6 +205,26 @@ class UserActivity {
       result = 'Out of Attempt';
       warning = 'Already missed ' + solved.toString() + ' chance';
       alertType = AlertType.warning;
+      alertStyle = AlertStyle(
+        animationType: AnimationType.fromTop,
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        descStyle: TextStyle(fontWeight: FontWeight.bold),
+        animationDuration: Duration(milliseconds: 400),
+        alertBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          side: BorderSide(
+            color: Colors.grey,
+          ),
+        ),
+        titleStyle: TextStyle(
+          color: Colors.yellow,
+        ),
+      );
+    } else {
+      // result = 'Out of Attempt';
+      // warning = 'Already missed ' + solved.toString() + ' chance';
+      alertType = AlertType.none;
       alertStyle = AlertStyle(
         animationType: AnimationType.fromTop,
         isCloseButton: false,
