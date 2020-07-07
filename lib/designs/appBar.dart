@@ -87,8 +87,10 @@ class AppBar2 extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                                 child: Text(
-                                  userActivity.userPreference.ranking
-                                      .toString(),
+                                  userActivity.userPreference != null
+                                      ? userActivity.userPreference.ranking
+                                          .toString()
+                                      : 'loading',
                                   style: TextStyle(
                                       color: Colors.blueAccent,
                                       fontWeight: FontWeight.bold,
@@ -122,7 +124,7 @@ class AppBar2 extends StatelessWidget {
                           showChartValueLabel: false,
                           showChartValuesOutside: false,
                           showLegends: true,
-                          chartLegendSpacing: 20.0,
+                          chartLegendSpacing: 10.0,
                           chartType: ChartType.disc,
                           animationDuration: Duration(milliseconds: 3000),
                         ),
@@ -148,7 +150,9 @@ class AppBar2 extends StatelessWidget {
                         child: CircleAvatar(
                           maxRadius: 30,
                           backgroundImage: NetworkImage(
-                              userActivity.userPreference.imageUrl),
+                              userActivity.userPreference != null
+                                  ? userActivity.userPreference.imageUrl
+                                  : imageUrlOfRegister),
                           backgroundColor: Colors.white,
                         ),
                       ),

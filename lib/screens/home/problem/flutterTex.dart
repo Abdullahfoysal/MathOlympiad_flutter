@@ -72,7 +72,7 @@ class FlutterTex extends StatelessWidget {
     temp = problemAndSolution.problemText;
     String problemText = '<p>$temp</p>';
     return TeXView(
-        renderingEngine: TeXViewRenderingEngine.katex(),
+        renderingEngine: TeXViewRenderingEngine.mathjax(),
         children: [
           TeXViewContainer(id: "container_0", children: [
             TeXViewTeX(

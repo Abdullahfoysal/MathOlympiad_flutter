@@ -8,6 +8,7 @@ import 'package:srmcapp/designs/submitSolution.dart';
 import 'package:srmcapp/models/problemAndSolution.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/problem/flutterTex.dart';
+import 'package:srmcapp/screens/home/problem/problemHeader.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
@@ -15,7 +16,7 @@ import 'package:srmcapp/shared/constant.dart';
 class ProblemProfile extends StatelessWidget {
   final ProblemAndSolution problemAndSolution;
   final UserActivity userActivity;
-  final problemNumber;
+  final int problemNumber;
 
   ProblemProfile({
     this.problemAndSolution,
@@ -40,7 +41,7 @@ class ProblemProfile extends StatelessWidget {
               //TODO-2: problem header[catagory,rating,setter]
               Container(
                 height: 90.0,
-                child: Text('customAppbar'),
+                child: ProblemHeader(problemNumber, problemAndSolution),
               ),
               Container(
                 padding: EdgeInsets.all(8.0),

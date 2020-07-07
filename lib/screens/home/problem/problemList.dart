@@ -211,8 +211,8 @@ class ProblemListSingleView extends StatelessWidget {
 
   void loadPieChart() {
     statisticMap.putIfAbsent(
-        "Accepted", () => problemAndSolution.solved.toDouble());
+        "Accepted", () => problemAndSolution.solved.toDouble() ?? 0.0);
     statisticMap.putIfAbsent(
-        "Wrong", () => problemAndSolution.wrong.toDouble());
+        "Wrong", () => problemAndSolution.wrong.toDouble() ?? 0);
   }
 }

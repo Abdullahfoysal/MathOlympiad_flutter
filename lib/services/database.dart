@@ -100,10 +100,7 @@ class DatabaseService {
         userReference.document(uid).updateData({
           'ranking': myRank,
         });
-        print(doc.documentID + '*****************&&&&&&&&&&&&&&');
-        print(doc.data['name']);
       }
-
       return UserPreference(
         name: doc.data['name'] ?? 'loadingName',
         institution: doc.data['institution'] ?? 'loadingName',
@@ -116,12 +113,15 @@ class DatabaseService {
   }
 
   Stream<List<UserPreference>> get userRankingStream {
-    return userReference.snapshots().map(_userRankingData);
+    return userReference.orderBy('ranking').snapshots().map(_userRankingData);
   }
 
   /*-------------problem section-----------------*/
   Stream<List<ProblemAndSolution>> get problemAndSolutionStream {
-    return problemCollection.snapshots().map(_problemAndSolutionFromSnapshot);
+    return problemCollection
+        .orderBy('problemId')
+        .snapshots()
+        .map(_problemAndSolutionFromSnapshot);
   }
 
   //return problemAndSolution List
@@ -134,6 +134,7 @@ class DatabaseService {
         problemText: doc.data['problemText'] ?? loadingProblemText,
         solution: doc.data['solution'] ?? loadingSolution,
         category: doc.data['category'] ?? loadingCategory,
+        setter: doc.data['setter'] ?? 'loading',
         rating: doc.data['rating'] ?? loadingRating,
         solved: doc.data['solved'] ?? loadingSolved,
         wrong: doc.data['wrong'] ?? loadingWrong,

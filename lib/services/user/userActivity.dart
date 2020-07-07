@@ -15,11 +15,15 @@ class UserActivity {
 
   UserActivity({this.user, this.userPreference}) {
     userDataMap(
-        favourite: userPreference.favourite ?? problemFavouriteState,
+        favourite: userPreference != null
+            ? userPreference.favourite
+            : problemFavouriteState,
         favouriteProblemMap: favouriteProblemMap);
 
     userDataMap(
-      favourite: userPreference.solvingString,
+      favourite: userPreference != null
+          ? userPreference.solvingString
+          : solvingStringDefault,
       favouriteProblemMap: solvingStatusMap,
     );
   }
@@ -79,7 +83,14 @@ class UserActivity {
     );
   }
 
+  updateSolvingString(int problemId) {
+    if (solvingStatusMap[problemId] == null)
+      solvingStatusMap.putIfAbsent(problemId, () => notTouch);
+  }
+
   Color getProblemStatusBackgroundColor({int problemNumber}) {
+    updateSolvingString(problemNumber);
+
     if (solvingStatusMap[problemNumber] == solved)
       return userSolvingStatusColor[0]; //solved
     else if (solvingStatusMap[problemNumber] == solved - 1)

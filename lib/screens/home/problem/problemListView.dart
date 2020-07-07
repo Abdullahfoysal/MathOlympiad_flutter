@@ -8,6 +8,7 @@ import 'package:srmcapp/designs/bottomNavBar.dart';
 import 'package:srmcapp/models/problemAndSolution.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/problem/problemList.dart';
+import 'package:srmcapp/screens/home/problem/problemProfile.dart';
 import 'package:srmcapp/services/auth.dart';
 import 'package:srmcapp/services/database.dart';
 import 'package:srmcapp/services/user/userActivity.dart';

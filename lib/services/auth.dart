@@ -40,6 +40,11 @@ class AuthService {
         favourite: problemFavouriteState,
         solvingString: solvingStringDefault,
         imageUrl: imageUrlOfRegister,
+        bloodGroup: 'AB+',
+        ranking: 1,
+        totalSolved: 0,
+        totalWrong: 0,
+        institution: 'institution',
       );
       return _userFromFirebaseUser(user);
     } catch (e) {

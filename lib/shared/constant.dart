@@ -93,3 +93,5 @@ var textStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 15.0,
 );
+var problemHeaderTextStyle = TextStyle(
+    color: Colors.white30.withOpacity(0.5), fontWeight: FontWeight.bold);
