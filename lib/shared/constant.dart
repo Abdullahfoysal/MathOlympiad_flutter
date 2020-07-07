@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:srmcapp/designs/loading.dart';
 
+import 'colors.dart';
+
 int myCurrentRank = -1;
 const textInputDecoration = InputDecoration(
     hintText: 'Email',
@@ -95,3 +97,10 @@ var textStyle = TextStyle(
 );
 var problemHeaderTextStyle = TextStyle(
     color: Colors.white30.withOpacity(0.5), fontWeight: FontWeight.bold);
+
+var backgroundGradient = BoxDecoration(
+  gradient: LinearGradient(
+      begin: Alignment.bottomCenter,
+      end: Alignment.topCenter,
+      colors: [bottomNavBottomCenterColor, bottomNavTopCenterColor]),
+);

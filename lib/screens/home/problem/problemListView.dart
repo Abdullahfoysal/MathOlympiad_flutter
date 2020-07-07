@@ -52,7 +52,7 @@ class _ProblemListViewState extends State<ProblemListView> {
                 ],
               ),
             ),
-            BottomNavigator(),
+            BottomNavigator(user),
           ],
         ),
       ),

@@ -21,8 +21,6 @@ class AppBar2 extends StatelessWidget {
   final User user;
   AppBar2(this.user);
 
-  String _connectionStatus = 'unknown';
-
   final Map<String, double> statisticMap = new Map();
   AuthService _auth = AuthService();
 
@@ -184,13 +182,36 @@ class AppBar2 extends StatelessWidget {
   }
 
   void loadPieChart(UserActivity userActivity) {
-    statisticMap.putIfAbsent(
-        "Accept", () => userActivity.getSolvingCount(solved).toDouble());
-    statisticMap.putIfAbsent(
-        "Wrong", () => userActivity.getSolvingCount(2).toDouble());
-    statisticMap.putIfAbsent(
-        "Final try", () => userActivity.getSolvingCount(solved - 1).toDouble());
-    statisticMap.putIfAbsent("Disable",
-        () => userActivity.getSolvingCount(notAllowtoSolve).toDouble());
+    if (statisticMap["Accept"] != null) {
+      statisticMap.update(
+          "Accept", (value) => userActivity.getSolvingCount(solved).toDouble());
+    } else {
+      statisticMap.putIfAbsent(
+          "Accept", () => userActivity.getSolvingCount(solved).toDouble());
+    }
+
+    if (statisticMap["Wrong"] != null) {
+      statisticMap.update(
+          "Wrong", (value) => userActivity.getSolvingCount(2).toDouble());
+    } else {
+      statisticMap.putIfAbsent(
+          "Wrong", () => userActivity.getSolvingCount(2).toDouble());
+    }
+
+    if (statisticMap["Final try"] != null) {
+      statisticMap.update("Final try",
+          (value) => userActivity.getSolvingCount(solved - 1).toDouble());
+    } else {
+      statisticMap.putIfAbsent("Final try",
+          () => userActivity.getSolvingCount(solved - 1).toDouble());
+    }
+
+    if (statisticMap["Disable"] != null) {
+      statisticMap.update("Disable",
+          (value) => userActivity.getSolvingCount(notAllowtoSolve).toDouble());
+    } else {
+      statisticMap.putIfAbsent("Disable",
+          () => userActivity.getSolvingCount(notAllowtoSolve).toDouble());
+    }
   }
 }

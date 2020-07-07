@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:srmcapp/designs/favouriteProblemList.dart';
+import 'package:srmcapp/designs/myProfile.dart';
+import 'package:srmcapp/models/problemAndSolution.dart';
+import 'package:srmcapp/models/userPreference.dart';
+import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
 
 class BottomNavigator extends StatelessWidget {
+  final User user;
+
+  BottomNavigator(this.user);
+
   @override
   Widget build(BuildContext context) {
+    final problemAndSolutions =
+        Provider.of<List<ProblemAndSolution>>(context) ?? [];
+    final UserPreference userPreference = Provider.of<UserPreference>(context);
+    final UserActivity userActivity =
+        UserActivity(user: user, userPreference: userPreference);
+    List<ProblemAndSolution> favouriteProblemList =
+        userActivity.getFavouriteProblemList(problemAndSolutions);
     return Stack(
       children: <Widget>[
         Positioned(
@@ -28,11 +45,22 @@ class BottomNavigator extends StatelessWidget {
         ),
         Positioned(
           bottom: 40,
+          right: 0,
           width: MediaQuery.of(context).size.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              _buildNavItem(Icons.person_outline, false),
+              FlatButton(
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MyProfile(userActivity)),
+                  );
+                },
+                child: _buildNavItem(Icons.person_outline, false),
+              ),
               SizedBox(
                 width: 1,
               ),
@@ -40,7 +68,18 @@ class BottomNavigator extends StatelessWidget {
               SizedBox(
                 width: 1,
               ),
-              _buildNavItem(Icons.favorite, false),
+              FlatButton(
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FavouriteProblemList(
+                            userActivity, problemAndSolutions)),
+                  );
+                },
+                child: _buildNavItem(Icons.favorite, false),
+              ),
             ],
           ),
         ),
@@ -83,16 +122,19 @@ class BottomNavigator extends StatelessWidget {
 }
 
 _buildNavItem(IconData icon, bool active) {
-  return CircleAvatar(
-    radius: 30,
-    backgroundColor: bottomNavButtonColor,
+  return Padding(
+    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
     child: CircleAvatar(
-      radius: 25,
-      backgroundColor:
-          active ? Colors.white.withOpacity(0.9) : Colors.transparent,
-      child: Icon(
-        icon,
-        color: Colors.white,
+      radius: 30,
+      backgroundColor: bottomNavButtonColor,
+      child: CircleAvatar(
+        radius: 25,
+        backgroundColor:
+            active ? Colors.white.withOpacity(0.9) : Colors.transparent,
+        child: Icon(
+          icon,
+          color: Colors.white,
+        ),
       ),
     ),
   );

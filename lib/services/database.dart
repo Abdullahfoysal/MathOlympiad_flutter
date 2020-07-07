@@ -113,7 +113,10 @@ class DatabaseService {
   }
 
   Stream<List<UserPreference>> get userRankingStream {
-    return userReference.orderBy('ranking').snapshots().map(_userRankingData);
+    return userReference
+        .orderBy("totalSolved", descending: true)
+        .snapshots()
+        .map(_userRankingData);
   }
 
   /*-------------problem section-----------------*/

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:srmcapp/models/problemAndSolution.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/services/database.dart';
 import 'package:srmcapp/shared/colors.dart';
@@ -333,5 +334,18 @@ class UserActivity {
         backgroundColor: Colors.redAccent.withOpacity(0.4),
         textColor: Colors.white,
         fontSize: 16.0);
+  }
+
+  ///return favourite problemList
+  List<ProblemAndSolution> getFavouriteProblemList(
+      List<ProblemAndSolution> problemAndSolution) {
+    List<ProblemAndSolution> tempList = [];
+    for (int i = 0; i < problemAndSolution.length; i++) {
+      if (favouriteProblemMap[problemAndSolution[i]] != null &&
+          favouriteProblemMap[problemAndSolution[i].problemId] == 1)
+        tempList.add(problemAndSolution[i]);
+    }
+
+    return tempList;
   }
 }
