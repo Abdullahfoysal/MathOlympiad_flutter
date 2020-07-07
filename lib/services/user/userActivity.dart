@@ -63,6 +63,8 @@ class UserActivity {
 
   ///problem solving status on list view
   Icon getProblemStatusIcon({int problemNumber}) {
+    updateSolvingString(problemNumber);
+
     if (solvingStatusMap[problemNumber] == solved)
       return Icon(Icons.check_circle, color: Colors.green[800]);
     else if (solvingStatusMap[problemNumber] == notAllowtoSolve)
