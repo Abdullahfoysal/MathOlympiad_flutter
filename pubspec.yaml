@@ -25,6 +25,7 @@ dependencies:
   fluttertoast: ^4.0.0
   connectivity: ^0.4.8+6
   syncfusion_flutter_charts: ^18.1.55
+  splashscreen: ^1.2.0
 
 
 

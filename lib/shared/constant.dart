@@ -11,12 +11,12 @@ const textInputDecoration = InputDecoration(
     filled: true,
     enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
-      color: Colors.blue,
+      color: Colors.white30,
       width: 2.0,
     )),
     focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
-      color: Colors.pink,
+      color: Colors.blue,
       width: 2.0,
     )));
 
@@ -104,3 +104,26 @@ var backgroundGradient = BoxDecoration(
       end: Alignment.topCenter,
       colors: [bottomNavBottomCenterColor, bottomNavTopCenterColor]),
 );
+
+List<Widget> loadingWidget = [
+  //accepted
+  SpinKitCubeGrid(
+    color: Colors.green,
+  ),
+  //wrong
+  SpinKitCubeGrid(
+    color: Colors.red,
+  ),
+  //last chance
+  SpinKitPouringHourglass(
+    color: Colors.yellow,
+  ),
+  //not touch
+  SpinKitRipple(
+    color: Colors.white.withOpacity(0.5),
+  ),
+  //real loading
+  SpinKitWave(
+    color: Colors.redAccent[100],
+  ),
+];

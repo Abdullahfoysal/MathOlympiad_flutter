@@ -31,25 +31,53 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        StreamProvider<UserPreference>.value(
-            value: DatabaseService(uid: user.uid).userPreferenceStream),
-        StreamProvider<List<ProblemAndSolution>>.value(
-            value: DatabaseService().problemAndSolutionStream),
-      ],
-      child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [bottomNavBottomCenterColor, bottomNavTopCenterColor]),
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: MultiProvider(
+        providers: [
+          StreamProvider<UserPreference>.value(
+              value: DatabaseService(uid: user.uid).userPreferenceStream),
+          StreamProvider<List<ProblemAndSolution>>.value(
+              value: DatabaseService().problemAndSolutionStream),
+        ],
+        child: Scaffold(
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    bottomNavBottomCenterColor,
+                    bottomNavTopCenterColor
+                  ]),
+            ),
+            child: ProblemListView(user: user),
+            // child: MyProfile(),
           ),
-          child: ProblemListView(user: user),
-          // child: MyProfile(),
         ),
       ),
     );
+  }
+
+  Future<bool> _onBackPressed() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit'),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(true),
+                child: Text("YES"),
+              ),
+              SizedBox(height: 20),
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Text("NO"),
+              ),
+            ],
+          ),
+        ) ??
+        false;
   }
 }

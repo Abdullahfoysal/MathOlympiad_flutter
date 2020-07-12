@@ -197,7 +197,7 @@ class UserActivity {
     } else if (notTouch < solutionStatus && solutionStatus < solved) {
       result = 'WRONG';
       warning =
-          'You have ' + (solved - solutionStatus).toString() + ' more chance';
+          'You have ' + (solved - solutionStatus).toString() + ' more chances';
       alertType = AlertType.error;
       alertStyle = AlertStyle(
         animationType: AnimationType.fromTop,
@@ -217,7 +217,7 @@ class UserActivity {
       );
     } else if (solutionStatus == notAllowtoSolve) {
       result = 'Out of Attempt';
-      warning = 'Already missed ' + solved.toString() + ' chance';
+      warning = 'Already missed ' + solved.toString() + ' chances';
       alertType = AlertType.warning;
       alertStyle = AlertStyle(
         animationType: AnimationType.fromTop,

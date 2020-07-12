@@ -6,8 +6,20 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: //not touch
-          SpinKitRipple(
+      decoration: backgroundGradient,
+      child: SpinKitWave(
+        color: Colors.deepOrange,
+        size: 100,
+      ),
+    );
+  }
+}
+
+class LoadingButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: SpinKitRipple(
         color: Colors.white.withOpacity(0.5),
       ),
     );

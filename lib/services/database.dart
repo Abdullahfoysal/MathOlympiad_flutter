@@ -47,9 +47,9 @@ class DatabaseService {
   updateProblemSolvingCount(int problemId, bool isSolved) async {
     problemCollection.getDocuments().then((snap) {
       snap.documents.forEach((doc) {
-        print(doc.data['problemId']);
+        //print(doc.data['problemId']);
         if (doc.data['problemId'] == problemId) {
-          print(doc.documentID + '****************');
+          //print(doc.documentID + '****************');
           String updateField = '';
           int updatedValue = 0;
           isSolved == true ? updateField = 'solved' : updateField = 'wrong';

@@ -66,6 +66,7 @@ class AppBar2 extends StatelessWidget {
                             );
                           },
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Row(

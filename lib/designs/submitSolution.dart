@@ -62,6 +62,7 @@ class _SubmitSolutionState extends State<SubmitSolution> {
           FlatButton(
             padding: EdgeInsets.all(20.0),
             onPressed: () {
+              FocusScope.of(context).nextFocus();
               if (_formKey.currentState.validate()) {
                 //check result here
 
@@ -87,7 +88,7 @@ class _SubmitSolutionState extends State<SubmitSolution> {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Loading(),
+                    child: LoadingButton(),
                   ),
                   Expanded(
                     flex: 2,
@@ -144,12 +145,14 @@ class _SubmitSolutionState extends State<SubmitSolution> {
         lastWarningMessage = 'Try another problem';
       } else if (notTouch < solutionStatus && solutionStatus < solved) {
         lastSolutionStatus = 'WRONG';
-        lastWarningMessage =
-            'You have ' + (solved - solutionStatus).toString() + ' more chance';
+        lastWarningMessage = 'You have ' +
+            (solved - solutionStatus).toString() +
+            ' more chances';
       } else if (solutionStatus == notTouch) {
         lastSolutionStatus = 'Not try yet';
-        lastWarningMessage =
-            'You have ' + (solved - solutionStatus).toString() + ' more chance';
+        lastWarningMessage = 'You have ' +
+            (solved - solutionStatus).toString() +
+            ' more chances';
       }
     });
   }

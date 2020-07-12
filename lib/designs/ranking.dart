@@ -115,10 +115,14 @@ class SingleRankingList extends StatelessWidget {
                     CircleAvatar(
                       backgroundImage: NetworkImage(rankUser.imageUrl),
                     ),
-                    Text(
-                      rankUser.name,
-                      style: TextStyle(
-                        fontSize: 10.0,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Text(
+                          rankUser.name,
+                          style: TextStyle(
+                            fontSize: 10.0,
+                          ),
+                        ),
                       ),
                     ),
                     Text(

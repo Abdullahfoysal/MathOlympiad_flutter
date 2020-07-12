@@ -36,5 +36,6 @@ class UserPreference {
 
 class User {
   final uid;
-  User({this.uid});
+  final bool emailVerified;
+  User({this.uid, this.emailVerified});
 }
