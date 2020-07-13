@@ -120,7 +120,7 @@ class _RegisterState extends State<Register> {
                                           email: email.trim(),
                                           password: password.trim());
 
-                                  if (result == null) {
+                                  if (result == true) {
                                     alertFunction('Email Verification',
                                         'Check your mail', AlertType.info);
                                     setState(() {
@@ -130,7 +130,11 @@ class _RegisterState extends State<Register> {
                                     });
                                   } else {
                                     alertFunction('Email Verification',
-                                        'Already verified', AlertType.info);
+                                        'Already verified', AlertType.error);
+                                    setState(() {
+                                      loading = false;
+                                      error = 'Register with New email';
+                                    });
                                   }
                                 }
                               },

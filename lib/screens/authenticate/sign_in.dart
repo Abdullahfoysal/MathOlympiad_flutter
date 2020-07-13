@@ -32,10 +32,13 @@ class _SignInState extends State<SignIn> {
             appBar: AppBar(
               backgroundColor: appBarColor,
               elevation: 0.0,
-              title: Text('SignIn'),
+              title: Text('Sign in'),
               actions: <Widget>[
                 FlatButton.icon(
-                  icon: Icon(Icons.person),
+                  icon: Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
                   label: Text('Register'),
                   onPressed: () {
                     widget.togleView();

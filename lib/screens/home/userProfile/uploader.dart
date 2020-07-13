@@ -81,9 +81,13 @@ class _UploaderState extends State<Uploader> {
       );
     } else {
       return FlatButton.icon(
+        color: Colors.green,
         onPressed: _startUpload,
-        icon: Icon(Icons.cloud_upload),
-        label: Text('Upload to firebase'),
+        icon: Icon(
+          Icons.cloud_upload,
+          color: Colors.white,
+        ),
+        label: Text('Upload'),
       );
     }
   }

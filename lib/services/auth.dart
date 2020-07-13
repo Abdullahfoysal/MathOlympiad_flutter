@@ -48,7 +48,7 @@ class AuthService {
       try {
         await user.sendEmailVerification();
 
-        return _userFromFirebaseUser(user);
+        return true;
       } catch (e) {
         print('An error occured when email verify');
         print(e.toString());
