@@ -29,15 +29,44 @@ class _AuthenticateState extends State<Authenticate> {
   Widget build(BuildContext context) {
     if (showSignIn) {
       return Container(
-        child: SignIn(togleView: togleView),
+        child: WillPopScope(
+            onWillPop: _onBackPressed,
+            child: SignIn(
+              togleView: togleView,
+            )),
       );
     } else {
       return Container(
-        child: Register(
-          togleView: togleView,
-          user: user,
+        child: WillPopScope(
+          onWillPop: _onBackPressed,
+          child: Register(
+            togleView: togleView,
+            user: user,
+          ),
         ),
       );
     }
+  }
+
+  Future<bool> _onBackPressed() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit'),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(true),
+                child: Text("YES"),
+              ),
+              SizedBox(height: 20),
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Text("NO"),
+              ),
+            ],
+          ),
+        ) ??
+        false;
   }
 }

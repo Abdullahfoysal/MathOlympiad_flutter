@@ -6,6 +6,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/home.dart';
+import 'package:srmcapp/screens/wrapper.dart';
 import 'package:srmcapp/services/auth.dart';
 import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
@@ -65,6 +66,7 @@ class _RegisterState extends State<Register> {
                           height: 20.0,
                         ),
                         TextFormField(
+                          initialValue: email,
                           decoration:
                               textInputDecoration.copyWith(hintText: 'Email'),
                           validator: (val) {
@@ -80,6 +82,7 @@ class _RegisterState extends State<Register> {
                           height: 20.0,
                         ),
                         TextFormField(
+                          initialValue: password,
                           obscureText: suffixIconShow,
                           decoration: textInputDecoration.copyWith(
                               hintText: 'Password',
@@ -153,18 +156,16 @@ class _RegisterState extends State<Register> {
                                         email: email.trim(),
                                         password: password.trim());
                                 if (result != null) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Home(user: result),
-                                    ),
-                                  );
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                  alertPressButton('Registration',
+                                      'Successfully Done', AlertType.success);
                                 }
                                 if (result == null) {
                                   setState(() {
                                     loading = false;
-                                    error =
-                                        'Please enter a valid email and pass';
+                                    error = 'Check your mail is correct!';
                                   });
                                   alertFunction(
                                       'Registration',
@@ -201,6 +202,35 @@ class _RegisterState extends State<Register> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () => Navigator.pop(context),
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+          radius: BorderRadius.circular(20.0),
+        ),
+      ],
+    ).show();
+  }
+
+  void alertPressButton(String title, String msg, AlertType alertType) {
+    Alert(
+      context: context,
+      type: alertType,
+      title: title,
+      desc: msg,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "OK",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Wrapper(),
+              ),
+            );
+          },
           color: Color.fromRGBO(0, 179, 134, 1.0),
           radius: BorderRadius.circular(20.0),
         ),
