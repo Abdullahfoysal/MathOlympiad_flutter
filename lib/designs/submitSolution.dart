@@ -67,7 +67,7 @@ class _SubmitSolutionState extends State<SubmitSolution> {
                 //check result here
 
                 userActivity.checkSolution(context, problemNumber,
-                    problemAndSolution.solution, userSolution);
+                    problemAndSolution.solution, userSolution.trim());
 
                 checkSolutionCurrentStatus(problemNumber);
 

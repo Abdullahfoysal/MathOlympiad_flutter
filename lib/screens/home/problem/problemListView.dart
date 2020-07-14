@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:srmcapp/designs/appBar.dart';
-import 'package:srmcapp/designs/appBardesign.dart';
 import 'package:srmcapp/designs/bottomNavBar.dart';
-import 'package:srmcapp/models/problemAndSolution.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/problem/problemList.dart';
-import 'package:srmcapp/screens/home/problem/problemProfile.dart';
-import 'package:srmcapp/services/auth.dart';
-import 'package:srmcapp/services/database.dart';
-import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
-import 'package:srmcapp/shared/constant.dart';
 
 class ProblemListView extends StatefulWidget {
   ///created userActivity here

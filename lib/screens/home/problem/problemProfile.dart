@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:srmcapp/designs/appBardesign.dart';
 import 'package:srmcapp/designs/bottomNavBar.dart';
 import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/designs/submitSolution.dart';

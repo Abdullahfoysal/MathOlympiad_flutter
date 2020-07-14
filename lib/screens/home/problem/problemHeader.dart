@@ -29,37 +29,42 @@ class ProblemHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Text(
-                problemId,
-                style: problemHeaderTextStyle,
-              ),
-              Text(
-                rating,
-                style: problemHeaderTextStyle,
-              ),
-              Text(
-                category,
-                style: problemHeaderTextStyle,
-              ),
-            ],
+          Expanded(
+            child: Column(
+              children: <Widget>[
+                Text(
+                  problemId,
+                  style: problemHeaderTextStyle,
+                ),
+                Text(
+                  rating,
+                  style: problemHeaderTextStyle,
+                ),
+                Text(
+                  category,
+                  style: problemHeaderTextStyle,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
-          Column(
-            children: <Widget>[
-              Text(
-                setter,
-                style: problemHeaderTextStyle,
-              ),
-              Text(
-                'Approver: saikat',
-                style: problemHeaderTextStyle,
-              ),
-              Text(
-                'Last Update: 12/2/2020',
-                style: problemHeaderTextStyle,
-              ),
-            ],
+          Expanded(
+            child: Column(
+              children: <Widget>[
+                Text(
+                  setter,
+                  style: problemHeaderTextStyle,
+                ),
+                /* Text(
+                  'Approver: saikat',
+                  style: problemHeaderTextStyle,
+                ),
+                Text(
+                  'Last Update: 12/2/2020',
+                  style: problemHeaderTextStyle,
+                ),*/
+              ],
+            ),
           ),
         ],
       ),
