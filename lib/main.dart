@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
           home: new SplashScreen(
-              seconds: 8,
+              seconds: 6,
               navigateAfterSeconds: new Wrapper(),
               title: new Text(
                 '    Welcome \nMathOlympiad',

@@ -89,7 +89,7 @@ class AppBar2 extends StatelessWidget {
                                   userActivity.userPreference != null
                                       ? userActivity.userPreference.ranking
                                           .toString()
-                                      : 'loading',
+                                      : '1',
                                   style: TextStyle(
                                       color: Colors.blueAccent,
                                       fontWeight: FontWeight.bold,

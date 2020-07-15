@@ -227,13 +227,14 @@ class _RegisterState extends State<Register> {
           ),
           onPressed: () {
             Navigator.pop(context);
-            Navigator.pop(context);
-            Navigator.push(
+            _auth.signOut();
+            widget.togleView();
+            /*Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => Wrapper(),
               ),
-            );
+            );*/
           },
           color: Color.fromRGBO(0, 179, 134, 1.0),
           radius: BorderRadius.circular(20.0),
