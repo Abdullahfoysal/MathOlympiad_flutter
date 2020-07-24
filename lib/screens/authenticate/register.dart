@@ -125,7 +125,7 @@ class _RegisterState extends State<Register> {
                                 },
                               )),
                           validator: (val) {
-                            return (val.length < 6 &&
+                            return (val.length < 6 ||
                                     password != confirmPassword)
                                 ? 'Enter confirm password correctly'
                                 : null;
@@ -172,12 +172,12 @@ class _RegisterState extends State<Register> {
                                       error = 'Check your Email and Confirm';
                                     });
                                   } else {
-                                    alertFunction(
+                                    alertPressButton(
                                         'Registration',
-                                        'This email is already verified!\nConfirm again or forgot password?',
+                                        'This email is already verified!\nSign in or forgot password?',
                                         AlertType.warning);
                                     setState(() {
-                                      verified = true;
+                                      verified = false;
                                       loading = false;
                                       error = 'Register with New email';
                                     });
