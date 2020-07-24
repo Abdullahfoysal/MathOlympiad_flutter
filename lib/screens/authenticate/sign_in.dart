@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -63,7 +64,9 @@ class _SignInState extends State<SignIn> {
                             decoration:
                                 textInputDecoration.copyWith(hintText: 'Email'),
                             validator: (val) {
-                              return val.isEmpty ? 'Enter valid Email' : null;
+                              return !EmailValidator.validate(val.trim())
+                                  ? 'Enter valid Email'
+                                  : null;
                             },
                             onChanged: (val) {
                               setState(() {
@@ -204,7 +207,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             decoration:
                                 textInputDecoration.copyWith(hintText: 'Email'),
                             validator: (val) {
-                              return val.isEmpty ? 'Enter valid Email' : null;
+                              return !EmailValidator.validate(val.trim())
+                                  ? 'Enter valid Email'
+                                  : null;
                             },
                             onChanged: (val) {
                               setState(() {

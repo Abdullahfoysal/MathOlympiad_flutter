@@ -65,11 +65,26 @@ class DatabaseService {
     });
   }
 
+  Future<String> userAvailableCheck(String uid) async {
+    return await userReference.document(uid).get().then((document) {
+      if (document.exists)
+        return document.documentID;
+      else
+        return '###Not Available###';
+    });
+  }
+
   Stream<UserPreference> get userPreferenceStream {
-    return userReference
-        .document(uid)
-        .snapshots()
-        .map(_userPreferenceFromSnapshot);
+    try {
+      return userReference
+          .document(uid)
+          .snapshots()
+          .map(_userPreferenceFromSnapshot)
+          .handleError((e) {});
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
 
   UserPreference _userPreferenceFromSnapshot(DocumentSnapshot snapshot) {

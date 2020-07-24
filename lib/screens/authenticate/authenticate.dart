@@ -5,18 +5,12 @@ import 'package:srmcapp/screens/authenticate/register.dart';
 import 'package:srmcapp/screens/authenticate/sign_in.dart';
 
 class Authenticate extends StatefulWidget {
-  final User user;
-
-  Authenticate(this.user);
-
   @override
-  _AuthenticateState createState() => _AuthenticateState(user);
+  _AuthenticateState createState() => _AuthenticateState();
 }
 
 class _AuthenticateState extends State<Authenticate> {
-  final User user;
-
-  _AuthenticateState(this.user);
+  _AuthenticateState();
 
   bool showSignIn = true;
   void togleView() {
@@ -41,7 +35,6 @@ class _AuthenticateState extends State<Authenticate> {
           onWillPop: _onBackPressed,
           child: Register(
             togleView: togleView,
-            user: user,
           ),
         ),
       );

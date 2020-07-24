@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,22 +9,22 @@ import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/home.dart';
 import 'package:srmcapp/screens/wrapper.dart';
 import 'package:srmcapp/services/auth.dart';
+import 'package:srmcapp/services/database.dart';
 import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
+import 'package:srmcapp/shared/errorMessage.dart';
+
+import 'sign_in.dart';
 
 class Register extends StatefulWidget {
-  final User user;
   final Function togleView;
-  Register({this.togleView, this.user});
+  Register({this.togleView});
 
   @override
-  _RegisterState createState() => _RegisterState(user);
+  _RegisterState createState() => _RegisterState();
 }
 
 class _RegisterState extends State<Register> {
-  final User user;
-
-  _RegisterState(this.user);
   bool verified = false;
   bool suffixIconShow = true;
   bool loading = false;
@@ -32,7 +33,9 @@ class _RegisterState extends State<Register> {
   //text field property
   String email = '';
   String password = '';
+  String confirmPassword = '';
   String error = '';
+  String uid = '';
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +73,9 @@ class _RegisterState extends State<Register> {
                           decoration:
                               textInputDecoration.copyWith(hintText: 'Email'),
                           validator: (val) {
-                            return val.isEmpty ? 'Enter Valid Email' : null;
+                            return !EmailValidator.validate(val.trim())
+                                ? 'Enter Valid Email'
+                                : null;
                           },
                           onChanged: (val) {
                             setState(() {
@@ -96,11 +101,37 @@ class _RegisterState extends State<Register> {
                               )),
                           validator: (val) {
                             return val.length < 6
-                                ? 'Enter at least 6 digit passwords'
+                                ? 'Enter at least 6 digit password'
                                 : null;
                           },
                           onChanged: (val) {
                             setState(() => password = val);
+                          },
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        TextFormField(
+                          initialValue: confirmPassword,
+                          obscureText: suffixIconShow,
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Confirm Password',
+                              suffixIcon: FlatButton(
+                                child: Icon(Icons.remove_red_eye),
+                                onPressed: () {
+                                  setState(() {
+                                    suffixIconShow = !suffixIconShow;
+                                  });
+                                },
+                              )),
+                          validator: (val) {
+                            return (val.length < 6 &&
+                                    password != confirmPassword)
+                                ? 'Enter confirm password correctly'
+                                : null;
+                          },
+                          onChanged: (val) {
+                            setState(() => confirmPassword = val);
                           },
                         ),
                         SizedBox(
@@ -112,7 +143,6 @@ class _RegisterState extends State<Register> {
                                 //verifyRegisterWithEmailPassword
                                 if (_formKey.currentState.validate()) {
                                   setState(() {
-                                    verified = true;
                                     loading = true;
                                   });
                                   dynamic result = await _auth
@@ -120,32 +150,101 @@ class _RegisterState extends State<Register> {
                                           email: email.trim(),
                                           password: password.trim());
 
-                                  if (result == true) {
-                                    alertFunction('Email Verification',
-                                        'Check your mail', AlertType.info);
+                                  // print('*********  ' + result.toString());
+
+                                  if (result == sentVerifyMailError) {
+                                    alertFunction(
+                                        'Email Verification',
+                                        'Something went wrong,resend mail',
+                                        AlertType.error);
                                     setState(() {
                                       loading = false;
-                                      error =
-                                          'Please enter a valid email and pass';
+                                      error = 'Resend Email verification';
+                                    });
+                                  } else if (result != null) {
+                                    await _auth.signOut();
+                                    // print('Logged out successfully');
+                                    alertFunction('Email Verification',
+                                        'Check your Email', AlertType.info);
+                                    setState(() {
+                                      verified = true;
+                                      loading = false;
+                                      error = 'Check your Email and Confirm';
                                     });
                                   } else {
-                                    alertFunction('Email Verification',
-                                        'Already verified', AlertType.error);
+                                    alertFunction(
+                                        'Registration',
+                                        'This email is already verified!\nConfirm again or forgot password?',
+                                        AlertType.warning);
                                     setState(() {
+                                      verified = true;
                                       loading = false;
                                       error = 'Register with New email';
                                     });
                                   }
                                 }
                               },
-                              icon: Icon(Icons.verified_user),
-                              color: Colors.green,
+                              icon: Icon(
+                                Icons.verified_user,
+                                color: Colors.white,
+                              ),
+                              color: Colors.green.withOpacity(0.8),
                               label: Text('Verify Now')),
-                        if (verified == true)
+                        if (verified == true) ...[
+                          RaisedButton.icon(
+                            icon: Icon(
+                              Icons.refresh,
+                              color: Colors.white,
+                            ),
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                setState(() {
+                                  loading = true;
+                                });
+                                dynamic result = await _auth.resendVerification(
+                                    email: email.trim(),
+                                    password: password.trim());
+
+                                // print('*********  ' + result.toString());
+
+                                if (result == sentVerifyMailError) {
+                                  alertFunction(
+                                      'Email Verification',
+                                      'ERROR_TOO_MANY_REQUESTS\nResend after 1 minutes',
+                                      AlertType.error);
+                                  setState(() {
+                                    loading = false;
+                                    error = 'Resend Email verification';
+                                  });
+                                } else if (result == true) {
+                                  await _auth.signOut();
+                                  //print('Logged out successfully');
+                                  alertFunction('Email Verification',
+                                      'Check your Email', AlertType.info);
+                                  setState(() {
+                                    verified = true;
+                                    loading = false;
+                                    error = 'Check your Email and Confirm';
+                                  });
+                                } else {
+                                  alertFunction(
+                                      'Resend failed',
+                                      'Verification can\'t be send!\nResend again?',
+                                      AlertType.error);
+                                  setState(() {
+                                    verified = true;
+                                    loading = false;
+                                    error = 'Register with New email';
+                                  });
+                                }
+                              }
+                            },
+                            label: Text('Resend verification'),
+                          ),
                           RaisedButton(
-                            color: Colors.pink[400],
+                            color: Colors.lightGreen,
                             child: Text(
-                              'Register',
+                              'Confirm Registration',
                               style: TextStyle(
                                 color: Colors.white,
                               ),
@@ -155,14 +254,20 @@ class _RegisterState extends State<Register> {
                                 setState(() {
                                   loading = true;
                                 });
+
+                                ///check is verified user
+
                                 User result =
-                                    await _auth.registerWithEmailPassword(
+                                    await _auth.signInWithEmailPassword(
                                         email: email.trim(),
                                         password: password.trim());
                                 if (result != null) {
-                                  setState(() {
+                                  //account created to firestore
+
+                                  /* setState(() {
                                     loading = false;
-                                  });
+                                    error = 'successfully registered';
+                                  });*/
                                   alertPressButton('Registration',
                                       'Successfully Done', AlertType.success);
                                 }
@@ -172,13 +277,15 @@ class _RegisterState extends State<Register> {
                                     error = 'Check your mail is correct!';
                                   });
                                   alertFunction(
-                                      'Registration',
-                                      'Please verify your mail',
+                                      'Registration failed',
+                                      'Don\'t forget to verify mail',
                                       AlertType.error);
                                 }
                               }
                             },
                           ),
+                        ],
+
                         /*: Text('Check Email Verification'),*/
                         Text(
                           error,
@@ -228,6 +335,8 @@ class _RegisterState extends State<Register> {
           onPressed: () {
             Navigator.pop(context);
             _auth.signOut();
+            _auth.signInWithEmailPassword(
+                email: email.trim(), password: password.trim());
             widget.togleView();
             /*Navigator.push(
               context,

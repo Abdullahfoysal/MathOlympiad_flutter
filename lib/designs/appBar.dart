@@ -89,7 +89,7 @@ class AppBar2 extends StatelessWidget {
                                   userActivity.userPreference != null
                                       ? userActivity.userPreference.ranking
                                           .toString()
-                                      : '1',
+                                      : 'Tab',
                                   style: TextStyle(
                                       color: Colors.blueAccent,
                                       fontWeight: FontWeight.bold,
