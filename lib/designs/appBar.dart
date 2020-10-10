@@ -18,7 +18,7 @@ import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
 
 class AppBar2 extends StatelessWidget {
-  final User user;
+  final UserModel user;
   AppBar2(this.user);
 
   final Map<String, double> statisticMap = new Map();

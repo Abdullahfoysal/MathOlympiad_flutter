@@ -13,23 +13,23 @@ import 'database.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  User _userFromFirebaseUser(FirebaseUser user) {
-    return (user != null && user.isEmailVerified)
-        ? User(uid: user.uid, emailVerified: true)
+  UserModel _userFromFirebaseUser(User user) {
+    return (user != null && user.emailVerified)
+        ? UserModel(uid: user.uid, emailVerified: true)
         : null;
   }
 
   //stream of auth changes
-  Stream<User> get user {
-    return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
+  Stream<UserModel> get user {
+    return _auth.authStateChanges().map(_userFromFirebaseUser);
   }
 
   //resend verification
   Future resendVerification({String email, String password}) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(
+      UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      User user = result.user;
 
       try {
         await user.sendEmailVerification();
@@ -46,14 +46,14 @@ class AuthService {
   //Sign in with email and password
   Future signInWithEmailPassword({String email, String password}) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(
+      UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      User user = result.user;
 
       //var user = await FirebaseAuth.instance.currentUser();
       String tempUid = await DatabaseService().userAvailableCheck(user.uid);
       // print('***********' + tempUid);
-      if (user.isEmailVerified && tempUid != user.uid) {
+      if (user.emailVerified && tempUid != user.uid) {
         //create userPreference
 
         await DatabaseService(uid: user.uid).updateUserData(
@@ -82,10 +82,10 @@ class AuthService {
   Future verifyRegisterWithEmailPassword(
       {String email, String password}) async {
     try {
-      AuthResult result = await _auth.createUserWithEmailAndPassword(
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
-      FirebaseUser user = result.user;
+      User user = result.user;
 
       try {
         await user.sendEmailVerification();
@@ -103,41 +103,6 @@ class AuthService {
     }
     return null;
   }
-
-  /* //Register
-  Future registerWithEmailPassword({String email, String password}) async {
-    try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      FirebaseUser user = result.user;
-      // _auth.signOut();
-
-      //var user = await FirebaseAuth.instance.currentUser();
-      String tempUid = await DatabaseService().userAvailableCheck(user.uid);
-     // print('***********' + tempUid);
-      if (user.isEmailVerified && tempUid != user.uid) {
-        //create userPreference
-
-        await DatabaseService(uid: user.uid).updateUserData(
-          name: email,
-          favourite: problemFavouriteState,
-          solvingString: solvingStringDefault,
-          imageUrl: imageUrlOfRegister,
-          bloodGroup: 'AB+',
-          ranking: 1,
-          totalSolved: 0,
-          totalWrong: 0,
-          institution: 'institution',
-        );
-        return _userFromFirebaseUser(user);
-      } else {
-        return null;
-      }
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }*/
 
   //sign out
   Future signOut() async {

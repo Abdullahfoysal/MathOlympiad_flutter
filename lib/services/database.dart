@@ -12,9 +12,9 @@ class DatabaseService {
 
   //collection Reference
   final CollectionReference problemCollection =
-      Firestore.instance.collection('problemAndSolutions');
+      FirebaseFirestore.instance.collection('problemAndSolutions');
   final CollectionReference userReference =
-      Firestore.instance.collection('userPreferences');
+      FirebaseFirestore.instance.collection('userPreferences');
   final FirebaseStorage _storage =
       FirebaseStorage(storageBucket: 'gs://srmc-a3f30.appspot.com');
 
@@ -31,7 +31,7 @@ class DatabaseService {
     String bloodGroup,
     int ranking,
   }) async {
-    return await userReference.document(uid).setData({
+    return await userReference.doc(uid).set({
       'name': name ?? userPreference.name,
       'favourite': favourite ?? userPreference.favourite,
       'solvingString': solvingString ?? userPreference.solvingString,
@@ -45,19 +45,19 @@ class DatabaseService {
   }
 
   updateProblemSolvingCount(int problemId, bool isSolved) async {
-    problemCollection.getDocuments().then((snap) {
-      snap.documents.forEach((doc) {
+    problemCollection.get().then((snap) {
+      snap.docs.forEach((doc) {
         //print(doc.data['problemId']);
-        if (doc.data['problemId'] == problemId) {
+        if (doc.get('problemId') == problemId) {
           //print(doc.documentID + '****************');
           String updateField = '';
           int updatedValue = 0;
           isSolved == true ? updateField = 'solved' : updateField = 'wrong';
           isSolved == true
-              ? updatedValue = doc.data['solved'] + 1
-              : updatedValue = doc.data['wrong'] + 1;
+              ? updatedValue = doc.get('solved') + 1
+              : updatedValue = doc.get('wrong') + 1;
 
-          problemCollection.document(doc.documentID).updateData({
+          problemCollection.doc(doc.id).update({
             updateField: updatedValue,
           });
         }
@@ -66,9 +66,9 @@ class DatabaseService {
   }
 
   Future<String> userAvailableCheck(String uid) async {
-    return await userReference.document(uid).get().then((document) {
+    return await userReference.doc(uid).get().then((document) {
       if (document.exists)
-        return document.documentID;
+        return document.id;
       else
         return '###Not Available###';
     });
@@ -77,7 +77,7 @@ class DatabaseService {
   Stream<UserPreference> get userPreferenceStream {
     try {
       return userReference
-          .document(uid)
+          .doc(uid)
           .snapshots()
           .map(_userPreferenceFromSnapshot)
           .handleError((e) {});
@@ -89,15 +89,15 @@ class DatabaseService {
 
   UserPreference _userPreferenceFromSnapshot(DocumentSnapshot snapshot) {
     return UserPreference(
-      name: snapshot.data['name'] ?? loadingName,
-      favourite: snapshot.data['favourite'] ?? problemFavouriteState,
-      solvingString: snapshot.data['solvingString'] ?? loadingSolvingString,
-      imageUrl: snapshot.data['imageUrl'],
-      totalSolved: snapshot.data['totalSolved'],
-      totalWrong: snapshot.data['totalWrong'],
-      institution: snapshot.data['institution'],
-      bloodGroup: snapshot.data['bloodGroup'],
-      ranking: snapshot.data['ranking'],
+      name: snapshot.get('name') ?? loadingName,
+      favourite: snapshot.get('favourite') ?? problemFavouriteState,
+      solvingString: snapshot.get('solvingString') ?? loadingSolvingString,
+      imageUrl: snapshot.get('imageUrl'),
+      totalSolved: snapshot.get('totalSolved'),
+      totalWrong: snapshot.get('totalWrong'),
+      institution: snapshot.get('institution'),
+      bloodGroup: snapshot.get('bloodGroup'),
+      ranking: snapshot.get('ranking'),
     );
   }
 
@@ -109,20 +109,20 @@ class DatabaseService {
   List<UserPreference> _userRankingData(QuerySnapshot snapshot) {
     int myRank = 0;
 
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       myRank = myRank + 1;
-      if (doc.documentID.toString() == uid) {
-        userReference.document(uid).updateData({
+      if (doc.id.toString() == uid) {
+        userReference.doc(uid).update({
           'ranking': myRank,
         });
       }
       return UserPreference(
-        name: doc.data['name'] ?? 'loadingName',
-        institution: doc.data['institution'] ?? 'loadingName',
-        totalSolved: doc.data['totalSolved'] ?? 0,
-        totalWrong: doc.data['totalWrong'] ?? 0,
-        imageUrl: doc.data['imageUrl'] ?? imageUrlOfRegister,
-        bloodGroup: doc.data['bloodGroup'] ?? 'Blood Group',
+        name: doc.get('name') ?? 'loadingName',
+        institution: doc.get('institution') ?? 'loadingName',
+        totalSolved: doc.get('totalSolved') ?? 0,
+        totalWrong: doc.get('totalWrong') ?? 0,
+        imageUrl: doc.get('imageUrl') ?? imageUrlOfRegister,
+        bloodGroup: doc.get('bloodGroup') ?? 'Blood Group',
       );
     }).toList();
   }
@@ -145,17 +145,17 @@ class DatabaseService {
   //return problemAndSolution List
   List<ProblemAndSolution> _problemAndSolutionFromSnapshot(
       QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return ProblemAndSolution(
-        problemId: doc.data['problemId'] ?? 0,
-        title: doc.data['title'] ?? loadingTitle,
-        problemText: doc.data['problemText'] ?? loadingProblemText,
-        solution: doc.data['solution'] ?? loadingSolution,
-        category: doc.data['category'] ?? loadingCategory,
-        setter: doc.data['setter'] ?? 'loading',
-        rating: doc.data['rating'] ?? loadingRating,
-        solved: doc.data['solved'] ?? loadingSolved,
-        wrong: doc.data['wrong'] ?? loadingWrong,
+        problemId: doc.get('problemId') ?? 0,
+        title: doc.get('title') ?? loadingTitle,
+        problemText: doc.get('problemText') ?? loadingProblemText,
+        solution: doc.get('solution') ?? loadingSolution,
+        category: doc.get('category') ?? loadingCategory,
+        setter: doc.get('setter') ?? 'loading',
+        rating: doc.get('rating') ?? loadingRating,
+        solved: doc.get('solved') ?? loadingSolved,
+        wrong: doc.get('wrong') ?? loadingWrong,
       );
     }).toList();
   }

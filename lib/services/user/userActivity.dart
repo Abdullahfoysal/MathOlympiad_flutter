@@ -9,7 +9,7 @@ import 'package:srmcapp/shared/constant.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class UserActivity {
-  User user;
+  UserModel user;
   UserPreference userPreference;
   Map<int, int> favouriteProblemMap = new Map();
   Map<int, int> solvingStatusMap = new Map();
