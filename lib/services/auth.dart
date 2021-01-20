@@ -19,7 +19,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   UserModel _userFromFirebaseUser(FirebaseUser user) {
-    return (user != null && user.isEmailVerified)
+    return (user != null /*&& user.isEmailVerified*/)
         ? UserModel(uid: user.uid, emailVerified: true)
         : null;
   }
