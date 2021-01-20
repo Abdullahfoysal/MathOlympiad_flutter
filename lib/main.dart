@@ -25,11 +25,11 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return StreamProvider<User>.value(
+    return StreamProvider<UserModel>.value(
       value: AuthService().user,
       child: MaterialApp(
           home: new SplashScreen(
-              seconds: 6,
+              seconds: 3,
               navigateAfterSeconds: new Wrapper(),
               title: new Text(
                 '    Welcome \nMathOlympiad',

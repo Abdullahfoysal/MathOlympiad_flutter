@@ -19,14 +19,14 @@ import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
 
 class Home extends StatefulWidget {
-  final User user;
+  final UserModel user;
   Home({this.user});
   @override
   _HomeState createState() => _HomeState(user: user);
 }
 
 class _HomeState extends State<Home> {
-  final User user;
+  final UserModel user;
   _HomeState({this.user});
 
   @override

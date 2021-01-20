@@ -17,15 +17,11 @@ import 'package:srmcapp/shared/errorMessage.dart';
 import 'sign_in.dart';
 
 class Register extends StatefulWidget {
-  final Function togleView;
-  Register({this.togleView});
-
   @override
   _RegisterState createState() => _RegisterState();
 }
 
 class _RegisterState extends State<Register> {
-  bool verified = false;
   bool suffixIconShow = true;
   bool loading = false;
   final AuthService _auth = AuthService();
@@ -35,27 +31,12 @@ class _RegisterState extends State<Register> {
   String password = '';
   String confirmPassword = '';
   String error = '';
-  String uid = '';
 
   @override
   Widget build(BuildContext context) {
     return loading
         ? Loading()
         : Scaffold(
-            appBar: AppBar(
-              backgroundColor: appBarColor,
-              elevation: 0.0,
-              title: Text('Register'),
-              actions: <Widget>[
-                FlatButton.icon(
-                  icon: Icon(Icons.person),
-                  label: Text('SignIn'),
-                  onPressed: () {
-                    widget.togleView();
-                  },
-                )
-              ],
-            ),
             body: Container(
               decoration: backgroundGradient,
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
@@ -137,156 +118,41 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        if (verified == false)
-                          RaisedButton.icon(
-                              onPressed: () async {
-                                //verifyRegisterWithEmailPassword
-                                if (_formKey.currentState.validate()) {
-                                  setState(() {
-                                    loading = true;
-                                  });
-                                  dynamic result = await _auth
-                                      .verifyRegisterWithEmailPassword(
-                                          email: email.trim(),
-                                          password: password.trim());
-
-                                  // print('*********  ' + result.toString());
-
-                                  if (result == sentVerifyMailError) {
-                                    alertFunction(
-                                        'Email Verification',
-                                        'Something went wrong,resend mail',
-                                        AlertType.error);
-                                    setState(() {
-                                      loading = false;
-                                      error = 'Resend Email verification';
-                                    });
-                                  } else if (result != null) {
-                                    await _auth.signOut();
-                                    // print('Logged out successfully');
-                                    alertFunction('Email Verification',
-                                        'Check your Email', AlertType.info);
-                                    setState(() {
-                                      verified = true;
-                                      loading = false;
-                                      error = 'Check your Email and Confirm';
-                                    });
-                                  } else {
-                                    alertPressButton(
-                                        'Registration',
-                                        'This email is already verified!\nSign in or forgot password?',
+                        FlatButton.icon(
+                            color: Colors.green,
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                setState(() {
+                                  loading = true;
+                                });
+                                await _auth
+                                    .registerNewUser(
+                                        email: email.trim(),
+                                        password: password.trim())
+                                    .then((value) {
+                                  if (value != null) {
+                                    alertFunction('Register Request', value,
                                         AlertType.warning);
                                     setState(() {
-                                      verified = false;
+                                      error = value;
                                       loading = false;
-                                      error = 'Register with New email';
+                                    });
+                                  } else {
+                                    alertFunction(
+                                        'Register Request',
+                                        'Check your email to verify account',
+                                        AlertType.success);
+                                    setState(() {
+                                      loading = false;
+                                      error =
+                                          'Check your email to verify account';
                                     });
                                   }
-                                }
-                              },
-                              icon: Icon(
-                                Icons.verified_user,
-                                color: Colors.white,
-                              ),
-                              color: Colors.green.withOpacity(0.8),
-                              label: Text('Verify Now')),
-                        if (verified == true) ...[
-                          RaisedButton.icon(
-                            icon: Icon(
-                              Icons.refresh,
-                              color: Colors.white,
-                            ),
-                            onPressed: () async {
-                              if (_formKey.currentState.validate()) {
-                                setState(() {
-                                  loading = true;
                                 });
-                                dynamic result = await _auth.resendVerification(
-                                    email: email.trim(),
-                                    password: password.trim());
-
-                                // print('*********  ' + result.toString());
-
-                                if (result == sentVerifyMailError) {
-                                  alertFunction(
-                                      'Email Verification',
-                                      'ERROR_TOO_MANY_REQUESTS\nResend after 1 minutes',
-                                      AlertType.error);
-                                  setState(() {
-                                    loading = false;
-                                    error = 'Resend Email verification';
-                                  });
-                                } else if (result == true) {
-                                  await _auth.signOut();
-                                  //print('Logged out successfully');
-                                  alertFunction('Email Verification',
-                                      'Check your Email', AlertType.info);
-                                  setState(() {
-                                    verified = true;
-                                    loading = false;
-                                    error = 'Check your Email and Confirm';
-                                  });
-                                } else {
-                                  alertFunction(
-                                      'Resend failed',
-                                      'Verification can\'t be send!\nResend again?',
-                                      AlertType.error);
-                                  setState(() {
-                                    verified = true;
-                                    loading = false;
-                                    error = 'Register with New email';
-                                  });
-                                }
                               }
                             },
-                            label: Text('Resend verification'),
-                          ),
-                          RaisedButton(
-                            color: Colors.lightGreen,
-                            child: Text(
-                              'Confirm Registration',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                            onPressed: () async {
-                              if (_formKey.currentState.validate()) {
-                                setState(() {
-                                  loading = true;
-                                });
-
-                                ///check is verified user
-
-                                User result =
-                                    await _auth.signInWithEmailPassword(
-                                        email: email.trim(),
-                                        password: password.trim());
-                                if (result != null) {
-                                  //account created to firestore
-
-                                  /* setState(() {
-                                    loading = false;
-                                    error = 'successfully registered';
-                                  });*/
-                                  alertPressButton('Registration',
-                                      'Successfully Done', AlertType.success);
-                                }
-                                if (result == null) {
-                                  setState(() {
-                                    loading = false;
-                                    error = 'Check your mail is correct!';
-                                  });
-                                  alertFunction(
-                                      'Registration failed',
-                                      'Don\'t forget to verify mail',
-                                      AlertType.error);
-                                }
-                              }
-                            },
-                          ),
-                        ],
-
-                        /*: Text('Check Email Verification'),*/
+                            icon: Icon(Icons.keyboard_arrow_right),
+                            label: Text('Create Account')),
                         Text(
                           error,
                           style: TextStyle(color: Colors.yellow, fontSize: 15),
@@ -337,13 +203,6 @@ class _RegisterState extends State<Register> {
             _auth.signOut();
             _auth.signInWithEmailPassword(
                 email: email.trim(), password: password.trim());
-            widget.togleView();
-            /*Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Wrapper(),
-              ),
-            );*/
           },
           color: Color.fromRGBO(0, 179, 134, 1.0),
           radius: BorderRadius.circular(20.0),

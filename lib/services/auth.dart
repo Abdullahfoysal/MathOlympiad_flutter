@@ -8,19 +8,24 @@ import 'package:srmcapp/services/database.dart';
 import 'package:srmcapp/shared/constant.dart';
 import 'package:srmcapp/shared/errorMessage.dart';
 
+import '../shared/errorMessage.dart';
+import '../shared/errorMessage.dart';
+import '../shared/errorMessage.dart';
+import '../shared/errorMessage.dart';
+import '../shared/errorMessage.dart';
 import 'database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  User _userFromFirebaseUser(FirebaseUser user) {
+  UserModel _userFromFirebaseUser(FirebaseUser user) {
     return (user != null && user.isEmailVerified)
-        ? User(uid: user.uid, emailVerified: true)
+        ? UserModel(uid: user.uid, emailVerified: true)
         : null;
   }
 
   //stream of auth changes
-  Stream<User> get user {
+  Stream<UserModel> get user {
     return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
   }
 
@@ -35,8 +40,7 @@ class AuthService {
         await user.sendEmailVerification();
         return true;
       } catch (e) {
-        print(e.toString());
-        return sentVerifyMailError;
+        return 'sentVerifyMailError';
       }
     } catch (e) {
       return null;
@@ -44,100 +48,67 @@ class AuthService {
   }
 
   //Sign in with email and password
-  Future signInWithEmailPassword({String email, String password}) async {
+  Future<String> signInWithEmailPassword(
+      {String email, String password}) async {
     try {
       AuthResult result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
-
-      //var user = await FirebaseAuth.instance.currentUser();
-      String tempUid = await DatabaseService().userAvailableCheck(user.uid);
-      // print('***********' + tempUid);
-      if (user.isEmailVerified && tempUid != user.uid) {
-        //create userPreference
-
-        await DatabaseService(uid: user.uid).updateUserData(
-          name: email,
-          favourite: problemFavouriteState,
-          solvingString: solvingStringDefault,
-          imageUrl: imageUrlOfRegister,
-          bloodGroup: 'AB+',
-          ranking: 1,
-          totalSolved: 0,
-          totalWrong: 0,
-          institution: 'institution',
-        );
-        return _userFromFirebaseUser(user);
-      }
-
-      ///check if not created
-      return _userFromFirebaseUser(user);
     } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }
-
-  //verify email
-  Future verifyRegisterWithEmailPassword(
-      {String email, String password}) async {
-    try {
-      AuthResult result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-
-      FirebaseUser user = result.user;
-
-      try {
-        await user.sendEmailVerification();
-        return user.uid;
-      } catch (e) {
-        // print('An error occured when email verify');
-        //  print('##########');
-        print(e.toString());
-        return sentVerifyMailError;
-      }
-    } catch (e) {
-      //print('##########');
-      print(e.toString());
-      return null;
+      if (e.toString() == networkErrorMessage)
+        return 'Check Network connectivity';
+      else if (e.toString() == userNotFoundMessage) {
+        return 'No user found with this email';
+      } else if (e.toString() == wrongPasswordMessage) {
+        return 'Enter password correctly';
+      } else
+        return 'Try again';
     }
     return null;
   }
 
-  /* //Register
-  Future registerWithEmailPassword({String email, String password}) async {
+  //verify email
+  Future<String> registerNewUser({String email, String password}) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      FirebaseUser user = result.user;
-      // _auth.signOut();
-
-      //var user = await FirebaseAuth.instance.currentUser();
-      String tempUid = await DatabaseService().userAvailableCheck(user.uid);
-     // print('***********' + tempUid);
-      if (user.isEmailVerified && tempUid != user.uid) {
-        //create userPreference
-
-        await DatabaseService(uid: user.uid).updateUserData(
-          name: email,
-          favourite: problemFavouriteState,
-          solvingString: solvingStringDefault,
-          imageUrl: imageUrlOfRegister,
-          bloodGroup: 'AB+',
-          ranking: 1,
-          totalSolved: 0,
-          totalWrong: 0,
-          institution: 'institution',
-        );
-        return _userFromFirebaseUser(user);
-      } else {
-        return null;
-      }
+      return await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) async {
+        FirebaseUser user = value.user;
+        return await user.sendEmailVerification().then((value) async {
+          return await DatabaseService(uid: user.uid)
+              .updateUserData(
+            name: email,
+            favourite: problemFavouriteState,
+            solvingString: solvingStringDefault,
+            imageUrl: imageUrlOfRegister,
+            bloodGroup: 'Blood Group',
+            ranking: 1,
+            totalSolved: 0,
+            totalWrong: 0,
+            institution: 'institution',
+          )
+              .then((value) async {
+            return await signInWithEmailPassword(
+                email: email, password: password);
+          });
+        }).catchError((e) {
+          if (e.toString() == networkErrorMessage)
+            return 'Network Error,Send Email verification again';
+          else
+            return 'Send Email verification again';
+        });
+      });
     } catch (e) {
-      print(e.toString());
+      if (e.toString() == emailAlreadyUsedMessage)
+        return 'Email Already Used';
+      else if (e.toString() == networkErrorMessage)
+        return 'Check Network Connectivity';
+      else
+        return 'Try again';
       return null;
     }
-  }*/
+    return null;
+  }
 
   //sign out
   Future signOut() async {

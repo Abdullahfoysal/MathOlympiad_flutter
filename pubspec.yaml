@@ -24,13 +24,9 @@ dependencies:
   rflutter_alert: ^1.0.3
   fluttertoast: ^4.0.0
   connectivity: ^0.4.8+6
-  syncfusion_flutter_charts: ^18.1.55
+  syncfusion_flutter_charts: ^18.4.35
   splashscreen: ^1.2.0
   email_validator: ^1.0.5
-
-
-
-
 
 
 dev_dependencies:

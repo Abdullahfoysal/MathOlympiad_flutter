@@ -8,9 +8,6 @@ import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
 
 class SignIn extends StatefulWidget {
-  final Function togleView;
-  SignIn({this.togleView});
-
   @override
   _SignInState createState() => _SignInState();
 }
@@ -30,23 +27,6 @@ class _SignInState extends State<SignIn> {
     return loading
         ? Loading()
         : Scaffold(
-            appBar: AppBar(
-              backgroundColor: appBarColor,
-              elevation: 0.0,
-              title: Text('Sign in'),
-              actions: <Widget>[
-                FlatButton.icon(
-                  icon: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                  ),
-                  label: Text('Register'),
-                  onPressed: () {
-                    widget.togleView();
-                  },
-                )
-              ],
-            ),
             body: Center(
               child: Container(
                 decoration: backgroundGradient,
@@ -65,7 +45,7 @@ class _SignInState extends State<SignIn> {
                                 textInputDecoration.copyWith(hintText: 'Email'),
                             validator: (val) {
                               return !EmailValidator.validate(val.trim())
-                                  ? 'Enter valid Email'
+                                  ? '*Enter valid Email'
                                   : null;
                             },
                             onChanged: (val) {
@@ -91,7 +71,7 @@ class _SignInState extends State<SignIn> {
                                 )),
                             validator: (val) {
                               return val.length < 6
-                                  ? 'Enter your 6+ password'
+                                  ? '*Enter your 6+ password'
                                   : null;
                             },
                             onChanged: (val) {
@@ -104,7 +84,7 @@ class _SignInState extends State<SignIn> {
                           RaisedButton(
                             color: Colors.pink[400],
                             child: Text(
-                              'Sign in',
+                              'Login',
                               style: TextStyle(
                                 color: Colors.white,
                               ),
@@ -114,18 +94,25 @@ class _SignInState extends State<SignIn> {
                                 setState(() {
                                   loading = true;
                                 });
-                                dynamic result =
-                                    await _auth.signInWithEmailPassword(
+
+                                await _auth
+                                    .signInWithEmailPassword(
                                         email: email.trim(),
-                                        password: password.trim());
-                                if (result == null) {
-                                  alertFunction('Request', 'Can not sign in',
-                                      AlertType.error);
-                                  setState(() {
-                                    error = 'Check your mail and password';
-                                    loading = false;
-                                  });
-                                }
+                                        password: password.trim())
+                                    .then((value) {
+                                  if (value != null) {
+                                    alertFunction('Login Request', value,
+                                        AlertType.warning);
+                                    setState(() {
+                                      error = value;
+                                      loading = false;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                  }
+                                });
                               }
                             },
                           ),

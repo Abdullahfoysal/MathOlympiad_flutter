@@ -34,8 +34,8 @@ class UserPreference {
   });
 }
 
-class User {
+class UserModel {
   final uid;
   final bool emailVerified;
-  User({this.uid, this.emailVerified});
+  UserModel({this.uid, this.emailVerified});
 }

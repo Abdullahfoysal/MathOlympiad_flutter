@@ -9,12 +9,13 @@ import 'home/home.dart';
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
+    final UserModel user = Provider.of<UserModel>(context);
     //authenticate or home
     print('Wrapper loaded');
     if (user == null)
       return Authenticate();
-    else
+    else {
       return Home(user: user);
+    }
   }
 }
