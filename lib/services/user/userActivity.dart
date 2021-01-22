@@ -278,7 +278,7 @@ class UserActivity {
   }
 
   void changeImageUrl(String imageUrl) {
-    DatabaseService(uid: user.uid, userPreference: userPreference)
+    DatabaseService(uid: user.email, userPreference: userPreference)
         .updateUserData(
       imageUrl: imageUrl,
     );
