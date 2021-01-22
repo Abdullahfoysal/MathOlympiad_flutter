@@ -38,7 +38,7 @@ class _SignInState extends State<SignIn> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: <Widget>[
-                          SizedBox(
+                          /*  SizedBox(
                             height: 20.0,
                           ),
                           TextFormField(
@@ -78,11 +78,11 @@ class _SignInState extends State<SignIn> {
                             onChanged: (val) {
                               setState(() => password = val);
                             },
-                          ),
+                          ),*/
                           SizedBox(
                             height: 20.0,
                           ),
-                          RaisedButton(
+                          /* RaisedButton(
                             color: Colors.pink[400],
                             child: Text(
                               'Login',
@@ -116,22 +116,17 @@ class _SignInState extends State<SignIn> {
                                 });
                               }
                             },
-                          ),
+                          ),*/
                           FlatButton(
+                            color: Colors.green,
                             child: Text('google signIn'),
                             onPressed: () async {
                               var result = await googleSignIn();
                               print(result);
                             },
                           ),
-                          FlatButton(
-                            child: Text('create account'),
-                            onPressed: () async {
-                              var result = await googleSignIn();
-                              print(result);
-                            },
-                          ),
-                          FlatButton(
+
+                          /* FlatButton(
                             child: Text('Forgot password?'),
                             onPressed: () {
                               Navigator.push(
@@ -140,7 +135,7 @@ class _SignInState extends State<SignIn> {
                                     builder: (context) => ForgotPassword()),
                               );
                             },
-                          ),
+                          ),*/
                           Text(
                             error,
                             style: TextStyle(

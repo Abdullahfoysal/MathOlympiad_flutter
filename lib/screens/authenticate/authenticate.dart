@@ -23,7 +23,7 @@ class _AuthenticateState extends State<Authenticate> {
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: DefaultTabController(
-        length: 2,
+        length: 1,
         child: Scaffold(
           appBar: AppBar(
               backgroundColor: appBarColor,
@@ -36,16 +36,16 @@ class _AuthenticateState extends State<Authenticate> {
                     icon: Icon(Icons.lock),
                     text: 'Login',
                   ),
-                  Tab(
+                  /*Tab(
                     icon: Icon(Icons.edit),
                     text: 'Register',
-                  ),
+                  ),*/
                 ],
               )),
           body: new TabBarView(
             children: <Widget>[
               SignIn(),
-              Register(),
+              /*Register(),*/
             ],
           ),
         ),
