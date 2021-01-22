@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:srmcapp/authentication/googleAuth.dart';
 import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/services/auth.dart';
 import 'package:srmcapp/shared/colors.dart';
@@ -114,6 +115,20 @@ class _SignInState extends State<SignIn> {
                                   }
                                 });
                               }
+                            },
+                          ),
+                          FlatButton(
+                            child: Text('google signIn'),
+                            onPressed: () async {
+                              var result = await googleSignIn();
+                              print(result);
+                            },
+                          ),
+                          FlatButton(
+                            child: Text('create account'),
+                            onPressed: () async {
+                              var result = await googleSignIn();
+                              print(result);
                             },
                           ),
                           FlatButton(

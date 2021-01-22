@@ -27,6 +27,8 @@ dependencies:
   syncfusion_flutter_charts: ^18.4.35
   splashscreen: ^1.2.0
   email_validator: ^1.0.5
+  google_sign_in: ^4.5.9
+
 
 
 dev_dependencies:

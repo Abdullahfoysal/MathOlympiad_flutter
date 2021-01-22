@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
+import 'package:srmcapp/authentication/googleAuth.dart';
 import 'package:srmcapp/designs/myProfile.dart';
 import 'package:srmcapp/designs/ranking.dart';
 import 'package:srmcapp/models/userPreference.dart';
@@ -168,7 +169,8 @@ class AppBar2 extends StatelessWidget {
                         //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
                           print('logout pressed');
-                          _auth.signOut();
+                          //_auth.signOut();
+                          signOutUser();
                         },
                       ),
                     ),

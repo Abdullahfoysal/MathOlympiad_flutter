@@ -19,8 +19,11 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   UserModel _userFromFirebaseUser(FirebaseUser user) {
-    return (user != null /*&& user.isEmailVerified*/)
-        ? UserModel(uid: user.uid, emailVerified: true)
+    return user != null
+        ? UserModel(
+            uid: user.uid,
+            email: user.email,
+            emailVerified: user.isEmailVerified)
         : null;
   }
 
@@ -93,7 +96,7 @@ class AuthService {
           });
         }).catchError((e) {
           if (e.toString() == networkErrorMessage)
-            return 'Network Error,Send Email verification again';
+            return 'Network problem,Send Email verification again';
           else
             return 'Send Email verification again';
         });

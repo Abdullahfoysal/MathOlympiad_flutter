@@ -20,41 +20,36 @@ class _AuthenticateState extends State<Authenticate> {
 
   @override
   Widget build(BuildContext context) {
-    final UserModel user = Provider.of<UserModel>(context);
     return WillPopScope(
       onWillPop: _onBackPressed,
-      child: user != null
-          ? Home(
-              user: user,
-            )
-          : DefaultTabController(
-              length: 2,
-              child: Scaffold(
-                appBar: AppBar(
-                    backgroundColor: appBarColor,
-                    elevation: 0.0,
-                    title: Text('MathOlympiad'),
-                    bottom: TabBar(
-                      isScrollable: true,
-                      tabs: <Widget>[
-                        Tab(
-                          icon: Icon(Icons.lock),
-                          text: 'Login',
-                        ),
-                        Tab(
-                          icon: Icon(Icons.edit),
-                          text: 'Register',
-                        ),
-                      ],
-                    )),
-                body: new TabBarView(
-                  children: <Widget>[
-                    SignIn(),
-                    Register(),
-                  ],
-                ),
-              ),
-            ),
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+              backgroundColor: appBarColor,
+              elevation: 0.0,
+              title: Text('MathOlympiad'),
+              bottom: TabBar(
+                isScrollable: true,
+                tabs: <Widget>[
+                  Tab(
+                    icon: Icon(Icons.lock),
+                    text: 'Login',
+                  ),
+                  Tab(
+                    icon: Icon(Icons.edit),
+                    text: 'Register',
+                  ),
+                ],
+              )),
+          body: new TabBarView(
+            children: <Widget>[
+              SignIn(),
+              Register(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

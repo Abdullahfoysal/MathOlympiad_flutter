@@ -36,6 +36,7 @@ class UserPreference {
 
 class UserModel {
   final uid;
+  final email;
   final bool emailVerified;
-  UserModel({this.uid, this.emailVerified});
+  UserModel({this.uid, this.email, this.emailVerified});
 }

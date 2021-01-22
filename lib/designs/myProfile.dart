@@ -48,7 +48,7 @@ class MyProfile extends StatelessWidget {
 
     return StreamBuilder<UserPreference>(
         stream:
-            DatabaseService(uid: userActivity.user.uid).userPreferenceStream,
+            DatabaseService(uid: userActivity.user.email).userPreferenceStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             UserPreference userPreference = snapshot.data;

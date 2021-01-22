@@ -30,7 +30,7 @@ class _ProfileFormState extends State<ProfileForm> {
     UserPreference userPreference = userActivity.userPreference;
     return StreamBuilder<UserPreference>(
         stream:
-            DatabaseService(uid: userActivity.user.uid).userPreferenceStream,
+            DatabaseService(uid: userActivity.user.email).userPreferenceStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             UserPreference userData = snapshot.data;
@@ -114,7 +114,7 @@ class _ProfileFormState extends State<ProfileForm> {
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             await DatabaseService(
-                                    uid: userActivity.user.uid,
+                                    uid: userActivity.user.email,
                                     userPreference: userData)
                                 .updateUserData(
                               name: _currentName ?? userData.name,
