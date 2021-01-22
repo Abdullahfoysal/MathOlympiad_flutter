@@ -7,12 +7,6 @@ class CreateUserAccount {
   final CollectionReference userReference =
       Firestore.instance.collection('userPreferences');
 
-  UserModel _getUserInfo(DocumentSnapshot doc) {
-    return UserModel(
-      uid: doc.documentID,
-    );
-  }
-
   /// Check If Document Exists
   Future<bool> checkIfUserExists(String emailId) async {
     try {

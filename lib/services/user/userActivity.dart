@@ -114,7 +114,7 @@ class UserActivity {
         : favouriteProblemMap[problemNumber] = 1;
 
     String favourite = mapDataToString(favouriteProblemMap);
-    DatabaseService(uid: user.uid, userPreference: userPreference)
+    DatabaseService(uid: user.email, userPreference: userPreference)
         .updateUserData(favourite: favourite);
     showToast(problemNumber, 'Change Favourite');
   }
@@ -124,7 +124,7 @@ class UserActivity {
     int totalSolved = getSolvingCount(solved);
     int totalWrong = getSolvingCount(notTouch + 1);
     String solvingString = mapDataToString(solvingStatusMap);
-    DatabaseService(uid: user.uid, userPreference: userPreference)
+    DatabaseService(uid: user.email, userPreference: userPreference)
         .updateUserData(
       solvingString: solvingString,
       totalSolved: totalSolved,

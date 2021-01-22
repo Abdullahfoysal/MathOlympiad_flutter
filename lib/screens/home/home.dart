@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
       child: MultiProvider(
         providers: [
           StreamProvider<UserPreference>.value(
-              value: DatabaseService(uid: user.uid).userPreferenceStream),
+              value: DatabaseService(uid: user.email).userPreferenceStream),
           StreamProvider<List<ProblemAndSolution>>.value(
               value: DatabaseService().problemAndSolutionStream),
         ],
