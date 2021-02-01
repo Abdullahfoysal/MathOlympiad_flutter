@@ -7,6 +7,7 @@ import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/services/auth.dart';
 import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
+import 'package:http/http.dart' as http;
 
 class SignIn extends StatefulWidget {
   @override
@@ -118,8 +119,8 @@ class _SignInState extends State<SignIn> {
                             },
                           ),*/
                           FlatButton(
-                            color: Colors.green,
-                            child: Text('google signIn'),
+                            //color: Colors.green,
+                            child: Image.asset('images/googleSignIn.png'),
                             onPressed: () async {
                               var result = await googleSignIn();
                               print(result);

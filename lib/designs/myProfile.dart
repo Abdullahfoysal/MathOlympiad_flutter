@@ -163,11 +163,15 @@ class MyProfile extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Center(
-                          child: CircleAvatar(
-                            maxRadius: 75,
-                            backgroundImage:
-                                NetworkImage(userPreference.imageUrl),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0),
+                          child: Center(
+                            child: CircleAvatar(
+                              backgroundColor: bottomNavTopCenterColor,
+                              radius: 60,
+                              backgroundImage:
+                                  NetworkImage(userPreference.imageUrl),
+                            ),
                           ),
                         ),
                         Center(

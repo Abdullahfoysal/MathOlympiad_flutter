@@ -31,6 +31,7 @@ class _ProblemListState extends State<ProblemList> {
 
     return ListView.builder(
       scrollDirection: Axis.vertical,
+      physics: ScrollPhysics(),
       shrinkWrap: true,
       itemCount: problemAndSolutions.length,
       itemBuilder: (context, index) {
