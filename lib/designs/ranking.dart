@@ -96,7 +96,7 @@ class SingleRankingList extends StatelessWidget {
   Widget build(BuildContext context) {
     loadPieChart();
     return Container(
-      height: 90.0,
+      height: 100.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -128,7 +128,8 @@ class SingleRankingList extends StatelessWidget {
                     Text(
                       rankUser.bloodGroup,
                       style: TextStyle(
-                        fontSize: 8.0,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
