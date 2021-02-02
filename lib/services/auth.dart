@@ -18,26 +18,24 @@ import 'database.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  UserModel _userFromFirebaseUser(FirebaseUser user) {
+  UserModel _userFromFirebaseUser(User user) {
     return user != null
         ? UserModel(
-            uid: user.uid,
-            email: user.email,
-            emailVerified: user.isEmailVerified)
+            uid: user.uid, email: user.email, emailVerified: user.emailVerified)
         : null;
   }
 
   //stream of auth changes
   Stream<UserModel> get user {
-    return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
+    return _auth.authStateChanges().map(_userFromFirebaseUser);
   }
 
   //resend verification
   Future resendVerification({String email, String password}) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(
+      UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      User user = result.user;
 
       try {
         await user.sendEmailVerification();
@@ -54,9 +52,9 @@ class AuthService {
   Future<String> signInWithEmailPassword(
       {String email, String password}) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(
+      UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      User user = result.user;
     } catch (e) {
       if (e.toString() == networkErrorMessage)
         return 'Check Network connectivity';

@@ -15,6 +15,7 @@ class UserPreference {
   int totalWrong = 0;
   String favourite;
   String imageUrl = imageUrlOfRegister;
+  String fcmToken;
 
   UserPreference({
     this.userType,
@@ -31,6 +32,7 @@ class UserPreference {
     this.favourite,
     this.bloodGroup,
     this.ranking,
+    this.fcmToken,
   });
 }
 

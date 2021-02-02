@@ -15,7 +15,7 @@ Future<bool> googleSignIn() async {
         accessToken: googleSignInAuthentication.accessToken);
 
     await auth.signInWithCredential(credential);
-    FirebaseUser user = await auth.currentUser();
+    //User user = await auth.currentUser;
     // print(user.email);
 
     return Future.value(true);
@@ -28,19 +28,19 @@ Future<bool> googleSignUp() async {
   if (googleSignInAccount != null) {
     GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
-    AuthCredential credential = GoogleAuthProvider.getCredential(
+    AuthCredential credential = GoogleAuthProvider.credential(
         idToken: googleSignInAuthentication.idToken,
         accessToken: googleSignInAuthentication.accessToken);
 
     await auth.signInWithCredential(credential);
-    FirebaseUser user = await auth.currentUser();
+    // FirebaseUser user = await auth.currentUser();
 
     return Future.value(true);
   }
 }
 
 Future<bool> signOutUser() async {
-  FirebaseUser user = await auth.currentUser();
+  User user = await auth.currentUser;
 
   if (user.providerData[1].providerId == 'google.com') {
     await googleSingIn.disconnect();

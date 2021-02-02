@@ -1,4 +1,5 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -8,6 +9,7 @@ import 'package:srmcapp/services/auth.dart';
 import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
 import 'package:http/http.dart' as http;
+import 'package:srmcapp/shared/notification.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -39,85 +41,9 @@ class _SignInState extends State<SignIn> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: <Widget>[
-                          /*  SizedBox(
-                            height: 20.0,
-                          ),
-                          TextFormField(
-                            decoration:
-                                textInputDecoration.copyWith(hintText: 'Email'),
-                            validator: (val) {
-                              return !EmailValidator.validate(val.trim())
-                                  ? '*Enter valid Email'
-                                  : null;
-                            },
-                            onChanged: (val) {
-                              setState(() {
-                                email = val;
-                              });
-                            },
-                          ),
                           SizedBox(
                             height: 20.0,
                           ),
-                          TextFormField(
-                            obscureText: suffixIconShow,
-                            decoration: textInputDecoration.copyWith(
-                                hintText: 'password',
-                                suffixIcon: FlatButton(
-                                  child: Icon(Icons.remove_red_eye),
-                                  onPressed: () {
-                                    setState(() {
-                                      suffixIconShow = !suffixIconShow;
-                                    });
-                                  },
-                                )),
-                            validator: (val) {
-                              return val.length < 6
-                                  ? '*Enter your 6+ password'
-                                  : null;
-                            },
-                            onChanged: (val) {
-                              setState(() => password = val);
-                            },
-                          ),*/
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          /* RaisedButton(
-                            color: Colors.pink[400],
-                            child: Text(
-                              'Login',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                            onPressed: () async {
-                              if (_formKey.currentState.validate()) {
-                                setState(() {
-                                  loading = true;
-                                });
-
-                                await _auth
-                                    .signInWithEmailPassword(
-                                        email: email.trim(),
-                                        password: password.trim())
-                                    .then((value) {
-                                  if (value != null) {
-                                    alertFunction('Login Request', value,
-                                        AlertType.warning);
-                                    setState(() {
-                                      error = value;
-                                      loading = false;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      loading = false;
-                                    });
-                                  }
-                                });
-                              }
-                            },
-                          ),*/
                           FlatButton(
                             //color: Colors.green,
                             child: Image.asset('images/googleSignIn.png'),
@@ -126,17 +52,6 @@ class _SignInState extends State<SignIn> {
                               print(result);
                             },
                           ),
-
-                          /* FlatButton(
-                            child: Text('Forgot password?'),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ForgotPassword()),
-                              );
-                            },
-                          ),*/
                           Text(
                             error,
                             style: TextStyle(

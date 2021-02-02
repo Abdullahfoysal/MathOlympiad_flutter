@@ -5,12 +5,12 @@ import 'package:srmcapp/shared/constant.dart';
 
 class CreateUserAccount {
   final CollectionReference userReference =
-      Firestore.instance.collection('userPreferences');
+      FirebaseFirestore.instance.collection('userPreferences');
 
   /// Check If Document Exists
   Future<bool> checkIfUserExists(String emailId) async {
     try {
-      var doc = await userReference.document(emailId).get();
+      var doc = await userReference.doc(emailId).get();
       if (!doc.exists) {
         await DatabaseService(uid: emailId).updateUserData(
           name: emailId,

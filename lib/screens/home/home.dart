@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ import 'package:srmcapp/services/auth.dart';
 import 'package:srmcapp/services/database.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
+import 'package:srmcapp/shared/notification.dart';
 
 class Home extends StatefulWidget {
   final UserModel user;
@@ -28,6 +30,20 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final UserModel user;
   _HomeState({this.user});
+
+  ///Notification
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String token = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.getToken().then((String token) async {
+      this.token = token;
+      await DatabaseService(uid: user.email).updateFcmToken(fcmToken: token);
+      await configureNotification(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
