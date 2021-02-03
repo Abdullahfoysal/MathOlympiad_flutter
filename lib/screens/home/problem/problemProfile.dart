@@ -1,16 +1,13 @@
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:srmcapp/designs/bottomNavBar.dart';
-import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/designs/submitSolution.dart';
 import 'package:srmcapp/models/problemAndSolution.dart';
-import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/problem/flutterTex.dart';
 import 'package:srmcapp/screens/home/problem/problemHeader.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
-import 'package:srmcapp/shared/constant.dart';
 
 class ProblemProfile extends StatelessWidget {
   final ProblemAndSolution problemAndSolution;
@@ -52,6 +49,7 @@ class ProblemProfile extends StatelessWidget {
 
               //TODO-5: submit problem and loading bar
               //TODO-4: comment & clarification section
+              ///advertisement Admob
             ],
           ),
         ),

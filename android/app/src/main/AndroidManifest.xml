@@ -9,6 +9,10 @@
         android:label="srmcapp"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
+        <!-- TODO: Replace with your real AdMob app ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1740137719828302~2962055120"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
