@@ -6,9 +6,9 @@ import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/constant.dart';
 
 class DatabaseService {
-  final String uid;
+  final String email;
   final UserPreference userPreference;
-  DatabaseService({this.uid, this.userPreference});
+  DatabaseService({this.email, this.userPreference});
 
   //collection Reference
   final CollectionReference problemCollection =
@@ -31,7 +31,7 @@ class DatabaseService {
     String bloodGroup,
     int ranking,
   }) async {
-    return await userReference.doc(uid).set({
+    return await userReference.doc(email).set({
       'name': name ?? userPreference.name,
       'favourite': favourite ?? userPreference.favourite,
       'solvingString': solvingString ?? userPreference.solvingString,
@@ -45,8 +45,13 @@ class DatabaseService {
   }
 
   Future updateFcmToken({String fcmToken}) async {
-    print('updateFcmToken');
-    return await userReference.doc(uid).update({'fcmToken': fcmToken});
+    return await userReference.doc(email).update({'fcmToken': fcmToken});
+  }
+
+  Future updateNotificationStatus({bool status}) async {
+    return await userReference
+        .doc(email)
+        .update({'notificationStatus': status});
   }
 
   updateProblemSolvingCount(int problemId, bool isSolved) async {
@@ -82,7 +87,7 @@ class DatabaseService {
   Stream<UserPreference> get userPreferenceStream {
     try {
       return userReference
-          .doc(uid)
+          .doc(email)
           .snapshots()
           .map(_userPreferenceFromSnapshot)
           .handleError((e) {});
@@ -103,11 +108,12 @@ class DatabaseService {
       institution: snapshot.get('institution'),
       bloodGroup: snapshot.get('bloodGroup'),
       ranking: snapshot.get('ranking'),
+      notificationStatus: snapshot.get('notificationStatus'),
     );
   }
 
   void getUserImageUrl() async {
-    String filePath = 'users/$uid';
+    String filePath = 'users/$email';
     var temp = await _storage.ref().child(filePath).getDownloadURL();
   }
 
@@ -116,8 +122,8 @@ class DatabaseService {
 
     return snapshot.docs.map((doc) {
       myRank = myRank + 1;
-      if (doc.id.toString() == uid) {
-        userReference.doc(uid).update({
+      if (doc.id.toString() == email) {
+        userReference.doc(email).update({
           'ranking': myRank,
         });
       }

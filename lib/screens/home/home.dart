@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
     super.initState();
     _firebaseMessaging.getToken().then((String token) async {
       this.token = token;
-      await DatabaseService(uid: user.email).updateFcmToken(fcmToken: token);
+      await DatabaseService(email: user.email).updateFcmToken(fcmToken: token);
       await configureNotification(context);
     });
   }
@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
       child: MultiProvider(
         providers: [
           StreamProvider<UserPreference>.value(
-              value: DatabaseService(uid: user.email).userPreferenceStream),
+              value: DatabaseService(email: user.email).userPreferenceStream),
           StreamProvider<List<ProblemAndSolution>>.value(
               value: DatabaseService().problemAndSolutionStream),
         ],

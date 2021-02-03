@@ -76,7 +76,7 @@ class AuthService {
           .then((value) async {
         FirebaseUser user = value.user;
         return await user.sendEmailVerification().then((value) async {
-          return await DatabaseService(uid: user.uid)
+          return await DatabaseService(email: user.uid)
               .updateUserData(
             name: email,
             favourite: problemFavouriteState,

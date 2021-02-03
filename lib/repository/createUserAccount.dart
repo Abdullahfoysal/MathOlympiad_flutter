@@ -12,7 +12,7 @@ class CreateUserAccount {
     try {
       var doc = await userReference.doc(emailId).get();
       if (!doc.exists) {
-        await DatabaseService(uid: emailId).updateUserData(
+        await DatabaseService(email: emailId).updateUserData(
           name: emailId,
           favourite: problemFavouriteState,
           solvingString: solvingStringDefault,

@@ -16,6 +16,7 @@ class UserPreference {
   String favourite;
   String imageUrl = imageUrlOfRegister;
   String fcmToken;
+  bool notificationStatus;
 
   UserPreference({
     this.userType,
@@ -33,6 +34,7 @@ class UserPreference {
     this.bloodGroup,
     this.ranking,
     this.fcmToken,
+    this.notificationStatus,
   });
 }
 

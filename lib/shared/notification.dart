@@ -129,3 +129,33 @@ Future sendImageNotification(
     ),
   );
 }
+
+Future sendNotificationToTopic(String title, String msg, String topic) async {
+  return await http.post(
+    'https://fcm.googleapis.com/fcm/send',
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+      'Authorization': 'key=$serverToken',
+    },
+    body: jsonEncode(
+      <String, dynamic>{
+        'notification': <String, dynamic>{'body': '$msg', 'title': '$title'},
+        'priority': 'high',
+        'data': <String, dynamic>{
+          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+          'id': '1',
+          'status': 'done'
+        },
+        'to': "/topics/$topic",
+      },
+    ),
+  );
+}
+
+subscribeToTopic(String topic) async {
+  await _firebaseMessaging.subscribeToTopic(topic);
+}
+
+Future unSubscribeToTopic(String topic) async {
+  await _firebaseMessaging.unsubscribeFromTopic(topic);
+}
