@@ -6,6 +6,9 @@ import 'colors.dart';
 
 int myCurrentRank = -1;
 const textInputDecoration = InputDecoration(
+    errorStyle: TextStyle(
+      color: Colors.white,
+    ),
     hintText: 'Email',
     fillColor: Colors.white,
     filled: true,

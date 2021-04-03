@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:srmcapp/models/userPreference.dart';
+import 'package:srmcapp/repository/createUserAccount.dart';
 
 import 'authenticate/authenticate.dart';
 import 'home/home.dart';
@@ -9,12 +10,33 @@ import 'home/home.dart';
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
+    final UserModel user = Provider.of<UserModel>(context);
     //authenticate or home
     print('Wrapper loaded');
     if (user == null)
       return Authenticate();
-    else
-      return Home(user: user);
+    else {
+      ///check user.email is available account
+
+      return FutureBuilder<bool>(
+        future: CreateUserAccount().checkIfUserExists(user.email), // async work
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.hasError)
+            return Text('Error: ${snapshot.error}');
+          else if (snapshot.hasData) {
+            return Home(user: user);
+          }
+          return Scaffold(
+            body: Center(
+              child: Container(
+                height: 100,
+                width: 100,
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        },
+      );
+    }
   }
 }

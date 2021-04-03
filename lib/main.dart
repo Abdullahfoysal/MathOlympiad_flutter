@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tex/flutter_tex.dart';
@@ -11,8 +12,9 @@ import 'package:srmcapp/screens/wrapper.dart';
 import 'package:srmcapp/services/auth.dart';
 import 'package:srmcapp/shared/colors.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(MyApp());
@@ -25,11 +27,11 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return StreamProvider<User>.value(
+    return StreamProvider<UserModel>.value(
       value: AuthService().user,
       child: MaterialApp(
           home: new SplashScreen(
-              seconds: 6,
+              seconds: 3,
               navigateAfterSeconds: new Wrapper(),
               title: new Text(
                 '    Welcome \nMathOlympiad',

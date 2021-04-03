@@ -33,10 +33,12 @@ class _ImageCaptureState extends State<ImageCapture> {
   ///Cropper plugin
   Future<void> _cropImage() async {
     File cropped = await ImageCropper.cropImage(
-        sourcePath: _imageFile.path,
-        compressQuality: 10,
-        cropStyle: CropStyle.circle,
-        aspectRatioPresets: [CropAspectRatioPreset.square]);
+      sourcePath: _imageFile.path,
+      compressQuality: 10,
+      cropStyle: CropStyle.circle,
+      androidUiSettings: AndroidUiSettings(),
+      aspectRatioPresets: [CropAspectRatioPreset.square],
+    );
 
     setState(() {
       _imageFile = cropped ?? _imageFile;

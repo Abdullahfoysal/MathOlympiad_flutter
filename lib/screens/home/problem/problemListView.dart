@@ -9,7 +9,7 @@ import 'package:srmcapp/shared/colors.dart';
 
 class ProblemListView extends StatefulWidget {
   ///created userActivity here
-  final User user;
+  final UserModel user;
   ProblemListView({this.user});
 
   @override
@@ -17,7 +17,7 @@ class ProblemListView extends StatefulWidget {
 }
 
 class _ProblemListViewState extends State<ProblemListView> {
-  final User user;
+  final UserModel user;
   _ProblemListViewState({this.user});
   @override
   Widget build(BuildContext context) {

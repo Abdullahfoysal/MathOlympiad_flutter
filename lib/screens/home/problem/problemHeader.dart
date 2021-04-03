@@ -17,6 +17,7 @@ class ProblemHeader extends StatelessWidget {
     String problemId = 'ProblemId: ${problemNumber.toString()}';
     String setter = 'Setter: ${problemAndSolution.setter}';
     return Container(
+      padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
       margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
@@ -31,6 +32,7 @@ class ProblemHeader extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   problemId,

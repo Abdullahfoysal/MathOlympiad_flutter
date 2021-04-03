@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/userProfile/edit_form.dart';
@@ -8,27 +9,39 @@ import 'package:srmcapp/services/database.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
+import 'package:srmcapp/shared/defaultValues.dart';
+import 'package:srmcapp/shared/notification.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class MyProfile extends StatelessWidget {
+class MyProfile extends StatefulWidget {
   final UserActivity userActivity;
 
   MyProfile(this.userActivity);
 
+  @override
+  _MyProfileState createState() => _MyProfileState();
+}
+
+class _MyProfileState extends State<MyProfile> {
   List<ChartData> chartData = [];
+
   @override
   Widget build(BuildContext context) {
     List<ChartData> updateRadialChart(List<ChartData> chartData) {
       chartData = [
-        ChartData('Accept', userActivity.getSolvingCount(solved).toDouble(),
-            colorList[0]),
         ChartData(
-            'Wrong', userActivity.getSolvingCount(2).toDouble(), colorList[1]),
-        ChartData('Final try',
-            userActivity.getSolvingCount(solved - 1).toDouble(), colorList[2]),
+            'Accept',
+            widget.userActivity.getSolvingCount(solved).toDouble(),
+            colorList[0]),
+        ChartData('Wrong', widget.userActivity.getSolvingCount(2).toDouble(),
+            colorList[1]),
+        ChartData(
+            'Final try',
+            widget.userActivity.getSolvingCount(solved - 1).toDouble(),
+            colorList[2]),
         ChartData(
             'Disable',
-            userActivity.getSolvingCount(notAllowtoSolve).toDouble(),
+            widget.userActivity.getSolvingCount(notAllowtoSolve).toDouble(),
             colorList[3]),
       ];
       return chartData;
@@ -41,14 +54,14 @@ class MyProfile extends StatelessWidget {
           builder: (context) {
             return Container(
               padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-              child: ProfileForm(userActivity),
+              child: ProfileForm(widget.userActivity),
             );
           });
     }
 
     return StreamBuilder<UserPreference>(
-        stream:
-            DatabaseService(uid: userActivity.user.uid).userPreferenceStream,
+        stream: DatabaseService(email: widget.userActivity.user.email)
+            .userPreferenceStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             UserPreference userPreference = snapshot.data;
@@ -163,11 +176,15 @@ class MyProfile extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Center(
-                          child: CircleAvatar(
-                            maxRadius: 75,
-                            backgroundImage:
-                                NetworkImage(userPreference.imageUrl),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0),
+                          child: Center(
+                            child: CircleAvatar(
+                              backgroundColor: bottomNavTopCenterColor,
+                              radius: 60,
+                              backgroundImage:
+                                  NetworkImage(userPreference.imageUrl),
+                            ),
                           ),
                         ),
                         Center(
@@ -202,29 +219,61 @@ class MyProfile extends StatelessWidget {
                         Positioned(
                           top: 2 * MediaQuery.of(context).size.height / 3,
                           left: 2 * MediaQuery.of(context).size.width / 7,
-                          child: Row(
+                          child: Column(
                             children: <Widget>[
-                              RaisedButton.icon(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ImageCapture(userActivity)),
-                                  );
-                                },
-                                icon: Icon(Icons.image),
-                                label: Text('Change'),
+                              Row(
+                                children: <Widget>[
+                                  RaisedButton.icon(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ImageCapture(
+                                                widget.userActivity)),
+                                      );
+                                    },
+                                    icon: Icon(Icons.image),
+                                    label: Text('Change'),
+                                  ),
+                                  SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  RaisedButton.icon(
+                                    onPressed: () {
+                                      _showSettingPanel();
+                                    },
+                                    icon: Icon(Icons.edit),
+                                    label: Text('Edit'),
+                                  ),
+                                ],
                               ),
                               SizedBox(
-                                width: 10.0,
+                                height: 5.0,
                               ),
-                              RaisedButton.icon(
-                                onPressed: () {
-                                  _showSettingPanel();
+                              FlutterSwitch(
+                                valueFontSize: 15.0,
+                                toggleSize: 30.0,
+                                value: widget.userActivity.userPreference
+                                    .notificationStatus,
+                                activeIcon: Icon(Icons.notifications_active),
+                                inactiveIcon: Icon(Icons.notifications),
+                                borderRadius: 10.0,
+                                padding: 3.0,
+                                showOnOff: true,
+                                onToggle: (val) async {
+                                  setState(() {
+                                    widget.userActivity.userPreference
+                                        .notificationStatus = val;
+                                  });
+                                  val == true
+                                      ? await subscribeToTopic(
+                                          defaultNewProblemNotification)
+                                      : await unSubscribeToTopic(
+                                          defaultNewProblemNotification);
+                                  await DatabaseService(
+                                          email: widget.userActivity.user.email)
+                                      .updateNotificationStatus(status: val);
                                 },
-                                icon: Icon(Icons.edit),
-                                label: Text('Edit'),
                               ),
                             ],
                           ),

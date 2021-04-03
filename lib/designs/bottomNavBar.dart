@@ -9,7 +9,7 @@ import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
 
 class BottomNavigator extends StatelessWidget {
-  final User user;
+  final UserModel user;
 
   BottomNavigator(this.user);
 

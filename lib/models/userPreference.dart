@@ -15,6 +15,8 @@ class UserPreference {
   int totalWrong = 0;
   String favourite;
   String imageUrl = imageUrlOfRegister;
+  String fcmToken;
+  bool notificationStatus;
 
   UserPreference({
     this.userType,
@@ -31,11 +33,14 @@ class UserPreference {
     this.favourite,
     this.bloodGroup,
     this.ranking,
+    this.fcmToken,
+    this.notificationStatus,
   });
 }
 
-class User {
+class UserModel {
   final uid;
+  final email;
   final bool emailVerified;
-  User({this.uid, this.emailVerified});
+  UserModel({this.uid, this.email, this.emailVerified});
 }

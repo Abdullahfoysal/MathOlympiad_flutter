@@ -10,7 +10,7 @@ import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
 
 class ProblemList extends StatefulWidget {
-  final User user;
+  final UserModel user;
   ProblemList(this.user);
 
   @override
@@ -18,7 +18,7 @@ class ProblemList extends StatefulWidget {
 }
 
 class _ProblemListState extends State<ProblemList> {
-  final User user;
+  final UserModel user;
   _ProblemListState(this.user);
 
   @override
@@ -31,6 +31,7 @@ class _ProblemListState extends State<ProblemList> {
 
     return ListView.builder(
       scrollDirection: Axis.vertical,
+      physics: ScrollPhysics(),
       shrinkWrap: true,
       itemCount: problemAndSolutions.length,
       itemBuilder: (context, index) {

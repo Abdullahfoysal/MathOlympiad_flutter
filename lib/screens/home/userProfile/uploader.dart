@@ -26,7 +26,7 @@ class _UploaderState extends State<Uploader> {
   StorageUploadTask _uploadTask;
 
   void _startUpload() {
-    String filePath = 'users/${userActivity.user.uid}';
+    String filePath = 'users/${userActivity.user.email}';
 
     setState(() {
       _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
@@ -34,7 +34,7 @@ class _UploaderState extends State<Uploader> {
   }
 
   void _changeImageUrl(BuildContext context) async {
-    String filePath = 'users/${userActivity.user.uid}';
+    String filePath = 'users/${userActivity.user.email}';
     var imageUrl = await _storage.ref().child(filePath).getDownloadURL();
     userActivity.changeImageUrl(imageUrl.toString());
     // print(imageUrl.toString());

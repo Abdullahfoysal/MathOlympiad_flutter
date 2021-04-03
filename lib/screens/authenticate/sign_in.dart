@@ -1,16 +1,17 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:srmcapp/authentication/googleAuth.dart';
 import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/services/auth.dart';
 import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
+import 'package:http/http.dart' as http;
+import 'package:srmcapp/shared/notification.dart';
 
 class SignIn extends StatefulWidget {
-  final Function togleView;
-  SignIn({this.togleView});
-
   @override
   _SignInState createState() => _SignInState();
 }
@@ -30,23 +31,6 @@ class _SignInState extends State<SignIn> {
     return loading
         ? Loading()
         : Scaffold(
-            appBar: AppBar(
-              backgroundColor: appBarColor,
-              elevation: 0.0,
-              title: Text('Sign in'),
-              actions: <Widget>[
-                FlatButton.icon(
-                  icon: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                  ),
-                  label: Text('Register'),
-                  onPressed: () {
-                    widget.togleView();
-                  },
-                )
-              ],
-            ),
             body: Center(
               child: Container(
                 decoration: backgroundGradient,
@@ -60,83 +44,12 @@ class _SignInState extends State<SignIn> {
                           SizedBox(
                             height: 20.0,
                           ),
-                          TextFormField(
-                            decoration:
-                                textInputDecoration.copyWith(hintText: 'Email'),
-                            validator: (val) {
-                              return !EmailValidator.validate(val.trim())
-                                  ? 'Enter valid Email'
-                                  : null;
-                            },
-                            onChanged: (val) {
-                              setState(() {
-                                email = val;
-                              });
-                            },
-                          ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          TextFormField(
-                            obscureText: suffixIconShow,
-                            decoration: textInputDecoration.copyWith(
-                                hintText: 'password',
-                                suffixIcon: FlatButton(
-                                  child: Icon(Icons.remove_red_eye),
-                                  onPressed: () {
-                                    setState(() {
-                                      suffixIconShow = !suffixIconShow;
-                                    });
-                                  },
-                                )),
-                            validator: (val) {
-                              return val.length < 6
-                                  ? 'Enter your 6+ password'
-                                  : null;
-                            },
-                            onChanged: (val) {
-                              setState(() => password = val);
-                            },
-                          ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          RaisedButton(
-                            color: Colors.pink[400],
-                            child: Text(
-                              'Sign in',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                            onPressed: () async {
-                              if (_formKey.currentState.validate()) {
-                                setState(() {
-                                  loading = true;
-                                });
-                                dynamic result =
-                                    await _auth.signInWithEmailPassword(
-                                        email: email.trim(),
-                                        password: password.trim());
-                                if (result == null) {
-                                  alertFunction('Request', 'Can not sign in',
-                                      AlertType.error);
-                                  setState(() {
-                                    error = 'Check your mail and password';
-                                    loading = false;
-                                  });
-                                }
-                              }
-                            },
-                          ),
                           FlatButton(
-                            child: Text('Forgot password?'),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ForgotPassword()),
-                              );
+                            //color: Colors.green,
+                            child: Image.asset('images/googleSignIn.png'),
+                            onPressed: () async {
+                              var result = await googleSignIn();
+                              print(result);
                             },
                           ),
                           Text(

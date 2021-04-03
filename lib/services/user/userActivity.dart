@@ -9,7 +9,7 @@ import 'package:srmcapp/shared/constant.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class UserActivity {
-  User user;
+  UserModel user;
   UserPreference userPreference;
   Map<int, int> favouriteProblemMap = new Map();
   Map<int, int> solvingStatusMap = new Map();
@@ -114,7 +114,7 @@ class UserActivity {
         : favouriteProblemMap[problemNumber] = 1;
 
     String favourite = mapDataToString(favouriteProblemMap);
-    DatabaseService(uid: user.uid, userPreference: userPreference)
+    DatabaseService(email: user.email, userPreference: userPreference)
         .updateUserData(favourite: favourite);
     showToast(problemNumber, 'Change Favourite');
   }
@@ -124,7 +124,7 @@ class UserActivity {
     int totalSolved = getSolvingCount(solved);
     int totalWrong = getSolvingCount(notTouch + 1);
     String solvingString = mapDataToString(solvingStatusMap);
-    DatabaseService(uid: user.uid, userPreference: userPreference)
+    DatabaseService(email: user.email, userPreference: userPreference)
         .updateUserData(
       solvingString: solvingString,
       totalSolved: totalSolved,
@@ -278,7 +278,7 @@ class UserActivity {
   }
 
   void changeImageUrl(String imageUrl) {
-    DatabaseService(uid: user.uid, userPreference: userPreference)
+    DatabaseService(email: user.email, userPreference: userPreference)
         .updateUserData(
       imageUrl: imageUrl,
     );

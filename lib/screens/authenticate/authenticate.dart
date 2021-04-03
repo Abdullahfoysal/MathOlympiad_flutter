@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/authenticate/register.dart';
 import 'package:srmcapp/screens/authenticate/sign_in.dart';
+
+import '../../shared/colors.dart';
+import '../home/home.dart';
+import 'register.dart';
+import 'sign_in.dart';
 
 class Authenticate extends StatefulWidget {
   @override
@@ -12,33 +18,39 @@ class Authenticate extends StatefulWidget {
 class _AuthenticateState extends State<Authenticate> {
   _AuthenticateState();
 
-  bool showSignIn = true;
-  void togleView() {
-    setState(() {
-      showSignIn = !showSignIn;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (showSignIn) {
-      return Container(
-        child: WillPopScope(
-            onWillPop: _onBackPressed,
-            child: SignIn(
-              togleView: togleView,
-            )),
-      );
-    } else {
-      return Container(
-        child: WillPopScope(
-          onWillPop: _onBackPressed,
-          child: Register(
-            togleView: togleView,
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: DefaultTabController(
+        length: 1,
+        child: Scaffold(
+          appBar: AppBar(
+              backgroundColor: appBarColor,
+              elevation: 0.0,
+              title: Text('MathOlympiad'),
+              bottom: TabBar(
+                isScrollable: true,
+                tabs: <Widget>[
+                  Tab(
+                    icon: Icon(Icons.lock),
+                    text: 'Login',
+                  ),
+                  /*Tab(
+                    icon: Icon(Icons.edit),
+                    text: 'Register',
+                  ),*/
+                ],
+              )),
+          body: new TabBarView(
+            children: <Widget>[
+              SignIn(),
+              /*Register(),*/
+            ],
           ),
         ),
-      );
-    }
+      ),
+    );
   }
 
   Future<bool> _onBackPressed() {

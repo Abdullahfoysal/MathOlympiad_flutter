@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:provider/provider.dart';
 import 'package:srmcapp/models/problemAndSolution.dart';
-import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/problem/problemProfile.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
@@ -26,7 +24,6 @@ class _FavouriteProblemListState extends State<FavouriteProblemList> {
 
   @override
   Widget build(BuildContext context) {
-    print(favouriteProblemList.length);
     List<ProblemAndSolution> tempFavouriteProblemList =
         userActivity.getFavouriteProblemList(favouriteProblemList);
 
@@ -35,23 +32,30 @@ class _FavouriteProblemListState extends State<FavouriteProblemList> {
               null &&
           userActivity.favouriteProblemMap[favouriteProblemList[i].problemId] ==
               1) {
-        print(favouriteProblemList[i].problemId);
         tempFavouriteProblemList.add(favouriteProblemList[i]);
       }
     }
 
-    return Container(
-      decoration: backgroundGradient,
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemCount: tempFavouriteProblemList.length,
-        itemBuilder: (context, index) {
-          return ProblemListSingleView(
-            problemAndSolution: tempFavouriteProblemList[index],
-            userActivity: userActivity,
-          );
-        },
+    return Scaffold(
+      backgroundColor: Colors.pink.withOpacity(0.9),
+      appBar: AppBar(
+        backgroundColor: Colors.pink,
+        title: Text('Favourite problems'),
+      ),
+      body: Container(
+        child: tempFavouriteProblemList.length == 0
+            ? Center(child: Text('Nothing added to favourite'))
+            : ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: tempFavouriteProblemList.length,
+                itemBuilder: (context, index) {
+                  return ProblemListSingleView(
+                    problemAndSolution: tempFavouriteProblemList[index],
+                    userActivity: userActivity,
+                  );
+                },
+              ),
       ),
     );
   }
