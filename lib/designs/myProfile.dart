@@ -286,7 +286,7 @@ class _MyProfileState extends State<MyProfile> {
           } else {
             return Scaffold(
               body: Container(
-                child: Text('Connect to Internet'),
+                child: Center(child: Text('Connection problem')),
               ),
             );
           }
