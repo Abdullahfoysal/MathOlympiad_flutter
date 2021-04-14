@@ -2,16 +2,11 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_tex/flutter_tex.dart';
 import 'package:provider/provider.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:srmcapp/models/userPreference.dart';
-import 'package:srmcapp/screens/authenticate/authenticate.dart';
-import 'package:srmcapp/screens/home/home.dart';
-import 'package:srmcapp/screens/home/userProfile/imageCapture.dart';
 import 'package:srmcapp/screens/wrapper.dart';
 import 'package:srmcapp/services/auth.dart';
-import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/defaultValues.dart';
 
 void main() async {
@@ -64,13 +59,6 @@ class MyApp extends StatelessWidget {
                 ),
               ),
               image: new Image.asset('images/icon.png'),
-              gradientBackground: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    bottomNavBottomCenterColor,
-                    bottomNavTopCenterColor
-                  ]),
               styleTextUnderTheLoader: new TextStyle(),
               photoSize: 100.0,
               loaderColor: Colors.red)

@@ -1,15 +1,12 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:srmcapp/authentication/googleAuth.dart';
 import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/services/auth.dart';
-import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
-import 'package:http/http.dart' as http;
-import 'package:srmcapp/shared/notification.dart';
+import '../../authentication/googleAuth.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -49,6 +46,7 @@ class _SignInState extends State<SignIn> {
                             child: Image.asset('images/googleSignIn.png'),
                             onPressed: () async {
                               var result = await googleSignIn();
+                              print('******######*##');
                               print(result);
                             },
                           ),

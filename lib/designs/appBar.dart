@@ -167,10 +167,10 @@ class AppBar2 extends StatelessWidget {
                           ),
                         ),
                         //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () {
+                        onPressed: () async {
                           print('logout pressed');
                           //_auth.signOut();
-                          signOutUser();
+                          await signOutUser();
                         },
                       ),
                     ),

@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import 'package:srmcapp/models/userPreference.dart';
-import 'package:srmcapp/screens/authenticate/register.dart';
 import 'package:srmcapp/screens/authenticate/sign_in.dart';
 
 import '../../shared/colors.dart';
-import '../home/home.dart';
-import 'register.dart';
 import 'sign_in.dart';
 
 class Authenticate extends StatefulWidget {

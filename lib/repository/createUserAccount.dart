@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/services/database.dart';
 import 'package:srmcapp/shared/constant.dart';
 
@@ -22,6 +21,7 @@ class CreateUserAccount {
           totalSolved: 0,
           totalWrong: 0,
           institution: 'institution',
+          notificationStatus: true,
         );
       }
       return doc.exists;

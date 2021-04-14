@@ -1,24 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-FirebaseAuth auth = FirebaseAuth.instance;
+final FirebaseAuth auth = FirebaseAuth.instance;
 final googleSingIn = GoogleSignIn();
 
-Future<bool> googleSignIn() async {
+Future<UserCredential> googleSignIn() async {
   GoogleSignInAccount googleSignInAccount = await googleSingIn.signIn();
 
   if (googleSignInAccount != null) {
     GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
-    AuthCredential credential = GoogleAuthProvider.getCredential(
+    AuthCredential credential = GoogleAuthProvider.credential(
         idToken: googleSignInAuthentication.idToken,
         accessToken: googleSignInAuthentication.accessToken);
 
-    await auth.signInWithCredential(credential);
-    //User user = await auth.currentUser;
-    // print(user.email);
+    return await auth.signInWithCredential(credential);
+    // User user = auth.currentUser;
+    // print('***********');
+    // print(result);
 
-    return Future.value(true);
+    // return Future.value(true);
   }
 }
 
@@ -40,10 +41,11 @@ Future<bool> googleSignUp() async {
 }
 
 Future<bool> signOutUser() async {
-  User user = await auth.currentUser;
+  User user = auth.currentUser;
 
-  if (user.providerData[1].providerId == 'google.com') {
+  if (user.providerData[0].providerId == 'google.com') {
     await googleSingIn.disconnect();
   }
   await auth.signOut();
+  return true;
 }

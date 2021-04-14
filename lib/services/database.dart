@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:srmcapp/models/problemAndSolution.dart';
 import 'package:srmcapp/models/userPreference.dart';
-import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/constant.dart';
 
 class DatabaseService {
@@ -30,6 +29,7 @@ class DatabaseService {
     String institution,
     String bloodGroup,
     int ranking,
+    bool notificationStatus,
   }) async {
     return await userReference.doc(email).set({
       'name': name ?? userPreference.name,
@@ -41,6 +41,8 @@ class DatabaseService {
       'imageUrl': imageUrl ?? userPreference.imageUrl,
       'bloodGroup': bloodGroup ?? userPreference.bloodGroup,
       'ranking': ranking ?? userPreference.ranking,
+      'notificationStatus':
+          notificationStatus ?? userPreference.notificationStatus,
     });
   }
 
@@ -90,9 +92,10 @@ class DatabaseService {
           .doc(email)
           .snapshots()
           .map(_userPreferenceFromSnapshot)
-          .handleError((e) {});
+          .handleError((e) {
+        print(e.toString() + '#######');
+      });
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
