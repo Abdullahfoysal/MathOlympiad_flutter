@@ -57,6 +57,7 @@ String loadingRating = 'Rating loading';
 String loadingSolution = 'Loading Solution';
 int loadingSolved = 0;
 int loadingWrong = 0;
+int defaultRanking = -1;
 
 /*********************problem Solving rules*****************************/
 

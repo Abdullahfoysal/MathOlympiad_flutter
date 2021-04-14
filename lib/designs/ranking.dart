@@ -4,8 +4,6 @@ import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/models/userPreference.dart';
-import 'package:srmcapp/services/database.dart';
-import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
 
@@ -13,7 +11,7 @@ class Ranking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rankUser = Provider.of<List<UserPreference>>(context) ?? [];
-    //print(rankUser[0].name);
+
     return rankUser == null
         ? Loading()
         : Container(

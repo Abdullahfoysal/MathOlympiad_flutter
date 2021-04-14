@@ -92,9 +92,7 @@ class DatabaseService {
           .doc(email)
           .snapshots()
           .map(_userPreferenceFromSnapshot)
-          .handleError((e) {
-        print(e.toString() + '#######');
-      });
+          .handleError((e) {});
     } catch (e) {
       return null;
     }
@@ -125,7 +123,7 @@ class DatabaseService {
 
     return snapshot.docs.map((doc) {
       myRank = myRank + 1;
-      if (doc.id.toString() == email) {
+      if (doc.id == email) {
         userReference.doc(email).update({
           'ranking': myRank,
         });

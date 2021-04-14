@@ -1,18 +1,12 @@
-import 'dart:async';
-
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:srmcapp/authentication/googleAuth.dart';
 import 'package:srmcapp/designs/myProfile.dart';
-import 'package:srmcapp/designs/ranking.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/ranking/rankingStream.dart';
-import 'package:srmcapp/screens/home/userProfile/imageCapture.dart';
 import 'package:srmcapp/services/auth.dart';
-import 'package:srmcapp/services/database.dart';
 import 'package:srmcapp/services/networkService.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
@@ -87,7 +81,9 @@ class AppBar2 extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                                 child: Text(
-                                  userActivity.userPreference != null
+                                  userActivity.userPreference != null &&
+                                          userActivity.userPreference.ranking !=
+                                              defaultRanking
                                       ? userActivity.userPreference.ranking
                                           .toString()
                                       : 'Tab',

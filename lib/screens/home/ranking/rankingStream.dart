@@ -13,7 +13,7 @@ class RankingStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<List<UserPreference>>.value(
-      value: DatabaseService(email: userActivity.user.uid).userRankingStream,
+      value: DatabaseService(email: userActivity.user.email).userRankingStream,
       child: Scaffold(
         body: Container(
           child: Ranking(),

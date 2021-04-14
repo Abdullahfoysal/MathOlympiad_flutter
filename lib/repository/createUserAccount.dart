@@ -17,7 +17,7 @@ class CreateUserAccount {
           solvingString: solvingStringDefault,
           imageUrl: imageUrlOfRegister,
           bloodGroup: 'Blood Group',
-          ranking: 1,
+          ranking: defaultRanking,
           totalSolved: 0,
           totalWrong: 0,
           institution: 'institution',
