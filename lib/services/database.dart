@@ -19,7 +19,7 @@ class DatabaseService {
 
 /*--------------user section----------------------------*/
 
-  Future updateUserData({
+  Future setUserData({
     String name,
     String favourite,
     String solvingString,
@@ -32,6 +32,33 @@ class DatabaseService {
     bool notificationStatus,
   }) async {
     return await userReference.doc(email).set({
+      'name': name ?? userPreference.name,
+      'favourite': favourite ?? userPreference.favourite,
+      'solvingString': solvingString ?? userPreference.solvingString,
+      'totalSolved': totalSolved ?? userPreference.totalSolved,
+      'totalWrong': totalWrong ?? userPreference.totalWrong,
+      'institution': institution ?? userPreference.institution,
+      'imageUrl': imageUrl ?? userPreference.imageUrl,
+      'bloodGroup': bloodGroup ?? userPreference.bloodGroup,
+      'ranking': ranking ?? userPreference.ranking,
+      'notificationStatus':
+          notificationStatus ?? userPreference.notificationStatus,
+    });
+  }
+
+  Future updateUserData({
+    String name,
+    String favourite,
+    String solvingString,
+    String imageUrl,
+    int totalSolved,
+    int totalWrong,
+    String institution,
+    String bloodGroup,
+    int ranking,
+    bool notificationStatus,
+  }) async {
+    return await userReference.doc(email).update({
       'name': name ?? userPreference.name,
       'favourite': favourite ?? userPreference.favourite,
       'solvingString': solvingString ?? userPreference.solvingString,

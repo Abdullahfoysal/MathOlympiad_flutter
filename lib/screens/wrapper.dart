@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/repository/createUserAccount.dart';
 
@@ -12,7 +13,6 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserModel user = Provider.of<UserModel>(context);
     //authenticate or home
-    print('Wrapper loaded');
     if (user == null)
       return Authenticate();
     else {
@@ -26,15 +26,7 @@ class Wrapper extends StatelessWidget {
           else if (snapshot.hasData) {
             return Home(user: user);
           }
-          return Scaffold(
-            body: Center(
-              child: Container(
-                height: 100,
-                width: 100,
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          );
+          return WaitingLoading();
         },
       );
     }

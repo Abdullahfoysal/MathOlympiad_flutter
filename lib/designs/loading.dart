@@ -25,3 +25,28 @@ class LoadingButton extends StatelessWidget {
     );
   }
 }
+
+class WaitingLoading extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Container(
+                height: 150,
+                width: 150,
+                child: Image.asset('images/icon.png'),
+              ),
+              CircularProgressIndicator(
+                backgroundColor: Colors.pink,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

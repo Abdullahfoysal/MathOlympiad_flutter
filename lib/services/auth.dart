@@ -69,7 +69,7 @@ class AuthService {
         FirebaseUser user = value.user;
         return await user.sendEmailVerification().then((value) async {
           return await DatabaseService(email: user.uid)
-              .updateUserData(
+              .setUserData(
             name: email,
             favourite: problemFavouriteState,
             solvingString: solvingStringDefault,

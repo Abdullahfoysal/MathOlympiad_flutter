@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:srmcapp/models/problemAndSolution.dart';
@@ -115,7 +114,7 @@ class UserActivity {
 
     String favourite = mapDataToString(favouriteProblemMap);
     DatabaseService(email: user.email, userPreference: userPreference)
-        .updateUserData(favourite: favourite);
+        .setUserData(favourite: favourite);
     showToast(problemNumber, 'Change Favourite');
   }
 
@@ -279,7 +278,7 @@ class UserActivity {
 
   void changeImageUrl(String imageUrl) {
     DatabaseService(email: user.email, userPreference: userPreference)
-        .updateUserData(
+        .setUserData(
       imageUrl: imageUrl,
     );
   }
@@ -294,9 +293,7 @@ class UserActivity {
     List list = [];
     try {
       list = stringTokenizer(':', favourite);
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
 
     for (int i = 0; i < list.length; i++) {
       List pair = stringTokenizer('-', list[i]);

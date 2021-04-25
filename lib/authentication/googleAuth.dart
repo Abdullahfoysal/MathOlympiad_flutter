@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 final googleSingIn = GoogleSignIn();
 
-Future<UserCredential> googleSignIn() async {
-  GoogleSignInAccount googleSignInAccount = await googleSingIn.signIn();
+Future<UserCredential> googleSignIn({BuildContext context}) async {
+  GoogleSignInAccount googleSignInAccount =
+      await googleSingIn.signIn().catchError((onError) {});
 
   if (googleSignInAccount != null) {
     GoogleSignInAuthentication googleSignInAuthentication =
@@ -21,6 +24,7 @@ Future<UserCredential> googleSignIn() async {
 
     // return Future.value(true);
   }
+  return null;
 }
 
 Future<bool> googleSignUp() async {
@@ -42,10 +46,10 @@ Future<bool> googleSignUp() async {
 
 Future<bool> signOutUser() async {
   User user = auth.currentUser;
-
-  if (user.providerData[0].providerId == 'google.com') {
-    await googleSingIn.disconnect();
-  }
+  for (int i = 0; i < user.providerData.length; i++)
+    if (user.providerData[i].providerId == 'google.com') {
+      await googleSingIn.disconnect();
+    }
   await auth.signOut();
   return true;
 }

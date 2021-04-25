@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/services/database.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
@@ -116,7 +115,7 @@ class _ProfileFormState extends State<ProfileForm> {
                             await DatabaseService(
                                     email: userActivity.user.email,
                                     userPreference: userData)
-                                .updateUserData(
+                                .setUserData(
                               name: _currentName ?? userData.name,
                               institution: _institution ?? userData.institution,
                               bloodGroup: _bloodGroup ?? userData.bloodGroup,

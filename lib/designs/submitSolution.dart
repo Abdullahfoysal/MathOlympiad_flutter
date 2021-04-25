@@ -1,13 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/models/problemAndSolution.dart';
-import 'package:srmcapp/screens/home/problem/recentActivity.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
-import 'package:srmcapp/shared/colors.dart';
 import 'package:srmcapp/shared/constant.dart';
 
 class SubmitSolution extends StatefulWidget {

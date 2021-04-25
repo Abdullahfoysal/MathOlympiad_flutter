@@ -11,7 +11,7 @@ class CreateUserAccount {
     try {
       var doc = await userReference.doc(emailId).get();
       if (!doc.exists) {
-        await DatabaseService(email: emailId).updateUserData(
+        await DatabaseService(email: emailId).setUserData(
           name: emailId,
           favourite: problemFavouriteState,
           solvingString: solvingStringDefault,
@@ -26,7 +26,7 @@ class CreateUserAccount {
       }
       return doc.exists;
     } catch (e) {
-      throw e;
+      //throw e;
     }
   }
 }
