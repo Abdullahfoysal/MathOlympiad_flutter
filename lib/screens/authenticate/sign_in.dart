@@ -88,6 +88,81 @@ class _SignInState extends State<SignIn> {
                               fontSize: 15,
                             ),
                           ),
+                          Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    'Our partners',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18.0,
+                                      fontFamily: 'DancingScript',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            CircleAvatar(
+                                              radius: 35,
+                                              backgroundImage: AssetImage(
+                                                'images/srmc.png',
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Text(
+                                                'Srinivasa Ramanujan Math Club,Khulna',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12.0,
+                                                  fontFamily: 'DancingScript',
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            CircleAvatar(
+                                              radius: 35,
+                                              backgroundImage: AssetImage(
+                                                'images/iict.png',
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'IICT,SUST',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12.0,
+                                                  fontFamily: 'DancingScript',
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ))
                         ],
                       ),
                     ),
@@ -116,27 +191,5 @@ class _SignInState extends State<SignIn> {
         ),
       ],
     ).show();
-  }
-
-  _onBackPressed(GestureTapCallback yesPressed) {
-    return showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to Stop'),
-            actions: <Widget>[
-              new GestureDetector(
-                onTap: () => yesPressed,
-                child: Text("YES"),
-              ),
-              SizedBox(height: 20),
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: Text("NO"),
-              ),
-            ],
-          ),
-        ) ??
-        false;
   }
 }

@@ -36,9 +36,7 @@ class MyApp extends StatelessWidget {
               image: new Image.asset('images/icon.png'),
               styleTextUnderTheLoader: new TextStyle(),
               photoSize: 80.0,
-              loaderColor: Colors.red)
-          // Wrapper(),
-          ),
+              loaderColor: Colors.red)),
     );
   }
 }

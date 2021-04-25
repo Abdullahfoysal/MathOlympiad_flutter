@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 final googleSingIn = GoogleSignIn();
@@ -18,11 +17,6 @@ Future<UserCredential> googleSignIn({BuildContext context}) async {
         accessToken: googleSignInAuthentication.accessToken);
 
     return await auth.signInWithCredential(credential);
-    // User user = auth.currentUser;
-    // print('***********');
-    // print(result);
-
-    // return Future.value(true);
   }
   return null;
 }
