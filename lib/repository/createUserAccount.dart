@@ -5,10 +5,16 @@ import 'package:srmcapp/shared/constant.dart';
 class CreateUserAccount {
   final CollectionReference userReference =
       FirebaseFirestore.instance.collection('userPreferences');
+  final CollectionReference adminPanelRef =
+      FirebaseFirestore.instance.collection('adminPanel');
 
   /// Check If Document Exists
   Future<bool> checkIfUserExists(String emailId) async {
     try {
+      var adminUserDoc = await adminPanelRef.doc(emailId).get();
+      if (adminUserDoc.exists) {
+        return false;
+      }
       var doc = await userReference.doc(emailId).get();
       if (!doc.exists) {
         await DatabaseService(email: emailId).setUserData(

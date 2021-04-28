@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/repository/createUserAccount.dart';
+import 'package:srmcapp/screens/authenticate/solverView.dart';
 
 import 'authenticate/authenticate.dart';
 import 'home/home.dart';
@@ -24,6 +25,7 @@ class Wrapper extends StatelessWidget {
           if (snapshot.hasError)
             return Text('Error: ${snapshot.error}');
           else if (snapshot.hasData) {
+            if (snapshot.data == false) return SolverView(user);
             return Home(user: user);
           }
           return WaitingLoading();
