@@ -5,7 +5,6 @@ import 'package:srmcapp/models/problemAndSolution.dart';
 import 'package:srmcapp/screens/home/problem/problemProfile.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
-import 'package:srmcapp/shared/constant.dart';
 
 class FavouriteProblemList extends StatefulWidget {
   final UserActivity userActivity;
@@ -44,13 +43,21 @@ class _FavouriteProblemListState extends State<FavouriteProblemList> {
       ),
       body: Container(
         child: tempFavouriteProblemList.length == 0
-            ? Center(child: Text('Nothing added to favourite'))
+            ? Center(
+                child: Text(
+                'Nothing added to favourite',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ))
             : ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: tempFavouriteProblemList.length,
                 itemBuilder: (context, index) {
                   return ProblemListSingleView(
+                    tempFavouriteProblemList,
+                    index,
                     problemAndSolution: tempFavouriteProblemList[index],
                     userActivity: userActivity,
                   );
@@ -62,10 +69,13 @@ class _FavouriteProblemListState extends State<FavouriteProblemList> {
 }
 
 class ProblemListSingleView extends StatefulWidget {
+  final List<ProblemAndSolution> allProblemList;
+  final int currentIndex;
   final ProblemAndSolution problemAndSolution;
   final UserActivity userActivity;
 
-  ProblemListSingleView({this.problemAndSolution, this.userActivity});
+  ProblemListSingleView(this.allProblemList, this.currentIndex,
+      {this.problemAndSolution, this.userActivity});
   @override
   _ProblemListSingleViewState createState() =>
       _ProblemListSingleViewState(problemAndSolution, userActivity);
@@ -101,6 +111,8 @@ class _ProblemListSingleViewState extends State<ProblemListSingleView> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ProblemProfile(
+                              widget.allProblemList,
+                              widget.currentIndex,
                               problemAndSolution: problemAndSolution,
                               problemNumber: problemAndSolution.problemId,
                               userActivity: userActivity,

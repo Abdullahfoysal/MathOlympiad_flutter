@@ -42,10 +42,12 @@ class ProblemHeader extends StatelessWidget {
                   rating,
                   style: problemHeaderTextStyle,
                 ),
-                Text(
-                  category,
-                  style: problemHeaderTextStyle,
-                  overflow: TextOverflow.ellipsis,
+                SingleChildScrollView(
+                  child: Text(
+                    category,
+                    style: problemHeaderTextStyle.copyWith(fontSize: 10),
+                    overflow: TextOverflow.visible,
+                  ),
                 ),
               ],
             ),
@@ -55,7 +57,7 @@ class ProblemHeader extends StatelessWidget {
               children: <Widget>[
                 Text(
                   setter,
-                  style: problemHeaderTextStyle,
+                  style: problemHeaderTextStyle.copyWith(fontSize: 10.0),
                 ),
                 /* Text(
                   'Approver: saikat',

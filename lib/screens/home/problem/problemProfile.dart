@@ -9,14 +9,17 @@ import 'package:srmcapp/screens/home/problem/flutterTex.dart';
 import 'package:srmcapp/screens/home/problem/problemHeader.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
-import 'package:srmcapp/shared/constant.dart';
 
 class ProblemProfile extends StatefulWidget {
-  final ProblemAndSolution problemAndSolution;
-  final UserActivity userActivity;
-  final int problemNumber;
+  ProblemAndSolution problemAndSolution;
+  UserActivity userActivity;
+  int problemNumber;
+  int currentIndex;
+  final List<ProblemAndSolution> allProblemsAndSolutions;
 
-  ProblemProfile({
+  ProblemProfile(
+    this.allProblemsAndSolutions,
+    this.currentIndex, {
     this.problemAndSolution,
     this.problemNumber,
     this.userActivity,
@@ -35,6 +38,18 @@ class _ProblemProfileState extends State<ProblemProfile> {
     TeXViewRenderingEngine.mathjax(),
     TeXViewRenderingEngine.katex()
   ];
+  void nextProblem() {
+    setState(() {
+      if (widget.currentIndex + 1 < widget.allProblemsAndSolutions.length)
+        widget.currentIndex++;
+    });
+  }
+
+  void previousProblem() {
+    setState(() {
+      if (widget.currentIndex - 1 >= 0) widget.currentIndex--;
+    });
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,9 +67,10 @@ class _ProblemProfileState extends State<ProblemProfile> {
             children: <Widget>[
               //TODO-2: problem header[catagory,rating,setter]
               Container(
-                height: 90.0,
                 child: ProblemHeader(
-                    widget.problemNumber, widget.problemAndSolution),
+                    widget
+                        .allProblemsAndSolutions[widget.currentIndex].problemId,
+                    widget.allProblemsAndSolutions[widget.currentIndex]),
               ),
               Text(
                 'Rendering with',
@@ -77,10 +93,54 @@ class _ProblemProfileState extends State<ProblemProfile> {
               ),
               Container(
                 padding: EdgeInsets.all(8.0),
-                child: FlutterTex(renderingEngine, widget.problemAndSolution),
+                child: FlutterTex(renderingEngine,
+                    widget.allProblemsAndSolutions[widget.currentIndex]),
               ),
-              SubmitSolution(widget.problemAndSolution, widget.userActivity,
-                  widget.problemNumber),
+              SubmitSolution(
+                  widget.allProblemsAndSolutions[widget.currentIndex],
+                  widget.userActivity,
+                  widget
+                      .allProblemsAndSolutions[widget.currentIndex].problemId),
+              SizedBox(
+                height: 15.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  FlatButton.icon(
+                    //color: HexColor('9ede73'),
+                    onPressed: () {
+                      previousProblem();
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                      size: 35.0,
+                    ),
+                    label: Text(
+                      '',
+                      style:
+                          TextStyle(color: Colors.yellowAccent, fontSize: 18.0),
+                    ),
+                  ),
+                  FlatButton.icon(
+                    //color: HexColor('9ede73'),
+                    onPressed: () {
+                      nextProblem();
+                    },
+                    label: Text(
+                      '',
+                      style:
+                          TextStyle(color: Colors.yellowAccent, fontSize: 18.0),
+                    ),
+                    icon: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                      size: 35.0,
+                    ),
+                  ),
+                ],
+              )
 
               //title & problems
 

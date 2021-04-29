@@ -17,22 +17,24 @@ class CreateUserAccount {
       }
       var doc = await userReference.doc(emailId).get();
       if (!doc.exists) {
-        await DatabaseService(email: emailId).setUserData(
-          name: emailId,
-          favourite: problemFavouriteState,
-          solvingString: solvingStringDefault,
-          imageUrl: imageUrlOfRegister,
-          bloodGroup: 'Blood Group',
-          ranking: defaultRanking,
-          totalSolved: 0,
-          totalWrong: 0,
-          institution: 'institution',
-          notificationStatus: true,
-        );
+        return await DatabaseService(email: emailId)
+            .setUserData(
+              name: emailId,
+              favourite: problemFavouriteState,
+              solvingString: solvingStringDefault,
+              imageUrl: imageUrlOfRegister,
+              bloodGroup: 'Blood Group',
+              ranking: defaultRanking,
+              totalSolved: 0,
+              totalWrong: 0,
+              institution: 'institution',
+              notificationStatus: true,
+            )
+            .then((value) => true);
       }
-      return doc.exists;
+      return true;
     } catch (e) {
-      //throw e;
+      return null;
     }
   }
 }

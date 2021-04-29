@@ -7,7 +7,6 @@ import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/problem/problemProfile.dart';
 import 'package:srmcapp/services/user/userActivity.dart';
 import 'package:srmcapp/shared/colors.dart';
-import 'package:srmcapp/shared/constant.dart';
 
 class ProblemList extends StatefulWidget {
   final UserModel user;
@@ -36,6 +35,8 @@ class _ProblemListState extends State<ProblemList> {
       itemCount: problemAndSolutions.length,
       itemBuilder: (context, index) {
         return ProblemListSingleView(
+          problemAndSolutions,
+          index,
           problemAndSolution: problemAndSolutions[index],
           userActivity: userActivity,
         );
@@ -47,10 +48,13 @@ class _ProblemListState extends State<ProblemList> {
 class ProblemListSingleView extends StatelessWidget {
   final ProblemAndSolution problemAndSolution;
   final UserActivity userActivity;
+  final List<ProblemAndSolution> allProblemAndSolutions;
+  final int index;
 
   final Map<String, double> statisticMap = new Map();
 
-  ProblemListSingleView({this.problemAndSolution, this.userActivity});
+  ProblemListSingleView(this.allProblemAndSolutions, this.index,
+      {this.problemAndSolution, this.userActivity});
 
   Widget build(BuildContext context) {
     loadPieChart();
@@ -75,6 +79,8 @@ class ProblemListSingleView extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ProblemProfile(
+                              allProblemAndSolutions,
+                              index,
                               problemAndSolution: problemAndSolution,
                               problemNumber: problemAndSolution.problemId,
                               userActivity: userActivity,
