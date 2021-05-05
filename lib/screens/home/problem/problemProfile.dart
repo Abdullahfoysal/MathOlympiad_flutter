@@ -89,7 +89,7 @@ class _ProblemProfileState extends State<ProblemProfile> {
                   //print();
                 }),
                 items: _status,
-                itemBuilder: (item) => RadioButtonBuilder(item.getEngineName()),
+                itemBuilder: (item) => RadioButtonBuilder(item.name),
               ),
               Container(
                 padding: EdgeInsets.all(8.0),
