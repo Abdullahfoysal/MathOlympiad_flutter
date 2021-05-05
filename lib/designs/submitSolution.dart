@@ -44,6 +44,7 @@ class _SubmitSolutionState extends State<SubmitSolution> {
               child: TextFormField(
                 onEditingComplete: () => FocusScope.of(context).nextFocus(),
                 decoration: submitInputDecoration,
+                maxLength: 500,
                 validator: (val) {
                   return val.isEmpty ? '*Enter Your Solution' : null;
                 },

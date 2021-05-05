@@ -6,7 +6,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="srmcapp"
+        android:label="MathOlympiad"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
         <!-- TODO: Replace with your real AdMob app ID -->

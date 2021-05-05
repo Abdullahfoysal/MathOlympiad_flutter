@@ -42,21 +42,26 @@ class _ProfileFormState extends State<ProfileForm> {
                     children: <Widget>[
                       Text(
                         'Update Information',
-                        style: TextStyle(fontSize: 18.0),
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(
                         height: 20.0,
                       ),
                       TextFormField(
                         initialValue: userData.name,
+                        maxLength: 50,
                         decoration: submitInputDecoration.copyWith(
-                            hintText: 'Update name',
-                            labelText: 'Your Name',
-                            icon: Icon(
-                              Icons.contact_mail,
-                              color: Colors.orange,
-                            ),
-                            labelStyle: TextStyle(color: Colors.pink)),
+                          hintText: 'Update name',
+                          labelText: 'Your Name',
+                          icon: Icon(
+                            Icons.contact_mail,
+                            color: Colors.orange,
+                          ),
+                          labelStyle: TextStyle(color: Colors.pink),
+                        ),
                         validator: (val) => val.isEmpty ? 'Enter a name' : null,
                         onChanged: (val) {
                           setState(() {
@@ -69,6 +74,7 @@ class _ProfileFormState extends State<ProfileForm> {
                       ),
                       TextFormField(
                         initialValue: userData.institution,
+                        maxLength: 50,
                         decoration: submitInputDecoration.copyWith(
                             hintText: 'Update Institution Name',
                             labelText: 'Your Institution',
@@ -89,6 +95,7 @@ class _ProfileFormState extends State<ProfileForm> {
                       ),
                       TextFormField(
                         initialValue: userData.bloodGroup,
+                        maxLength: 15,
                         decoration: submitInputDecoration.copyWith(
                             hintText: 'Blood Group',
                             labelText: 'Blood Group',

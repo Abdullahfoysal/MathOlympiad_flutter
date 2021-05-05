@@ -2,7 +2,9 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:srmcapp/models/problemAndSolution.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/screens/home/problem/problemListView.dart';
@@ -38,7 +40,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onBackPressed,
+      onWillPop: _exitAlert,
       child: MultiProvider(
         providers: [
           StreamProvider<UserPreference>.value(
@@ -65,25 +67,35 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Future<bool> _onBackPressed() {
-    return showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to exit'),
-            actions: <Widget>[
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(true),
-                child: Text("YES"),
-              ),
-              SizedBox(height: 20),
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: Text("NO"),
-              ),
-            ],
+  Future<bool> _exitAlert() {
+    return Alert(
+      context: context,
+      type: AlertType.info,
+      title: 'Are you sure?',
+      desc: 'Do you want to exit',
+      style: AlertStyle(
+        isCloseButton: false,
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "YES",
+            style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-        ) ??
-        false;
+          onPressed: () => SystemNavigator.pop(),
+          color: Colors.pink,
+          radius: BorderRadius.circular(20.0),
+        ),
+        DialogButton(
+          child: Text(
+            "NO",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.of(context).pop(false),
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+          radius: BorderRadius.circular(20.0),
+        ),
+      ],
+    ).show();
   }
 }

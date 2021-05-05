@@ -135,7 +135,7 @@ class UserActivity {
       String userSolution) {
     int tempStatus = solvingStatusMap[problemNumber];
     if (tempStatus == notAllowtoSolve || tempStatus == solved) {
-      if (solution == userSolution) {
+      if (solution.toLowerCase() == userSolution.toLowerCase()) {
         showToast(problemNumber, 'CORRECT');
       } else {
         showToast(problemNumber, 'WRONG');
@@ -148,7 +148,7 @@ class UserActivity {
       return;
     }
 
-    if (solution == userSolution) {
+    if (solution.toLowerCase() == userSolution.toLowerCase()) {
       changeSolvingString(problemNumber, solved);
       updateProblemSolvingCount(problemNumber, true);
       solutionAlertDialogue(context, solved);

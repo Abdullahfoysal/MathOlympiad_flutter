@@ -40,7 +40,6 @@ class _AuthenticateState extends State<Authenticate> {
           body: new TabBarView(
             children: <Widget>[
               SignIn(),
-              /*Register(),*/
             ],
           ),
         ),

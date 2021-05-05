@@ -105,7 +105,12 @@ class SingleRankingList extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(rankNumber.toString()),
+              Text(
+                rankNumber.toString(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Expanded(
                 flex: 2,
                 child: Column(
@@ -114,11 +119,15 @@ class SingleRankingList extends StatelessWidget {
                       backgroundImage: NetworkImage(rankUser.imageUrl),
                     ),
                     Expanded(
+                      flex: 2,
                       child: SingleChildScrollView(
-                        child: Text(
-                          rankUser.name,
-                          style: TextStyle(
-                            fontSize: 10.0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Text(
+                            rankUser.name,
+                            style: TextStyle(
+                              fontSize: 10.0,
+                            ),
                           ),
                         ),
                       ),
@@ -134,9 +143,16 @@ class SingleRankingList extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: SingleChildScrollView(
-                  child: Center(child: Text(rankUser.institution)),
+                  child: Center(
+                      child: Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Text(
+                      rankUser.institution,
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  )),
                 ),
               ),
               Expanded(

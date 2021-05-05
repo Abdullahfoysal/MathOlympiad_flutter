@@ -18,11 +18,11 @@ Future configureNotification(BuildContext context) async {
           message['notification']['body']);
     },
     onLaunch: (Map<String, dynamic> message) async {
-      print("onLaunch: $message");
+      //print("onLaunch: $message");
       //_navigateToItemDetail(message);
     },
     onResume: (Map<String, dynamic> message) async {
-      print("onResume: $message");
+      //print("onResume: $message");
       //  _navigateToItemDetail(message);
     },
   );
@@ -51,15 +51,15 @@ showNotificationFlushBar(BuildContext context, String title, String msg) {
       Icons.notifications_active,
       color: Colors.yellow,
     ),
-    mainButton: FlatButton(
-      onPressed: () {
-        print('close button');
-      },
-      child: Text(
-        "Close",
-        style: TextStyle(color: Colors.amber),
-      ),
-    ),
+    // mainButton: FlatButton(
+    //   onPressed: () {
+    //     print('close button');
+    //   },
+    //   child: Text(
+    //     "Close",
+    //     style: TextStyle(color: Colors.amber),
+    //   ),
+    // ),
     showProgressIndicator: true,
     progressIndicatorBackgroundColor: Colors.blueGrey,
     titleText: Text(
