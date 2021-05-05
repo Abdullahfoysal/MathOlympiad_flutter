@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:srmcapp/screens/authenticate/sign_in.dart';
 
 import '../../shared/colors.dart';
@@ -31,10 +33,6 @@ class _AuthenticateState extends State<Authenticate> {
                     icon: Icon(Icons.lock),
                     text: 'Login',
                   ),
-                  /*Tab(
-                    icon: Icon(Icons.edit),
-                    text: 'Register',
-                  ),*/
                 ],
               )),
           body: new TabBarView(
@@ -48,24 +46,34 @@ class _AuthenticateState extends State<Authenticate> {
   }
 
   Future<bool> _onBackPressed() {
-    return showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to exit'),
-            actions: <Widget>[
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(true),
-                child: Text("YES"),
-              ),
-              SizedBox(height: 20),
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: Text("NO"),
-              ),
-            ],
+    return Alert(
+      context: context,
+      type: AlertType.info,
+      title: 'Are you sure?',
+      desc: 'Do you want to exit',
+      style: AlertStyle(
+        isCloseButton: false,
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "YES",
+            style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-        ) ??
-        false;
+          onPressed: () => SystemNavigator.pop(),
+          color: Colors.pink,
+          radius: BorderRadius.circular(20.0),
+        ),
+        DialogButton(
+          child: Text(
+            "NO",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.of(context).pop(false),
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+          radius: BorderRadius.circular(20.0),
+        ),
+      ],
+    ).show();
   }
 }

@@ -59,14 +59,6 @@ class ProblemHeader extends StatelessWidget {
                   setter,
                   style: problemHeaderTextStyle.copyWith(fontSize: 10.0),
                 ),
-                /* Text(
-                  'Approver: saikat',
-                  style: problemHeaderTextStyle,
-                ),
-                Text(
-                  'Last Update: 12/2/2020',
-                  style: problemHeaderTextStyle,
-                ),*/
               ],
             ),
           ),

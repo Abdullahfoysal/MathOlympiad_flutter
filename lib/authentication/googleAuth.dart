@@ -42,8 +42,8 @@ Future<bool> signOutUser() async {
   User user = auth.currentUser;
   for (int i = 0; i < user.providerData.length; i++)
     if (user.providerData[i].providerId == 'google.com') {
-      await googleSingIn.disconnect();
+      await googleSingIn.disconnect().catchError((onError) {});
     }
-  await auth.signOut();
+  auth.signOut();
   return true;
 }

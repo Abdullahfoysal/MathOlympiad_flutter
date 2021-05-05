@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:srmcapp/authentication/googleAuth.dart';
 import 'package:srmcapp/models/userPreference.dart';
 import 'package:srmcapp/shared/colors.dart';
@@ -116,27 +117,37 @@ class SolverView extends StatelessWidget {
   }
 
   Future<bool> _onBackPressed() {
-    return showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to Back'),
-            actions: <Widget>[
-              new GestureDetector(
-                onTap: () async {
-                  signOutUser();
-                  Navigator.of(context).pop(false);
-                },
-                child: Text("YES"),
-              ),
-              SizedBox(height: 20),
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: Text("NO"),
-              ),
-            ],
+    return Alert(
+      context: context,
+      type: AlertType.info,
+      title: 'Are you sure?',
+      desc: 'Do you want to Back',
+      style: AlertStyle(
+        isCloseButton: false,
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "YES",
+            style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-        ) ??
-        false;
+          onPressed: () {
+            signOutUser();
+            Navigator.of(context).pop(false);
+          },
+          color: Colors.pink,
+          radius: BorderRadius.circular(20.0),
+        ),
+        DialogButton(
+          child: Text(
+            "NO",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.of(context).pop(false),
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+          radius: BorderRadius.circular(20.0),
+        ),
+      ],
+    ).show();
   }
 }

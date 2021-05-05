@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _exitAlert,
+      onWillPop: _exitAlert2,
       child: MultiProvider(
         providers: [
           StreamProvider<UserPreference>.value(
@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Future<bool> _exitAlert() {
+  Future<bool> _exitAlert2() {
     return Alert(
       context: context,
       type: AlertType.info,
