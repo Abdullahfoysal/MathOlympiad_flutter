@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_tex/flutter_tex.dart';
+import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/models/problemAndSolution.dart';
 
 class FlutterTex extends StatelessWidget {
@@ -58,7 +59,7 @@ class FlutterTex extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            CircularProgressIndicator(),
+            Loading(),
             Text("Rendering..."),
           ],
         ),
