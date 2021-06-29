@@ -69,13 +69,18 @@ class Ranking extends StatelessWidget {
                       ],
                     ),
                   ),
-                  ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: rankUser.length,
-                    itemBuilder: (context, index) {
-                      return SingleRankingList(index + 1, rankUser[index]);
-                    },
+                  Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: rankUser.length,
+                      itemBuilder: (context, index) {
+                        return SingleRankingList(index + 1, rankUser[index]);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                 ],
               ),

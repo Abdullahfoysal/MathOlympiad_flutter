@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:srmcapp/designs/loading.dart';
 import 'package:srmcapp/models/userPreference.dart';
@@ -14,6 +14,14 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserModel user = Provider.of<UserModel>(context);
     //authenticate or home
+    // ///tesing begin
+    // UserModel userTest =
+    //     UserModel(email: "gayenbd@gmail.com", emailVerified: true);
+    //
+    // return Home(user: userTest);
+    //
+    // ///testing end
+
     if (user == null)
       return Authenticate();
     else {

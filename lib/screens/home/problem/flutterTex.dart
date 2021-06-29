@@ -65,51 +65,5 @@ class FlutterTex extends StatelessWidget {
         ),
       ),
     );
-
-    // return TeXView(
-    //     renderingEngine: renderingEngine,
-    //     children: [
-    //       TeXViewContainer(id: "container_0", children: [
-    //         TeXViewTeX(
-    //           problemTitle,
-    //           style: TeXViewStyle(
-    //             textAlign: TeXViewTextAlign.Center,
-    //             backgroundColor: Colors.white,
-    //             contentColor: Colors.blue,
-    //           ),
-    //           id: "tex_0",
-    //         ),
-    //         TeXViewTeX(problemText,
-    //             style: TeXViewStyle.fromCSS(
-    //                 "color:black;background-color:white;padding:5px;"),
-    //             id: "tex_1"),
-    //       ])
-    //     ],
-    //     style: TeXViewStyle(
-    //       margin: TeXViewMargin.all(5),
-    //       elevation: 5,
-    //       borderRadius: TeXViewBorderRadius.all(10),
-    //       border: TeXViewBorder.all(
-    //         TeXViewBorderDecoration(
-    //             borderColor: Colors.white,
-    //             borderStyle: TeXViewBorderStyle.Solid,
-    //             borderWidth: 5),
-    //       ),
-    //       backgroundColor: Colors.white,
-    //     ),
-    //     loadingWidget: Center(
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.center,
-    //         mainAxisSize: MainAxisSize.min,
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: <Widget>[
-    //           CircularProgressIndicator(),
-    //           Text("Rendering with ")
-    //         ],
-    //       ),
-    //     ),
-    //     onTap: (childID) {
-    //       print("TeXView $childID is tapped.");
-    //     });
   }
 }
