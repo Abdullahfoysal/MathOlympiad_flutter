@@ -2,7 +2,7 @@
 
 A new MathOlympiad Flutter application.
 
-[![App-Overview-Video](thumnail.png)](https://www.youtube.com/watch?v=U0Y-S6l8EUQ)
+[![App-Overview-Video](thunmail.png)](https://www.youtube.com/watch?v=U0Y-S6l8EUQ)
 
 ## Getting Started
 
